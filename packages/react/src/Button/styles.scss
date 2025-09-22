@@ -1,0 +1,201 @@
+// Design Tokens - Button Component
+// Импорт токенов из централизованного источника
+
+@import '../tokens/theme.scss';
+@import '../tokens/button.scss';
+
+// Дополнительные стили компонента (если нужны)
+
+.button {
+    all: unset;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    block-size: 48px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.28572;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition:
+        background-color 70ms cubic-bezier(0.2, 0, 0.38, 0.9),
+        border-color 70ms cubic-bezier(0.2, 0, 0.38, 0.9),
+        box-shadow 70ms cubic-bezier(0.2, 0, 0.38, 0.9);
+
+    &:focus {
+        outline: 1px dotted var(--iui-token-button-focus-color);
+        outline-offset: 2px;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 1;
+    }
+
+    &--loading {
+        position: relative;
+        pointer-events: none;
+
+        &::after {
+            position: absolute;
+            inline-size: 16px;
+            block-size: 16px;
+            content: '';
+            border: 2px solid currentColor;
+            border-block-start: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@mixin button-color-primary {
+    --button-color: var(--iui-token-button-primary-color);
+    --button-color-hover: var(--iui-token-button-primary-color-hover);
+    --button-color-active: var(--iui-token-button-primary-color-active);
+    --button-color-disabled: var(--iui-token-button-primary-color-disabled);
+    --button-text-color: var(--iui-token-button-primary-text-color);
+}
+
+@mixin button-color-secondary {
+    --button-color: var(--iui-token-button-secondary-color);
+    --button-color-hover: var(--iui-token-button-secondary-color-hover);
+    --button-color-active: var(--iui-token-button-secondary-color-active);
+    --button-color-disabled: var(--iui-token-button-secondary-color-disabled);
+    --button-text-color: var(--iui-token-button-secondary-text-color);
+}
+
+@mixin button-color-danger {
+    --button-color: var(--iui-token-button-danger-color);
+    --button-color-hover: var(--iui-token-button-danger-color-hover);
+    --button-color-active: var(--iui-token-button-danger-color-active);
+    --button-color-disabled: var(--iui-token-button-danger-color-disabled);
+    --button-text-color: var(--iui-token-button-danger-text-color);
+}
+
+@mixin button-color-link {
+    --button-color: var(--iui-token-button-link-color);
+    --button-color-hover: var(--iui-token-button-link-color-hover);
+    --button-color-active: var(--iui-token-button-link-color-active);
+    --button-color-disabled: var(--iui-token-button-link-color-disabled);
+    --button-text-color: var(--iui-token-button-link-text-color);
+}
+
+@mixin button-kind-solid {
+    color: var(--button-text-color);
+    background-color: var(--button-color);
+    border-color: transparent;
+
+    &:hover:not(:disabled) {
+        background-color: var(--button-color-hover);
+        border-color: var(--button-color-hover);
+    }
+
+    &:active:not(:disabled) {
+        background-color: var(--button-color-active);
+        border-color: var(--button-color-active);
+    }
+
+    &:disabled {
+        color: var(--iui-token-button-text-color-disabled);
+        background-color: var(--button-color-disabled);
+        border-color: var(--button-color-disabled);
+    }
+}
+
+@mixin button-kind-outline {
+    color: var(--button-color);
+    background-color: transparent;
+    border: 1px solid var(--button-color);
+
+    &:hover:not(:disabled) {
+        color: var(--button-text-color);
+        background-color: var(--button-color);
+    }
+
+    &:active:not(:disabled) {
+        color: var(--button-text-color);
+        background-color: var(--button-color-active);
+        border-color: var(--button-color-active);
+    }
+
+    &:disabled {
+        color: var(--iui-token-button-text-color-disabled);
+        background-color: transparent;
+        border-color: var(--button-color-disabled);
+    }
+}
+
+@mixin button-kind-ghost {
+    color: var(--button-color);
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover:not(:disabled) {
+        background-color: rgba(141, 141, 141, 0.12);
+    }
+
+    &:active:not(:disabled) {
+        background-color: rgba(141, 141, 141, 0.5);
+    }
+
+    &:disabled {
+        color: var(--iui-token-button-text-color-disabled);
+        background-color: transparent;
+    }
+}
+
+.button--primary {
+    @include button-color-primary;
+    @include button-kind-solid;
+}
+
+.button--secondary {
+    @include button-color-secondary;
+    @include button-kind-solid;
+}
+
+.button--secondary-tertiary {
+    @include button-color-secondary;
+    @include button-kind-outline;
+}
+
+.button--tertiary {
+    @include button-color-secondary;
+    @include button-kind-ghost;
+}
+
+.button--danger {
+    @include button-color-danger;
+    @include button-kind-solid;
+}
+
+.button--danger-secondary {
+    @include button-color-danger;
+    @include button-kind-outline;
+}
+
+.button--danger-tertiary {
+    @include button-color-danger;
+    @include button-kind-ghost;
+}
+
+.button--link {
+    @include button-color-link;
+    @include button-kind-ghost;
+}

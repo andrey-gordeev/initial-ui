@@ -1,0 +1,22 @@
+.input {
+    all: unset;
+    block-size: 30px;
+    padding-block: 2px;
+    padding-inline: 8px;
+    background-color: #fff;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+
+    &::placeholder {
+        color: #999;
+    }
+}
+
+.input--disabled {
+    background-color: #ccc;
+}
+
+.input--error {
+    border-color: red;
+}

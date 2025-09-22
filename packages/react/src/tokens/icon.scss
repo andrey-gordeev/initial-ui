@@ -1,0 +1,36 @@
+// Design Tokens - Icon Component
+// Источник: Style Dictionary (Figma → Style Dictionary → CSS Custom Properties)
+// Наследует базовые токены из theme.scss
+
+:root {
+    // Icon Size Tokens
+    --iui-token-icon-size-sm: 16px;
+    --iui-token-icon-size-md: 24px;
+    --iui-token-icon-size-lg: 32px;
+    --iui-token-icon-size-stretch: 100%; // Заполняет родительский контейнер
+
+    // Icon Color Tokens (наследуют базовые цвета)
+    --iui-token-icon-color-red: var(--iui-color-danger);
+    --iui-token-icon-color-green: var(--iui-color-success);
+    --iui-token-icon-color-blue: var(--iui-color-primary);
+    --iui-token-icon-color-white: var(--iui-color-white);
+    --iui-token-icon-color-black: var(--iui-color-black);
+    --iui-token-icon-color-gray: var(--iui-color-secondary);
+
+    // Icon Default Tokens
+    --iui-token-icon-default-size: var(--iui-token-icon-size-md);
+    --iui-token-icon-default-color: var(--iui-color-text-primary);
+}
+
+[data-theme='dark'] {
+    // Icon Color Tokens (темная тема - автоматически наследуют обновленные базовые цвета)
+    --iui-token-icon-color-red: var(--iui-color-danger);
+    --iui-token-icon-color-green: var(--iui-color-success);
+    --iui-token-icon-color-blue: var(--iui-color-primary);
+    --iui-token-icon-color-white: var(--iui-color-white);
+    --iui-token-icon-color-black: var(--iui-color-black);
+    --iui-token-icon-color-gray: var(--iui-color-secondary);
+
+    // Icon Default Tokens (темная тема)
+    --iui-token-icon-default-color: var(--iui-color-text-primary);
+}

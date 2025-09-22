@@ -1,0 +1,44 @@
+/**
+ * Showcase
+ */
+
+.showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/**
+ * Showcase item
+ */
+
+.showcase-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.showcase-item__label {
+    padding: 16px;
+    font-family: monospace;
+    color: gray;
+}
+
+.showcase-item__content {
+    padding: 16px;
+
+    &:hover {
+        /*background-color: #f8f8f8;*/
+    }
+}
+
+/**
+ * Showcase variant
+ */
+
+.showcase-variant {
+    display: flex;
+    flex: 0 0 25%;
+    flex-wrap: wrap;
+    outline: 1px dotted #ccc;
+    outline-offset: 4px;
+}

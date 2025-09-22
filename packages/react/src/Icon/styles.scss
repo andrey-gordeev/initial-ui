@@ -1,0 +1,68 @@
+/* Design Tokens - Icon Component */
+/* Импорт токенов из централизованного источника */
+
+@import '../tokens/theme.scss';
+@import '../tokens/icon.scss';
+
+/* Дополнительные стили компонента */
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Базовые стили для всех иконок */
+    svg {
+        display: block;
+        inline-size: var(--iui-token-icon-default-size);
+        block-size: var(--iui-token-icon-default-size);
+        fill: none;
+        stroke: currentColor;
+    }
+
+    /* Размеры иконок */
+    &--size-sm svg {
+        inline-size: var(--iui-token-icon-size-sm);
+        block-size: var(--iui-token-icon-size-sm);
+    }
+
+    &--size-md svg {
+        inline-size: var(--iui-token-icon-size-md);
+        block-size: var(--iui-token-icon-size-md);
+    }
+
+    &--size-lg svg {
+        inline-size: var(--iui-token-icon-size-lg);
+        block-size: var(--iui-token-icon-size-lg);
+    }
+
+    &--size-stretch svg {
+        inline-size: var(--iui-token-icon-size-stretch);
+        block-size: var(--iui-token-icon-size-stretch);
+    }
+
+    /* Цвета иконок */
+    &--color-red svg {
+        stroke: var(--iui-token-icon-color-red);
+    }
+
+    &--color-green svg {
+        stroke: var(--iui-token-icon-color-green);
+    }
+
+    &--color-blue svg {
+        stroke: var(--iui-token-icon-color-blue);
+    }
+
+    &--color-white svg {
+        stroke: var(--iui-token-icon-color-white);
+    }
+
+    &--color-black svg {
+        stroke: var(--iui-token-icon-color-black);
+    }
+
+    &--color-gray svg {
+        stroke: var(--iui-token-icon-color-gray);
+    }
+}

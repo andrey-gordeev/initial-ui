@@ -1,0 +1,93 @@
+// Design Tokens - Base Theme
+// Источник: Style Dictionary (Figma → Style Dictionary → CSS Custom Properties)
+
+:root {
+    // Base Colors
+    --iui-color-primary: #8b5cf6;
+    --iui-color-secondary: #393939;
+    --iui-color-danger: #da1e28;
+    --iui-color-success: #198038;
+    --iui-color-warning: #f1c21b;
+    --iui-color-info: #0f62fe;
+    --iui-color-link: #0f62fe;
+
+    // Neutral Colors
+    --iui-color-white: #ffffff;
+    --iui-color-black: #000000;
+    --iui-color-gray-10: #f4f4f4;
+    --iui-color-gray-20: #e0e0e0;
+    --iui-color-gray-30: #c6c6c6;
+    --iui-color-gray-40: #a8a8a8;
+    --iui-color-gray-50: #8d8d8d;
+    --iui-color-gray-60: #6f6f6f;
+    --iui-color-gray-70: #525252;
+    --iui-color-gray-80: #393939;
+    --iui-color-gray-90: #262626;
+    --iui-color-gray-100: #161616;
+
+    // Text Colors
+    --iui-color-text-primary: var(--iui-color-gray-100);
+    --iui-color-text-secondary: var(--iui-color-gray-70);
+    --iui-color-text-disabled: var(--iui-color-gray-50);
+    --iui-color-text-inverse: var(--iui-color-white);
+
+    // Background Colors
+    --iui-color-background: var(--iui-color-white);
+    --iui-color-background-hover: var(--iui-color-gray-10);
+    --iui-color-background-active: var(--iui-color-gray-20);
+    --iui-color-background-disabled: var(--iui-color-gray-10);
+
+    // Border Colors
+    --iui-color-border: var(--iui-color-gray-30);
+    --iui-color-border-hover: var(--iui-color-gray-50);
+    --iui-color-border-active: var(--iui-color-gray-60);
+    --iui-color-border-disabled: var(--iui-color-gray-20);
+
+    // Focus Colors
+    --iui-color-focus: var(--iui-color-primary);
+
+    // Spacing (будут добавлены при необходимости)
+    // --iui-spacing-xs: 4px;
+    // --iui-spacing-sm: 8px;
+    // --iui-spacing-md: 16px;
+    // --iui-spacing-lg: 24px;
+    // --iui-spacing-xl: 32px;
+
+    // Typography (будут добавлены при необходимости)
+    // --iui-font-family-primary: 'IBM Plex Sans', sans-serif;
+    // --iui-font-size-sm: 12px;
+    // --iui-font-size-base: 14px;
+    // --iui-font-size-lg: 16px;
+}
+
+[data-theme='dark'] {
+    // Base Colors (темные версии)
+    --iui-color-primary: #a78bfa;
+    --iui-color-secondary: #6f6f6f;
+    --iui-color-danger: #ff8389;
+    --iui-color-success: #42be65;
+    --iui-color-warning: #fdd13a;
+    --iui-color-info: #78a9ff;
+    --iui-color-link: #78a9ff;
+
+    // Text Colors (инвертированы)
+    --iui-color-text-primary: var(--iui-color-white);
+    --iui-color-text-secondary: var(--iui-color-gray-30);
+    --iui-color-text-disabled: var(--iui-color-gray-60);
+    --iui-color-text-inverse: var(--iui-color-gray-100);
+
+    // Background Colors (инвертированы)
+    --iui-color-background: var(--iui-color-gray-100);
+    --iui-color-background-hover: var(--iui-color-gray-90);
+    --iui-color-background-active: var(--iui-color-gray-80);
+    --iui-color-background-disabled: var(--iui-color-gray-90);
+
+    // Border Colors (адаптированы для темной темы)
+    --iui-color-border: var(--iui-color-gray-70);
+    --iui-color-border-hover: var(--iui-color-gray-50);
+    --iui-color-border-active: var(--iui-color-gray-40);
+    --iui-color-border-disabled: var(--iui-color-gray-80);
+
+    // Focus Colors (адаптированы)
+    --iui-color-focus: var(--iui-color-primary);
+}

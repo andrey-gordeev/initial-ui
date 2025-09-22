@@ -1,0 +1,24 @@
+{
+  "scripts": {
+    "ladle": "ladle serve",
+    "lint:styles": "stylelint 'packages/**/*.{css,scss}'",
+    "lint:styles:fix": "stylelint 'packages/**/*.{css,scss}' --fix",
+    "generate:icons": "generate:icons"
+  },
+  "devDependencies": {
+    "@svgr/cli": "^8.1.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "prettier": "^3.0.0",
+    "sass-embedded": "^1.92.1",
+    "stylelint": "^16.24.0",
+    "stylelint-config-recess-order": "^7.3.0",
+    "stylelint-order": "^7.0.0",
+    "stylelint-plugin-logical-css": "^1.2.3",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@ladle/react": "^5.0.3",
+    "clsx": "^2.0.0"
+  }
+}

@@ -1,0 +1,85 @@
+// Design Tokens - Button Component
+// Источник: Style Dictionary (Figma → Style Dictionary → CSS Custom Properties)
+// Наследует базовые токены из theme.scss
+
+:root {
+    // Primary Button Tokens (наследуют --iui-color-primary)
+    --iui-token-button-primary-color: var(--iui-color-primary);
+    --iui-token-button-primary-color-hover: #7c3aed;
+    --iui-token-button-primary-color-active: #5b21b6;
+    --iui-token-button-primary-color-disabled: #d8b4fe;
+    --iui-token-button-primary-text-color: var(--iui-color-text-inverse);
+
+    // Secondary Button Tokens (наследуют --iui-color-secondary)
+    --iui-token-button-secondary-color: var(--iui-color-secondary);
+    --iui-token-button-secondary-color-hover: #4c4c4c;
+    --iui-token-button-secondary-color-active: #161616;
+    --iui-token-button-secondary-color-disabled: #d1d1d1;
+    --iui-token-button-secondary-text-color: var(--iui-color-text-inverse);
+
+    // Tertiary Button Tokens (наследуют --iui-color-secondary)
+    --iui-token-button-tertiary-color: var(--iui-color-secondary);
+    --iui-token-button-tertiary-color-hover: var(--iui-color-secondary);
+    --iui-token-button-tertiary-color-active: var(--iui-color-secondary);
+    --iui-token-button-tertiary-color-disabled: var(--iui-color-text-disabled);
+    --iui-token-button-tertiary-text-color: var(--iui-color-secondary);
+
+    // Danger Button Tokens (наследуют --iui-color-danger)
+    --iui-token-button-danger-color: var(--iui-color-danger);
+    --iui-token-button-danger-color-hover: #b81922;
+    --iui-token-button-danger-color-active: #750e13;
+    --iui-token-button-danger-color-disabled: #f5c6cb;
+    --iui-token-button-danger-text-color: var(--iui-color-text-inverse);
+
+    // Link Button Tokens (наследуют --iui-color-link)
+    --iui-token-button-link-color: var(--iui-color-link);
+    --iui-token-button-link-color-hover: #0353e9;
+    --iui-token-button-link-color-active: #002d9c;
+    --iui-token-button-link-color-disabled: #b3d9ff;
+    --iui-token-button-link-text-color: var(--iui-color-text-inverse);
+
+    // Global Button Tokens (наследуют глобальные токены)
+    --iui-token-button-text-color-disabled: var(--iui-color-text-disabled);
+    --iui-token-button-focus-color: var(--iui-color-focus);
+}
+
+[data-theme='dark'] {
+    // Primary Button Tokens (темная тема)
+    --iui-token-button-primary-color: var(--iui-color-primary);
+    --iui-token-button-primary-color-hover: #a78bfa;
+    --iui-token-button-primary-color-active: #c4b5fd;
+    --iui-token-button-primary-color-disabled: #3d1a78;
+    --iui-token-button-primary-text-color: var(--iui-color-text-inverse);
+
+    // Secondary Button Tokens (темная тема)
+    --iui-token-button-secondary-color: var(--iui-color-secondary);
+    --iui-token-button-secondary-color-hover: #8d8d8d;
+    --iui-token-button-secondary-color-active: #a6a6a6;
+    --iui-token-button-secondary-color-disabled: #3a3a3a;
+    --iui-token-button-secondary-text-color: var(--iui-color-text-inverse);
+
+    // Tertiary Button Tokens (темная тема)
+    --iui-token-button-tertiary-color: var(--iui-color-text-primary);
+    --iui-token-button-tertiary-color-hover: var(--iui-color-text-primary);
+    --iui-token-button-tertiary-color-active: var(--iui-color-text-primary);
+    --iui-token-button-tertiary-color-disabled: var(--iui-color-text-disabled);
+    --iui-token-button-tertiary-text-color: var(--iui-color-text-primary);
+
+    // Danger Button Tokens (темная тема)
+    --iui-token-button-danger-color: var(--iui-color-danger);
+    --iui-token-button-danger-color-hover: #ff8389;
+    --iui-token-button-danger-color-active: #ffb3b8;
+    --iui-token-button-danger-color-disabled: #5c1a1d;
+    --iui-token-button-danger-text-color: var(--iui-color-text-inverse);
+
+    // Link Button Tokens (темная тема)
+    --iui-token-button-link-color: var(--iui-color-link);
+    --iui-token-button-link-color-hover: #78a9ff;
+    --iui-token-button-link-color-active: #a6c8ff;
+    --iui-token-button-link-color-disabled: #1e3a5f;
+    --iui-token-button-link-text-color: var(--iui-color-text-inverse);
+
+    // Global Button Tokens (темная тема)
+    --iui-token-button-text-color-disabled: var(--iui-color-text-disabled);
+    --iui-token-button-focus-color: var(--iui-color-focus);
+}

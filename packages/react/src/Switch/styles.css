@@ -1,0 +1,64 @@
+/* Design Tokens - Switch Component */
+/* Импорт токенов из централизованного источника */
+
+@import '../tokens/theme.scss';
+@import '../tokens/switch.scss';
+
+/* Дополнительные стили компонента */
+
+.switch {
+    all: unset;
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+    inline-size: var(--iui-token-switch-track-width);
+    block-size: var(--iui-token-switch-track-height);
+    appearance: none;
+    cursor: pointer;
+    background-color: var(--iui-token-switch-track-background);
+    border-color: var(--iui-token-switch-track-border-color);
+    border-style: solid;
+    border-width: var(--iui-token-switch-track-border-width);
+    border-radius: var(--iui-token-switch-track-border-radius);
+
+    &::before {
+        position: absolute;
+        inset: var(--iui-token-switch-track-spacing) auto
+            var(--iui-token-switch-track-spacing)
+            var(--iui-token-switch-track-spacing);
+        aspect-ratio: 1 / 1;
+        content: '';
+        background-color: var(--iui-token-switch-thumb-background);
+        border-color: var(--iui-token-switch-thumb-border-color);
+        border-style: solid;
+        border-width: var(--iui-token-switch-thumb-border-width);
+        border-radius: var(--iui-token-switch-thumb-border-radius);
+        transition:
+            transform 0.3s,
+            background-color 0.3s;
+    }
+
+    &:checked {
+        background-color: var(--iui-token-switch-track-background-checked);
+
+        &::before {
+            transform: translateX(
+                calc(
+                    var(--iui-token-switch-track-width) -
+                        var(--iui-token-switch-track-height)
+                )
+            );
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--iui-token-switch-disabled-track-background);
+        border-color: var(--iui-token-switch-disabled-track-border-color);
+
+        &::before {
+            background-color: var(--iui-token-switch-disabled-thumb-background);
+            border-color: var(--iui-token-switch-disabled-thumb-border-color);
+        }
+    }
+}

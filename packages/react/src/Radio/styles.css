@@ -1,0 +1,24 @@
+.radio {
+    all: unset;
+    position: relative;
+
+    inline-size: 20px;
+    aspect-ratio: 1 / 1;
+    appearance: none;
+
+    border: 1px solid #ccc;
+    border-radius: 100%;
+
+    &:checked {
+        &::before {
+            position: absolute;
+            inset: 2px;
+            display: inline-block;
+            inline-size: 1em;
+            block-size: 1em;
+            content: '';
+            background: no-repeat center/contain
+                url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' role='img' aria-label='dot'><circle cx='12' cy='12' r='5' fill='currentColor'/></svg>");
+        }
+    }
+}

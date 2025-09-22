@@ -1,0 +1,60 @@
+// Design Tokens - Switch Component
+// Источник: Style Dictionary (Figma → Style Dictionary → CSS Custom Properties)
+// Наследует базовые токены из theme.scss
+
+:root {
+    // Switch Track Tokens
+    --iui-token-switch-track-width: 40px;
+    --iui-token-switch-track-height: 20px;
+    --iui-token-switch-track-spacing: 2px;
+    --iui-token-switch-track-background: var(--iui-color-background-disabled);
+    --iui-token-switch-track-background-checked: var(--iui-color-primary);
+    --iui-token-switch-track-border-width: 1px;
+    --iui-token-switch-track-border-color: var(--iui-color-border);
+    --iui-token-switch-track-border-radius: 0;
+
+    // Switch Thumb Tokens
+    --iui-token-switch-thumb-background: var(--iui-color-white);
+    --iui-token-switch-thumb-border-width: 1px;
+    --iui-token-switch-thumb-border-color: var(--iui-color-border);
+    --iui-token-switch-thumb-border-radius: 0;
+
+    // Switch Disabled Tokens
+    --iui-token-switch-disabled-track-background: var(
+        --iui-color-background-disabled
+    );
+    --iui-token-switch-disabled-track-border-color: var(
+        --iui-color-border-disabled
+    );
+    --iui-token-switch-disabled-thumb-background: var(
+        --iui-color-background-hover
+    );
+    --iui-token-switch-disabled-thumb-border-color: var(
+        --iui-color-border-disabled
+    );
+}
+
+[data-theme='dark'] {
+    // Switch Track Tokens (темная тема)
+    --iui-token-switch-track-background: var(--iui-color-background-disabled);
+    --iui-token-switch-track-background-checked: var(--iui-color-primary);
+    --iui-token-switch-track-border-color: var(--iui-color-border);
+
+    // Switch Thumb Tokens (темная тема)
+    --iui-token-switch-thumb-background: var(--iui-color-white);
+    --iui-token-switch-thumb-border-color: var(--iui-color-border);
+
+    // Switch Disabled Tokens (темная тема)
+    --iui-token-switch-disabled-track-background: var(
+        --iui-color-background-disabled
+    );
+    --iui-token-switch-disabled-track-border-color: var(
+        --iui-color-border-disabled
+    );
+    --iui-token-switch-disabled-thumb-background: var(
+        --iui-color-background-hover
+    );
+    --iui-token-switch-disabled-thumb-border-color: var(
+        --iui-color-border-disabled
+    );
+}

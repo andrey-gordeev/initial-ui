@@ -1,0 +1,30 @@
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: start;
+}
+
+.form-control__label {
+    /*display: block;*/
+    /*width: fit-content;*/
+    font-size: 14px;
+}
+
+.form-control__label--disabled {
+    color: #999;
+}
+
+.form-control__hint {
+    /*display: block;*/
+    /*width: fit-content;*/
+    font-size: 12px;
+    color: #999;
+}
+
+.form-control__error {
+    /*display: block;*/
+    /*width: fit-content;*/
+    font-size: 12px;
+    color: red;
+}
