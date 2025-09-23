@@ -1,16 +1,17 @@
-/* Design Tokens - Switch Component */
-/* Импорт токенов из централизованного источника */
-
 @import '../tokens/theme.scss';
 @import '../tokens/switch.scss';
 
-/* Дополнительные стили компонента */
+.switch-container {
+    display: flex;
+    gap: 4px;
+}
 
 .switch {
     all: unset;
     position: relative;
     box-sizing: border-box;
     display: block;
+    flex: 0 0 auto;
     inline-size: var(--iui-token-switch-track-width);
     block-size: var(--iui-token-switch-track-height);
     appearance: none;
@@ -60,5 +61,24 @@
             background-color: var(--iui-token-switch-disabled-thumb-background);
             border-color: var(--iui-token-switch-disabled-thumb-border-color);
         }
+    }
+}
+
+.switch__label {
+    font-size: 16px;
+    color: #000;
+
+    &.switch__label--disabled {
+        color: #999;
+    }
+}
+
+.switch__hint {
+    font-size: 14px;
+    color: #ccc;
+    white-space: pre-line;
+
+    &::before {
+        content: '\A';
     }
 }

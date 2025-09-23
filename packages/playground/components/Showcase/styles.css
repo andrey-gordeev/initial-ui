@@ -24,6 +24,7 @@
 }
 
 .showcase-item__content {
+    align-items: start;
     padding: 16px;
 
     &:hover {
