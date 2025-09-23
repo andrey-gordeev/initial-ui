@@ -1,0 +1,30 @@
+:root {
+    // Основные размеры Popover
+    --iui-token-popover-border-width: 1px;
+    --iui-token-popover-border-radius: 8px;
+
+    // Размеры стрелки (связаны с border-width)
+    --iui-token-popover-arrow-size: 12px; // 2 * 8px (половина размера)
+    --iui-token-popover-arrow-half-size: 6px; // половина размера стрелки
+    --iui-token-popover-arrow-offset: calc(var(--iui-token-popover-arrow-half-size) + var(--iui-token-popover-border-width));
+
+    // Цвета Popover
+    --iui-token-popover-background: var(--iui-color-background);
+    --iui-token-popover-border-color: var(--iui-color-border);
+    --iui-token-popover-text-color: var(--iui-color-text-primary);
+
+    // Позиционирование стрелки
+    --iui-token-popover-arrow-position-start: 12px; // отступ от края для start позиций
+    --iui-token-popover-arrow-position-end: 12px; // отступ от края для end позиций
+
+    // Позиционирование контейнера Popover
+    --iui-token-popover-offset: 8px; // отступ от триггера
+    --iui-token-popover-offset-large: 16px; // большой отступ для start/end позиций
+}
+
+[data-theme='dark'] {
+    // Адаптация для темной темы
+    --iui-token-popover-background: var(--iui-color-background);
+    --iui-token-popover-border-color: var(--iui-color-border);
+    --iui-token-popover-text-color: var(--iui-color-text-primary);
+}

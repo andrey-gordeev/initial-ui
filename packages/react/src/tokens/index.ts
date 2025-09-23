@@ -153,6 +153,44 @@ export const iconTokens = {
 } as const;
 
 /**
+ * Токены компонента Popover
+ */
+export const popoverTokens = {
+    // Размеры
+    minWidth: 'var(--iui-token-popover-min-width)',
+    padding: 'var(--iui-token-popover-padding)',
+    fontSize: 'var(--iui-token-popover-font-size)',
+    borderWidth: 'var(--iui-token-popover-border-width)',
+    borderRadius: 'var(--iui-token-popover-border-radius)',
+    
+    // Размеры стрелки (связанные)
+    arrowSize: 'var(--iui-token-popover-arrow-size)',
+    arrowHalfSize: 'var(--iui-token-popover-arrow-half-size)',
+    arrowOffset: 'var(--iui-token-popover-arrow-offset)',
+    
+    // Позиционирование стрелки
+    arrowPositionStart: 'var(--iui-token-popover-arrow-position-start)',
+    arrowPositionEnd: 'var(--iui-token-popover-arrow-position-end)',
+    
+    // Позиционирование контейнера
+    offset: 'var(--iui-token-popover-offset)',
+    offsetLarge: 'var(--iui-token-popover-offset-large)',
+    
+    // Цвета
+    background: 'var(--iui-token-popover-background)',
+    borderColor: 'var(--iui-token-popover-border-color)',
+    textColor: 'var(--iui-token-popover-text-color)',
+    
+    // Эффекты
+    shadow: 'var(--iui-token-popover-shadow)',
+    
+    // Z-index
+    zIndex: 'var(--iui-token-popover-z-index)',
+    arrowZIndex: 'var(--iui-token-popover-arrow-z-index)',
+    overlayZIndex: 'var(--iui-token-popover-overlay-z-index)',
+} as const;
+
+/**
  * Общие токены дизайн-системы
  */
 export const tokens = {
@@ -160,6 +198,7 @@ export const tokens = {
     button: buttonTokens,
     switch: switchTokens,
     icon: iconTokens,
+    popover: popoverTokens,
 } as const;
 
 /**
@@ -169,6 +208,7 @@ export type ColorToken = keyof typeof colorTokens;
 export type ButtonToken = keyof typeof buttonTokens;
 export type SwitchToken = keyof typeof switchTokens;
 export type IconToken = keyof typeof iconTokens;
+export type PopoverToken = keyof typeof popoverTokens;
 export type TokenPath = keyof typeof tokens;
 
 /**
@@ -194,4 +234,4 @@ export function getToken(path: string): string | undefined {
 /**
  * Экспорт для использования в компонентах
  */
-export { tokens as default, switchTokens, iconTokens };
+export { tokens as default };
