@@ -5,6 +5,7 @@ import './styles.scss';
 
 const VARIANT_TO_CLASS_MAP: Record<ButtonVariant, string> = {
     primary: 'button--primary',
+    'primary-light': 'button--primary-light',
     secondary: 'button--secondary',
     'secondary-tertiary': 'button--secondary-tertiary',
     tertiary: 'button--tertiary',

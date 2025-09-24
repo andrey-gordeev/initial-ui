@@ -1,10 +1,5 @@
-// Design Tokens - Button Component
-// Импорт токенов из централизованного источника
-
 @import '../tokens/theme.scss';
 @import '../tokens/button.scss';
-
-// Дополнительные стили компонента (если нужны)
 
 .button {
     all: unset;
@@ -118,6 +113,10 @@
     }
 }
 
+@mixin button-kind-solid-inverse {
+    color: var(--button-color);
+};
+
 @mixin button-kind-outline {
     color: var(--button-color);
     background-color: transparent;
@@ -161,6 +160,11 @@
 }
 
 .button--primary {
+    @include button-color-primary;
+    @include button-kind-solid;
+}
+
+.button--primary-light {
     @include button-color-primary;
     @include button-kind-solid;
 }

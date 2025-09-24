@@ -1,5 +1,6 @@
 export const BUTTON_VARIANT = {
     primary: 'primary',
+    'primary-light': 'primary-light',
     secondary: 'secondary',
     'secondary-tertiary': 'secondary-tertiary',
     tertiary: 'tertiary',

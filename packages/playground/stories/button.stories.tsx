@@ -15,6 +15,9 @@ export const Overview = () => (
                 <Button variant="primary" />
             </ShowcaseVariant>
             <ShowcaseVariant>
+                <Button variant="primary-light" />
+            </ShowcaseVariant>
+            <ShowcaseVariant>
                 <Button variant="secondary" />
             </ShowcaseVariant>
             <ShowcaseVariant>
