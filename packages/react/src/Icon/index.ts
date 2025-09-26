@@ -1,5 +1,3 @@
-// Icon Component Exports
-
 export { default as Icon } from './Icon';
 export {
     IconRegistry,

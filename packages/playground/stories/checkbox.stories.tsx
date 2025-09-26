@@ -1,5 +1,5 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase/Showcase';
-import { Checkbox } from '../../react/src/Checkbox/Checkbox';
+import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Checkbox from '../../react/src/Checkbox';
 
 export const Overview = () => {
     return (

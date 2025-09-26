@@ -1,4 +1,4 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase/Showcase';
+import { Showcase, ShowcaseItem } from '../components/Showcase';
 import ButtonGroup from '../../react/src/ButtonGroup';
 import Button from '../../react/src/Button';
 

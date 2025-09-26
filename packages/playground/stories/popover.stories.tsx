@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Showcase, ShowcaseItem } from '../components/Showcase/Showcase';
+import { Showcase, ShowcaseItem } from '../components/Showcase';
 import Stack from '../../react/src/Stack';
 import Popover, { PopoverProps } from '../../react/src/Popover';
 

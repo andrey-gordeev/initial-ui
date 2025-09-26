@@ -2,9 +2,8 @@ import {
     Showcase,
     ShowcaseItem,
     ShowcaseVariant,
-} from '../components/Showcase/Showcase';
-
-import { Switch } from '../../react/src/Switch/Switch';
+} from '../components/Showcase';
+import Switch from '../../react/src/Switch';
 
 export const Overview = () => {
     return (

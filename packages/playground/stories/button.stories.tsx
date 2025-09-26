@@ -2,7 +2,7 @@ import {
     Showcase,
     ShowcaseItem,
     ShowcaseVariant,
-} from '../components/Showcase/Showcase';
+} from '../components/Showcase';
 import Button from '../../react/src/Button';
 
 export const Overview = () => (

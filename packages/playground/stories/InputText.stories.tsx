@@ -2,7 +2,7 @@ import {
     Showcase,
     ShowcaseItem,
     ShowcaseVariant,
-} from '../components/Showcase/Showcase';
+} from '../components/Showcase';
 import InputText from '../../react/src/InputText';
 
 export const Overview = () => {

@@ -1,30 +1,41 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase/Showcase';
-import Radio from '../../react/src/Radio/Radio';
+import { Showcase, ShowcaseItem } from '../components/Showcase';
+import { noop } from '../utils';
+import Radio from '../../react/src/Radio';
 
 export const Overview = () => {
     return (
         <Showcase>
             <ShowcaseItem label="default">
-                <Radio name="name_A" value="value_A" />
+                <Radio />
             </ShowcaseItem>
-            <ShowcaseItem label="isChecked">
-                <Radio name="name_B" value="value_B" isChecked={true} />
+            <ShowcaseItem label="isChecked (controlled)">
+                <Radio isChecked={true} onChange={noop} />
+            </ShowcaseItem>
+            <ShowcaseItem label="defaultChecked (uncontrolled)">
+                <Radio defaultChecked={true} />
             </ShowcaseItem>
             <ShowcaseItem label="isDisabled">
-                <Radio name="name_C" value="value_C" isDisabled={true} />
+                <Radio isDisabled={true} />
             </ShowcaseItem>
             <ShowcaseItem label="isChecked and isDisabled">
-                <Radio
-                    name="name_D"
-                    value="value_D"
-                    isChecked={true}
-                    isDisabled={true}
-                />
+                <Radio isChecked={true} isDisabled={true} onChange={noop} />
             </ShowcaseItem>
-            <ShowcaseItem>
-                <Radio name="name_E" value="value_E_0" />
-                <Radio name="name_E" value="value_E_1" />
-                <Radio name="name_E" value="value_E_2" />
+            <ShowcaseItem label="multiple (controlled)">
+                <Radio name="a" isChecked={true} onChange={noop} />
+                <Radio name="a" />
+                <Radio name="a" />
+            </ShowcaseItem>
+            <ShowcaseItem label="multiple (uncontrolled)">
+                <ShowcaseItem label="default">
+                    <Radio />
+                    <Radio />
+                    <Radio />
+                </ShowcaseItem>
+                <ShowcaseItem label="with name">
+                    <Radio name="b" />
+                    <Radio name="b" />
+                    <Radio name="b" />
+                </ShowcaseItem>
             </ShowcaseItem>
         </Showcase>
     );

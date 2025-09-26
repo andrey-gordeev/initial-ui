@@ -1,24 +1,30 @@
 import { RadioProps } from './types';
 import './styles.css';
 
-const Radio = ({
+export const Radio = ({
     name,
     value,
+    label,
+    defaultChecked,
     isChecked,
     isDisabled,
     onChange,
 }: RadioProps) => {
     return (
-        <input
-            type="radio"
-            className="radio"
-            name={name}
-            value={value}
-            checked={isChecked}
-            disabled={isDisabled}
-            onChange={onChange}
-        />
+        <label>
+            <input
+                type="radio"
+                className="radio"
+                name={name}
+                value={value}
+                defaultChecked={defaultChecked}
+                checked={isChecked}
+                disabled={isDisabled}
+                onChange={onChange}
+            />
+            {label}
+        </label>
     );
 };
 
-export default Radio;
+Radio.displayName = 'Radio';
