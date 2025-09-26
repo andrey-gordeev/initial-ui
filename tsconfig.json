@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // поддержка всех современных возможностей JS
+    "lib": ["ES2020", "DOM"], // включает Array.find, Promise и DOM API
+    "module": "ESNext", // для современного модульного синтаксиса
+    "jsx": "react-jsx", // поддержка JSX для React 17+
+    "strict": true, // включает все строгие проверки
+    "moduleResolution": "node",
+    "esModuleInterop": true, // для корректного импорта CommonJS
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true // пропуск проверки типов в node_modules
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}
