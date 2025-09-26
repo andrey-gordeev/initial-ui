@@ -2,6 +2,9 @@
 // Источник: Style Dictionary (Figma → Style Dictionary → TypeScript)
 // Синхронизирован с CSS Custom Properties из theme.scss и button.scss
 
+// Импорт новых цветовых палитр и миксинов
+import './button-mixins.scss';
+
 /**
  * Базовые цвета дизайн-системы
  */
@@ -56,47 +59,59 @@ export const colorTokens = {
 } as const;
 
 /**
- * Токены компонента Button
+ * Токены компонента Button (новая цветовая система)
  */
 export const buttonTokens = {
     primary: {
-        color: 'var(--iui-token-button-primary-color)',
-        hover: 'var(--iui-token-button-primary-color-hover)',
-        active: 'var(--iui-token-button-primary-color-active)',
-        disabled: 'var(--iui-token-button-primary-color-disabled)',
-        text: 'var(--iui-token-button-primary-text-color)',
+        color: 'var(--color-primary-500)',
+        hover: 'var(--color-primary-600)',
+        active: 'var(--color-primary-700)',
+        disabled: 'var(--color-primary-300)',
+        text: 'white',
+        textDisabled: 'var(--color-primary-100)',
     },
     secondary: {
-        color: 'var(--iui-token-button-secondary-color)',
-        hover: 'var(--iui-token-button-secondary-color-hover)',
-        active: 'var(--iui-token-button-secondary-color-active)',
-        disabled: 'var(--iui-token-button-secondary-color-disabled)',
-        text: 'var(--iui-token-button-secondary-text-color)',
+        color: 'var(--color-secondary-500)',
+        hover: 'var(--color-secondary-600)',
+        active: 'var(--color-secondary-700)',
+        disabled: 'var(--color-secondary-300)',
+        text: 'white',
+        textDisabled: 'var(--color-secondary-100)',
     },
-    tertiary: {
-        color: 'var(--iui-token-button-tertiary-color)',
-        hover: 'var(--iui-token-button-tertiary-color-hover)',
-        active: 'var(--iui-token-button-tertiary-color-active)',
-        disabled: 'var(--iui-token-button-tertiary-color-disabled)',
-        text: 'var(--iui-token-button-tertiary-text-color)',
+    success: {
+        color: 'var(--color-success-500)',
+        hover: 'var(--color-success-600)',
+        active: 'var(--color-success-700)',
+        disabled: 'var(--color-success-300)',
+        text: 'white',
+        textDisabled: 'var(--color-success-100)',
+    },
+    warning: {
+        color: 'var(--color-warning-500)',
+        hover: 'var(--color-warning-600)',
+        active: 'var(--color-warning-700)',
+        disabled: 'var(--color-warning-300)',
+        text: 'white',
+        textDisabled: 'var(--color-warning-100)',
     },
     danger: {
-        color: 'var(--iui-token-button-danger-color)',
-        hover: 'var(--iui-token-button-danger-color-hover)',
-        active: 'var(--iui-token-button-danger-color-active)',
-        disabled: 'var(--iui-token-button-danger-color-disabled)',
-        text: 'var(--iui-token-button-danger-text-color)',
+        color: 'var(--color-danger-500)',
+        hover: 'var(--color-danger-600)',
+        active: 'var(--color-danger-700)',
+        disabled: 'var(--color-danger-300)',
+        text: 'white',
+        textDisabled: 'var(--color-danger-100)',
     },
-    link: {
-        color: 'var(--iui-token-button-link-color)',
-        hover: 'var(--iui-token-button-link-color-hover)',
-        active: 'var(--iui-token-button-link-color-active)',
-        disabled: 'var(--iui-token-button-link-color-disabled)',
-        text: 'var(--iui-token-button-link-text-color)',
+    info: {
+        color: 'var(--color-info-500)',
+        hover: 'var(--color-info-600)',
+        active: 'var(--color-info-700)',
+        disabled: 'var(--color-info-300)',
+        text: 'white',
+        textDisabled: 'var(--color-info-100)',
     },
     global: {
-        textDisabled: 'var(--iui-token-button-text-color-disabled)',
-        focus: 'var(--iui-token-button-focus-color)',
+        focus: 'var(--color-primary-500)',
     },
 } as const;
 
@@ -162,28 +177,28 @@ export const popoverTokens = {
     fontSize: 'var(--iui-token-popover-font-size)',
     borderWidth: 'var(--iui-token-popover-border-width)',
     borderRadius: 'var(--iui-token-popover-border-radius)',
-    
+
     // Размеры стрелки (связанные)
     arrowSize: 'var(--iui-token-popover-arrow-size)',
     arrowHalfSize: 'var(--iui-token-popover-arrow-half-size)',
     arrowOffset: 'var(--iui-token-popover-arrow-offset)',
-    
+
     // Позиционирование стрелки
     arrowPositionStart: 'var(--iui-token-popover-arrow-position-start)',
     arrowPositionEnd: 'var(--iui-token-popover-arrow-position-end)',
-    
+
     // Позиционирование контейнера
     offset: 'var(--iui-token-popover-offset)',
     offsetLarge: 'var(--iui-token-popover-offset-large)',
-    
+
     // Цвета
     background: 'var(--iui-token-popover-background)',
     borderColor: 'var(--iui-token-popover-border-color)',
     textColor: 'var(--iui-token-popover-text-color)',
-    
+
     // Эффекты
     shadow: 'var(--iui-token-popover-shadow)',
-    
+
     // Z-index
     zIndex: 'var(--iui-token-popover-z-index)',
     arrowZIndex: 'var(--iui-token-popover-arrow-z-index)',

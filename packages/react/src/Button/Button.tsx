@@ -13,6 +13,7 @@ const VARIANT_TO_CLASS_MAP: Record<ButtonVariant, string> = {
     'danger-secondary': 'button--danger-secondary',
     'danger-tertiary': 'button--danger-tertiary',
     link: 'button--link',
+    light: 'button--light',
 };
 
 export const Button = ({

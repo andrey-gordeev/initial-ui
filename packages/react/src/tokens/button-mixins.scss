@@ -1,0 +1,161 @@
+@mixin color-palette($base-color) {
+    // Базовый цвет (500)
+    --color-500: #{$base-color};
+
+    // Светлые оттенки (50-400) - используем CSS функции
+    --color-50: color-mix(in srgb, #{$base-color} 10%, white);
+    --color-100: color-mix(in srgb, #{$base-color} 20%, white);
+    --color-200: color-mix(in srgb, #{$base-color} 40%, white);
+    --color-300: color-mix(in srgb, #{$base-color} 60%, white);
+    --color-400: color-mix(in srgb, #{$base-color} 80%, white);
+
+    // Темные оттенки (600-950) - используем CSS функции
+    --color-600: color-mix(in srgb, #{$base-color} 80%, black);
+    --color-700: color-mix(in srgb, #{$base-color} 60%, black);
+    --color-800: color-mix(in srgb, #{$base-color} 40%, black);
+    --color-900: color-mix(in srgb, #{$base-color} 20%, black);
+    --color-950: color-mix(in srgb, #{$base-color} 10%, black);
+}
+
+@mixin button-kind-solid($base-color) {
+    @include color-palette($base-color);
+
+    background-color: var(--color-500);
+    border-color: var(--color-500);
+    color: white;
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-600);
+        border-color: var(--color-600);
+    }
+
+    &:active:not(:disabled) {
+        background-color: var(--color-700);
+        border-color: var(--color-700);
+    }
+
+    &:disabled {
+        background-color: var(--color-300);
+        border-color: var(--color-300);
+        color: var(--color-100);
+    }
+}
+
+@mixin button-kind-outline($base-color) {
+    @include color-palette($base-color);
+
+    background-color: transparent;
+    border-color: var(--color-500);
+    color: var(--color-500);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-50);
+        border-color: var(--color-600);
+        color: var(--color-600);
+    }
+
+    &:active:not(:disabled) {
+        background-color: var(--color-100);
+        border-color: var(--color-700);
+        color: var(--color-700);
+    }
+
+    &:disabled {
+        border-color: var(--color-300);
+        color: var(--color-300);
+    }
+}
+
+@mixin button-kind-light($base-color) {
+    @include color-palette($base-color);
+
+    background-color: var(--color-50);
+    border-color: transparent;
+    color: var(--color-500);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-100);
+        color: var(--color-600);
+    }
+
+    &:active:not(:disabled) {
+        background-color: var(--color-200);
+        color: var(--color-700);
+    }
+
+    &:disabled {
+        background-color: var(--color-50);
+        color: var(--color-300);
+    }
+}
+
+@mixin button-kind-ghost($base-color) {
+    @include color-palette($base-color);
+
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--color-500);
+
+    &:hover:not(:disabled) {
+        background-color: rgba(141, 141, 141, 0.12);
+        color: var(--color-600);
+    }
+
+    &:active:not(:disabled) {
+        background-color: rgba(141, 141, 141, 0.5);
+        color: var(--color-700);
+    }
+
+    &:disabled {
+        color: var(--color-300);
+        background-color: transparent;
+    }
+}
+
+@mixin button-kind-inverse($base-color) {
+    @include color-palette($base-color);
+
+    background-color: var(--color-50);
+    border-color: var(--color-50);
+    color: var(--color-500);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-100);
+        border-color: var(--color-100);
+        color: var(--color-600);
+    }
+
+    &:active:not(:disabled) {
+        background-color: var(--color-200);
+        border-color: var(--color-200);
+        color: var(--color-700);
+    }
+
+    &:disabled {
+        background-color: var(--color-50);
+        border-color: var(--color-50);
+        color: var(--color-300);
+    }
+}
+
+@mixin button-kind-subtle($base-color) {
+    @include color-palette($base-color);
+
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--color-500);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-50);
+        color: var(--color-600);
+    }
+
+    &:active:not(:disabled) {
+        background-color: var(--color-100);
+        color: var(--color-700);
+    }
+
+    &:disabled {
+        color: var(--color-300);
+    }
+}

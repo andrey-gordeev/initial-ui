@@ -8,6 +8,7 @@ export const BUTTON_VARIANT = {
     'danger-secondary': 'danger-secondary',
     'danger-tertiary': 'danger-tertiary',
     link: 'link',
+    light: 'light',
 } as const;
 
 export type ButtonVariant =

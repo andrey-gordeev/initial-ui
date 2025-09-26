@@ -38,6 +38,9 @@ export const Overview = () => (
             <ShowcaseVariant>
                 <Button variant="link" />
             </ShowcaseVariant>
+            <ShowcaseVariant>
+                <Button variant="light" />
+            </ShowcaseVariant>
         </ShowcaseItem>
         <ShowcaseItem label="variant & isDisabled">
             <ShowcaseVariant>
@@ -63,6 +66,9 @@ export const Overview = () => (
             </ShowcaseVariant>
             <ShowcaseVariant>
                 <Button variant="link" isDisabled={true} />
+            </ShowcaseVariant>
+            <ShowcaseVariant>
+                <Button variant="light" isDisabled={true} />
             </ShowcaseVariant>
         </ShowcaseItem>
     </Showcase>
