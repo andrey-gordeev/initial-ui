@@ -54,7 +54,7 @@
     padding: 8px 16px;
     color: #000;
 
-    &:focus {
+    &:focus-visible {
         outline: 1px dotted blue;
         outline-offset: 2px;
     }
