@@ -4,88 +4,71 @@ import {
     ShowcaseVariant,
 } from '../components/Showcase';
 import Avatar from '../../react/src/Avatar';
+import {
+    AVATAR_BADGE_PLACEMENTS,
+    AVATAR_SIZES,
+} from '../../react/src/Avatar/constants';
+import { AvatarSize, BadgeProps } from '../../react/src/Avatar/types';
 
 export const Overview = () => {
+    const badgeCentrePoint = (
+        <div
+            style={{
+                inlineSize: '12px',
+                blockSize: '12px',
+                content: '',
+                backgroundColor: 'crimson',
+                borderRadius: '50%',
+            }}
+        />
+    );
+
     return (
         <Showcase>
             <ShowcaseItem label="size">
-                <ShowcaseVariant label="sm">
-                    <Avatar size="sm" content="SM" />
-                </ShowcaseVariant>
-                <ShowcaseVariant label="md">
-                    <Avatar size="md" content="MD" />
-                </ShowcaseVariant>
-                <ShowcaseVariant label="lg">
-                    <Avatar size="lg" content="LG" />
-                </ShowcaseVariant>
-                <ShowcaseVariant label="jumbo">
-                    <Avatar size="jumbo" content="JUMBO" />
-                </ShowcaseVariant>
+                {(Object.keys(AVATAR_SIZES) as AvatarSize[]).map((item) => (
+                    <ShowcaseVariant label={item}>
+                        <Avatar size={item} label={`Size: '${item}' `} />
+                    </ShowcaseVariant>
+                ))}
             </ShowcaseItem>
             <ShowcaseItem label="badges">
                 <div
-                    style={{ backgroundColor: 'orange', width: 'fit-content' }}
+                    style={{ width: 'fit-content', backgroundColor: 'orange' }}
                 >
                     <Avatar
-                        size="jumbo"
-                        badges={[
-                            {
-                                placement: 'top',
-                                gap: 0,
-                            },
-                            {
-                                placement: 'top-start',
-                                gap: 2,
-                                content: (
-                                    <div
-                                        style={{
-                                            padding: '4px',
-                                            fontSize: '11px',
-                                            backgroundColor: 'crimson',
-                                            borderRadius: 'inherit',
-                                        }}
-                                    ></div>
-                                ),
-                            },
-                            {
-                                placement: 'top-end',
-                                gap: 2,
-                            },
-                            {
-                                placement: 'right',
-                                gap: 3,
-                            },
-                            {
-                                placement: 'bottom-end',
-                                gap: 4,
-                            },
-                            {
-                                placement: 'bottom',
-                                gap: 5,
-                            },
-                            {
-                                placement: 'bottom-start',
-                                gap: 6,
-                            },
-                            {
-                                placement: 'left',
-                                gap: 7,
-                            },
-                        ]}
+                        size="lg"
+                        badges={Object.keys(AVATAR_BADGE_PLACEMENTS).map(
+                            (item) =>
+                                ({
+                                    placement: item,
+                                    gap: 4,
+                                    content: badgeCentrePoint,
+                                }) as BadgeProps,
+                        )}
                     >
                         [AV]
                     </Avatar>
                 </div>
             </ShowcaseItem>
             <ShowcaseItem label="halo">
-                <Avatar badges={{ placement: 'top-end' }} halo={true}>
+                <Avatar
+                    badges={{ placement: 'top-end', content: badgeCentrePoint }}
+                    halo={true}
+                >
                     [AV]
                 </Avatar>
             </ShowcaseItem>
             <ShowcaseItem label="inset">
-                <Avatar badges={{ placement: 'top-end' }} inset={true}>
+                <Avatar
+                    badges={{ placement: 'top-end', content: badgeCentrePoint }}
+                    inset={true}
+                >
                     [AV]
                 </Avatar>
+            </ShowcaseItem>
+            <ShowcaseItem label="Add button">
+                <Avatar type="add-button">AV</Avatar>
             </ShowcaseItem>
         </Showcase>
     );

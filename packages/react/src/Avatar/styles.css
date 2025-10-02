@@ -11,6 +11,22 @@
     }
 }
 
+/**
+ * Sizes
+ */
+
+.avatar--sm {
+}
+
+.avatar--md {
+}
+
+.avatar--lg {
+}
+
+.avatar--jumbo {
+}
+
 /* Containers */
 
 .avatar__content {
@@ -42,7 +58,40 @@
     border-radius: 50%;
 }
 
-/* Badges */
+/* Add button */
+
+.avatar__add-button {
+    position: absolute;
+    inset: 0;
+}
+
+/* Label */
+
+.avatar__label {
+    position: absolute;
+    inset-block-start: 100%;
+    inline-size: 100%;
+
+    .avatar--sm & {
+        font-size: 11px;
+    }
+
+    .avatar--md & {
+        font-size: 12px;
+    }
+
+    .avatar--lg & {
+        font-size: 14px;
+    }
+
+    .avatar--jumbo & {
+        font-size: 24px;
+    }
+}
+
+/**
+ * Badges
+ */
 
 .avatar__badges {
     position: absolute;
@@ -54,60 +103,52 @@
     pointer-events: none;
 }
 
-.avatar__badge {
+.avatar-badge {
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: auto;
     transform: translate(-50%, -50%);
-
-    &:after {
-        inline-size: 3px;
-        block-size: 3px;
-        content: '';
-        background-color: black;
-        border-radius: 50%;
-    }
 }
 
-.avatar__badge--top {
+.avatar-badge--top {
     inset-block-start: calc(50% - var(--avatar-radius) * sin(90deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(90deg));
 }
 
-.avatar__badge--top-start {
+.avatar-badge--top-start {
     inset-block-start: calc(50% - var(--avatar-radius) * sin(45deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(45deg));
 }
 
-.avatar__badge--top-end {
+.avatar-badge--top-end {
     inset-block-start: calc(50% - var(--avatar-radius) * sin(135deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(135deg));
 }
 
-.avatar__badge--bottom {
+.avatar-badge--bottom {
     inset-block-start: calc(50% - var(--avatar-radius) * sin(270deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(270deg));
 }
 
-.avatar__badge--bottom-start {
+.avatar-badge--bottom-start {
     position: absolute;
     inset-block-start: calc(50% - var(--avatar-radius) * sin(225deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(225deg));
 }
 
-.avatar__badge--bottom-end {
+.avatar-badge--bottom-end {
     inset-block-start: calc(50% - var(--avatar-radius) * sin(315deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(315deg));
 }
 
-.avatar__badge--left {
+.avatar-badge--left {
     inset-block-start: calc(50%);
     inset-inline-start: calc(50% - var(--avatar-radius));
 }
 
-.avatar__badge--right {
+.avatar-badge--right {
     inset-block-start: calc(50%);
     inset-inline-start: calc(50% + var(--avatar-radius));
 }

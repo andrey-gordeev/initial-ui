@@ -3,15 +3,22 @@ import { clsx } from 'clsx';
 import { useBadgeMeasurements, useNotchCalculation } from './hooks';
 import { calculateBadgeRadius, getAvatarSize } from './utils';
 import { AvatarProps } from './types';
+import {
+    AVATAR_BADGE_PLACEMENT_TO_CLASS_NAME_MAP,
+    AVATAR_SIZES_TO_CLASS_NAME_MAP,
+} from './constants';
 import './styles.css';
 
 export const Avatar = ({
     children,
     content,
+    type,
     size = 'md',
     badges,
     halo,
     inset,
+    label,
+    description,
 }: AvatarProps) => {
     const maskId = useId();
 
@@ -39,7 +46,7 @@ export const Avatar = ({
     return (
         <div
             ref={avatarRef}
-            className="avatar"
+            className={clsx('avatar', AVATAR_SIZES_TO_CLASS_NAME_MAP[size])}
             style={
                 {
                     '--avatar-size': `${avatarSize}px`,
@@ -90,17 +97,48 @@ export const Avatar = ({
 
             {inset ? <div className="avatar__inset" /> : null}
 
+            {type === 'add-button'
+                ? (() => {
+                      const strokeWidth = 4;
+                      const r = avatarSize / 2 - strokeWidth / 2;
+                      return (
+                          <div className="avatar__add-button">
+                              <svg
+                                  width={avatarSize}
+                                  height={avatarSize}
+                                  viewBox={`0 0 ${avatarSize} ${avatarSize}`}
+                              >
+                                  <circle
+                                      cx={avatarSize / 2}
+                                      cy={avatarSize / 2}
+                                      r={r}
+                                      fill="none"
+                                      stroke="orange"
+                                      strokeWidth={strokeWidth}
+                                      strokeDasharray="6 12"
+                                      strokeLinecap="round"
+                                  />
+                              </svg>
+                          </div>
+                      );
+                  })()
+                : null}
+
+            {label ? <div className="avatar__label">{label}</div> : null}
+
             <div className="avatar__badges">
                 {normalizedBadges.map((item, index) => (
                     <div
                         key={index}
                         ref={(el) => (badgeRefs.current[index] = el)}
                         className={clsx(
-                            'avatar__badge',
-                            `avatar__badge--${item.placement}`,
+                            'avatar-badge',
+                            AVATAR_BADGE_PLACEMENT_TO_CLASS_NAME_MAP[
+                                item.placement
+                            ],
                         )}
                         style={{
-                            borderRadius: `${badgeRadii[index] || 0}px`,
+                            borderRadius: `${badgeRadii[index]}px`,
                             visibility: isMeasuring ? 'hidden' : 'visible',
                         }}
                     >
