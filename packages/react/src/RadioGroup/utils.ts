@@ -1,5 +1,5 @@
-import type { RadioProps } from '../../Radio';
-import type { RadioGroupProps } from '../types';
+import type { RadioProps } from '../Radio';
+import type { RadioGroupProps } from './types';
 
 export const getRadioProps = (
     item: RadioProps,

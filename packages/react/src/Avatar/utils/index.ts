@@ -1,1 +1,0 @@
-export { getBadgePosition } from './getBadgePosition';

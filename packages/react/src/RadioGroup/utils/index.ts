@@ -1,1 +1,0 @@
-export { getRadioProps } from './getRadioProps';

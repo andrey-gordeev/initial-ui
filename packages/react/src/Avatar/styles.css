@@ -1,24 +1,66 @@
 .avatar {
+    --avatar-size: 0;
+    --avatar-radius: 0;
+
     position: relative;
+    inline-size: var(--avatar-size);
+    block-size: var(--avatar-size);
+
+    & > svg {
+        display: block;
+    }
 }
+
+/* Containers */
+
+.avatar__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--avatar-size);
+    block-size: var(--avatar-size);
+    background-color: mediumslateblue;
+}
+
+/* Halo */
+
+.avatar__halo {
+    position: absolute;
+    inset: -4px;
+    pointer-events: none;
+    border: 2px solid forestgreen;
+    border-radius: 50%;
+}
+
+/* Inset */
+
+.avatar__inset {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 2px solid salmon;
+    border-radius: 50%;
+}
+
+/* Badges */
 
 .avatar__badges {
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 0;
-    inline-size: 100%;
-    block-size: 100%;
-    pointer-events: none; /* Позволяет клики проходить через бейджи к аватару */
+    z-index: 1;
+    inline-size: var(--avatar-size);
+    block-size: var(--avatar-size);
+    pointer-events: none;
 }
 
 .avatar__badge {
     position: absolute;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    pointer-events: auto; /* Восстанавливаем клики для бейджей */
-    opacity: 0.5;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
 
     &:after {
         inline-size: 3px;
@@ -29,99 +71,43 @@
     }
 }
 
-/* Позиционирование бейджей по направлениям */
 .avatar__badge--top {
-    position: absolute;
-    inset-block-start: calc(50% - 250px * sin(90deg));
-    inset-inline-start: calc(50% + 250px * cos(90deg));
-    inline-size: 20px;
-    block-size: 20px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Другие стили для бейджа */
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(90deg));
+    inset-inline-start: calc(50% + var(--avatar-radius) * cos(90deg));
 }
 
 .avatar__badge--top-start {
-    position: absolute;
-    inset-block-start: calc(50% - 250px * sin(45deg));
-    inset-inline-start: calc(50% + 250px * cos(45deg));
-    inline-size: 20px;
-    block-size: 20px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Другие стили для бейджа */
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(45deg));
+    inset-inline-start: calc(50% + var(--avatar-radius) * cos(45deg));
 }
 
 .avatar__badge--top-end {
-    position: absolute;
-    inset-block-start: calc(50% - 250px * sin(135deg));
-    inset-inline-start: calc(50% + 250px * cos(135deg));
-    inline-size: 20px;
-    block-size: 20px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Другие стили для бейджа */
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(135deg));
+    inset-inline-start: calc(50% + var(--avatar-radius) * cos(135deg));
 }
 
 .avatar__badge--bottom {
-    position: absolute;
-    inset-block-start: calc(50% - 250px * sin(270deg));
-    inset-inline-start: calc(50% + 250px * cos(270deg));
-    inline-size: 20px;
-    block-size: 20px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Другие стили для бейджа */
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(270deg));
+    inset-inline-start: calc(50% + var(--avatar-radius) * cos(270deg));
 }
 
 .avatar__badge--bottom-start {
     position: absolute;
-    inset-block-start: calc(50% - 250px * sin(225deg));
-    inset-inline-start: calc(50% + 250px * cos(225deg));
-    inline-size: 60px;
-    block-size: 20px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Другие стили для бейджа */
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(225deg));
+    inset-inline-start: calc(50% + var(--avatar-radius) * cos(225deg));
 }
 
 .avatar__badge--bottom-end {
-    position: absolute;
-    inset-block-start: calc(50% - 250px * sin(315deg));
-    inset-inline-start: calc(50% + 250px * cos(315deg));
-    inline-size: 20px;
-    block-size: 60px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Другие стили для бейджа */
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(315deg));
+    inset-inline-start: calc(50% + var(--avatar-radius) * cos(315deg));
 }
 
 .avatar__badge--left {
-    position: absolute;
     inset-block-start: calc(50%);
-    inset-inline-start: calc(50% - 250px);
-    inline-size: 20px;
-    block-size: 20px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Другие стили для бейджа */
+    inset-inline-start: calc(50% - var(--avatar-radius));
 }
 
 .avatar__badge--right {
-    position: absolute;
     inset-block-start: calc(50%);
-    inset-inline-start: calc(50% + 250px);
-    inline-size: 20px;
-    block-size: 20px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    /* Другие стили для бейджа */
+    inset-inline-start: calc(50% + var(--avatar-radius));
 }
