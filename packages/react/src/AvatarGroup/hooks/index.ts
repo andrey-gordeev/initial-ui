@@ -1,0 +1,1 @@
+export { useAvatarGroupLayout } from './useAvatarGroupLayout';
