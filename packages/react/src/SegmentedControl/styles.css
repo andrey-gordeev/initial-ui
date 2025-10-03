@@ -1,0 +1,86 @@
+/**
+ * Segment Control
+ */
+
+.segmented-control {
+    --tab-item-active-indicator-top: 0;
+    --tab-item-active-indicator-left: 0;
+    --tab-item-active-indicator-width: 0;
+    --tab-item-active-indicator-height: 0;
+
+    --tab-item-active-indicator-border-width: 1px;
+    position: relative;
+
+    display: flex;
+    gap: 4px;
+    inline-size: fit-content;
+    padding: 4px;
+    border: var(--tab-item-active-indicator-border-width) solid #ccc;
+
+    &:after {
+        position: absolute;
+        inset-block-start: calc(
+            var(--tab-item-active-indicator-top) -
+                var(--tab-item-active-indicator-border-width)
+        );
+        inset-inline-start: calc(
+            var(--tab-item-active-indicator-left) -
+                var(--tab-item-active-indicator-border-width)
+        );
+        z-index: -1;
+        inline-size: var(--tab-item-active-indicator-width);
+        block-size: var(--tab-item-active-indicator-height);
+        content: '';
+        background-color: #f1f1f1;
+        transition-timing-function: ease;
+        transition-duration: 0.3s;
+        transition-property: left, width;
+    }
+}
+
+/**
+ * Segment
+ */
+
+.segment {
+    padding: 4px;
+
+    & > input[type='radio'] {
+        all: unset;
+        /* sr-only */
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        white-space: nowrap;
+        appearance: none;
+        border-width: 0;
+        clip: rect(0, 0, 0, 0);
+
+        &:focus-visible {
+        }
+    }
+
+    &:has(> input[type='radio']:checked) {
+        outline: 1px dotted crimson;
+        outline-offset: -1px;
+    }
+}
+
+.segment--selected {
+    color: #999;
+}
+
+.segment--disabled {
+    color: #ccc;
+}
+
+.segment__label {
+    display: block;
+}
+
+.segment__description {
+    display: block;
+}
