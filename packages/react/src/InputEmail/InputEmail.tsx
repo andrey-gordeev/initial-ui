@@ -1,9 +1,9 @@
 import FormControl, { FormControlProps } from '../FormControl';
 import Input, { InputProps } from '../Input';
-import { InputTextProps } from './types';
+import { InputEmailProps } from './types';
 import './styles.css';
 
-export const InputText = ({
+export const InputEmail = ({
     value,
     label,
     placeholder,
@@ -11,7 +11,7 @@ export const InputText = ({
     error,
     isDisabled,
     ...props
-}: InputTextProps) => {
+}: InputEmailProps) => {
     const controlProps: FormControlProps = {
         label,
         hint,
@@ -27,7 +27,7 @@ export const InputText = ({
 
     return (
         <FormControl {...controlProps}>
-            <Input type="text" {...inputProps} />
+            <Input type="email" {...inputProps} />
         </FormControl>
     );
 };
