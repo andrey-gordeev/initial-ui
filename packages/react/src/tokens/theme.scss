@@ -1,6 +1,9 @@
 // Design Tokens - Base Theme
 // Источник: Style Dictionary (Figma → Style Dictionary → CSS Custom Properties)
 
+@use './tokens-light.css';
+@use './tokens-dark.css';
+
 :root {
     // Base Colors
     --iui-color-primary: #8b5cf6;

@@ -7,6 +7,9 @@
   },
   "devDependencies": {
     "@svgr/cli": "^8.1.0",
+    "@terrazzo/cli": "^0.10.3",
+    "@terrazzo/plugin-css": "^0.10.4",
+    "@terrazzo/plugin-js": "^0.10.3",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "postcss-scss": "^4.0.9",
