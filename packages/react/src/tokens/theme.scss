@@ -5,15 +5,6 @@
 @use './tokens-dark.css';
 
 :root {
-    // Base Colors
-    --iui-color-primary: #8b5cf6;
-    --iui-color-secondary: #393939;
-    --iui-color-danger: #da1e28;
-    --iui-color-success: #198038;
-    --iui-color-warning: #f1c21b;
-    --iui-color-info: #0f62fe;
-    --iui-color-link: #0f62fe;
-
     // Neutral Colors
     --iui-color-white: #ffffff;
     --iui-color-black: #000000;
@@ -48,31 +39,9 @@
 
     // Focus Colors
     --iui-color-focus: var(--iui-color-primary);
-
-    // Spacing (будут добавлены при необходимости)
-    // --iui-spacing-xs: 4px;
-    // --iui-spacing-sm: 8px;
-    // --iui-spacing-md: 16px;
-    // --iui-spacing-lg: 24px;
-    // --iui-spacing-xl: 32px;
-
-    // Typography (будут добавлены при необходимости)
-    // --iui-font-family-primary: 'IBM Plex Sans', sans-serif;
-    // --iui-font-size-sm: 12px;
-    // --iui-font-size-base: 14px;
-    // --iui-font-size-lg: 16px;
 }
 
 [data-theme='dark'] {
-    // Base Colors (темные версии)
-    --iui-color-primary: #a78bfa;
-    --iui-color-secondary: #6f6f6f;
-    --iui-color-danger: #ff8389;
-    --iui-color-success: #42be65;
-    --iui-color-warning: #fdd13a;
-    --iui-color-info: #78a9ff;
-    --iui-color-link: #78a9ff;
-
     // Text Colors (инвертированы)
     --iui-color-text-primary: var(--iui-color-white);
     --iui-color-text-secondary: var(--iui-color-gray-30);

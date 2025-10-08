@@ -3,7 +3,10 @@ import css from '@terrazzo/plugin-css';
 import js from '@terrazzo/plugin-js';
 
 export default defineConfig({
-  tokens: ['./packages/react/src/tokens/tokens.json'],
+  tokens: [
+    './packages/react/src/tokens/tokens-light.json',
+    './packages/react/src/tokens/tokens-dark.json',
+  ],
   plugins: [
     css({
       filename: 'tokens-light.css',
@@ -12,10 +15,6 @@ export default defineConfig({
     css({
       filename: 'tokens-dark.css',
       baseSelector: '[data-theme="dark"]',
-      filter: (token) => {
-        // Включаем только темные токены для [data-theme="dark"]
-        return token.path.includes('dark');
-      },
     }),
     // js({
     //   js: 'tokens.js',

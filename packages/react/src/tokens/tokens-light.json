@@ -1,0 +1,43 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "iui": {
+    "spacing": {
+      "xs": { "$type": "dimension", "$value": "4px" },
+      "sm": { "$type": "dimension", "$value": "8px" },
+      "md": { "$type": "dimension", "$value": "16px" },
+      "lg": { "$type": "dimension", "$value": "24px" },
+      "xl": { "$type": "dimension", "$value": "32px" }
+    },
+    "color": {
+      "primary": { "$type": "color", "$value": "#8b5cf6" },
+      "secondary": { "$type": "color", "$value": "#393939" },
+      "danger": { "$type": "color", "$value": "#da1e28" },
+      "success": { "$type": "color", "$value": "#198038" },
+      "warning": { "$type": "color", "$value": "#f1c21b" },
+      "info": { "$type": "color", "$value": "#0f62fe" },
+      "link": { "$type": "color", "$value": "#0f62fe" },
+      "background": { "$type": "color", "$value": "#ffffff" },
+      "text": { "$type": "color", "$value": "#111111" }
+    },
+    "token": {
+      "button": {
+        "primary": {
+          "color": { "$type": "color", "$value": "{iui.color.primary}" }
+        },
+        "secondary": {
+          "color": { "$type": "color", "$value": "{iui.color.secondary}" }
+        },
+        "tertiary": {
+          "color": { "$type": "color", "$value": "{iui.color.secondary}" }
+        },
+        "danger": {
+          "color": { "$type": "color", "$value": "{iui.color.danger}" }
+        },
+        "link": {
+          "color": { "$type": "color", "$value": "{iui.color.link}" }
+        }
+      }
+    }
+  }
+}
+

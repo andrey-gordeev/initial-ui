@@ -3,14 +3,24 @@
  * ------------------------------------------- */
 
 [data-theme="dark"] {
-  --iui-color-background-dark: color(srgb 0.06666666666666667 0.06666666666666667 0.06666666666666667);
-  --iui-color-background-light: color(srgb 1 1 1);
-  --iui-color-text-dark: color(srgb 1 1 1);
-  --iui-color-text-light: color(srgb 0.06666666666666667 0.06666666666666667 0.06666666666666667);
+  --iui-color-background: color(srgb 0.06666666666666667 0.06666666666666667 0.06666666666666667);
+  --iui-color-danger: color(srgb 1 0.5137254901960784 0.5372549019607843);
+  --iui-color-info: color(srgb 0.47058823529411764 0.6627450980392157 1);
+  --iui-color-link: color(srgb 0.47058823529411764 0.6627450980392157 1);
+  --iui-color-primary: color(srgb 0.6549019607843137 0.5450980392156862 0.9803921568627451);
+  --iui-color-secondary: color(srgb 0.43529411764705883 0.43529411764705883 0.43529411764705883);
+  --iui-color-success: color(srgb 0.25882352941176473 0.7450980392156863 0.396078431372549);
+  --iui-color-text: color(srgb 1 1 1);
+  --iui-color-warning: color(srgb 0.9921568627450981 0.8196078431372549 0.22745098039215686);
   --iui-spacing-lg: 24px;
   --iui-spacing-md: 16px;
   --iui-spacing-sm: 8px;
   --iui-spacing-xl: 32px;
   --iui-spacing-xs: 4px;
+  --iui-token-button-danger-color: var(--iui-color-danger);
+  --iui-token-button-link-color: var(--iui-color-link);
+  --iui-token-button-primary-color: var(--iui-color-primary);
+  --iui-token-button-secondary-color: var(--iui-color-secondary);
+  --iui-token-button-tertiary-color: var(--iui-color-secondary);
 }
 
