@@ -3,7 +3,7 @@
     "ladle": "ladle serve",
     "lint:styles": "stylelint 'packages/**/*.{css,scss}'",
     "lint:styles:fix": "stylelint 'packages/**/*.{css,scss}' --fix",
-    "generate:icons": "generate:icons"
+    "generate:icons": "node packages/react/scripts/generate-icons.js"
   },
   "devDependencies": {
     "@svgr/cli": "^8.1.0",

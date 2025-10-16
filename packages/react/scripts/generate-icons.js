@@ -144,7 +144,7 @@ export default ${componentName};
  */
 function updateTypesFile(iconNames) {
     const iconNamesObject = iconNames
-        .map((name) => `  ${name}: '${name}',`)
+        .map((name) => `  ['${name}']: '${name}',`)
         .join('\n');
 
     const typesContent = `// Icon Component Types
@@ -224,7 +224,7 @@ function updateRegistryFile(iconNames) {
         .join('\n');
 
     const registryObject = iconNames
-        .map((name) => `  ${name}: ${toPascalCase(name)}Icon,`)
+        .map((name) => `  ['${name}']: ${toPascalCase(name)}Icon,`)
         .join('\n');
 
     const registryContent = `import React from 'react';
