@@ -1,0 +1,48 @@
+.tooltip-container {
+    inline-size: fit-content;
+    padding: 8px;
+    border: 1px dotted #999;
+    filter: drop-shadow(0 1px 2px rgba(60, 64, 67, 0.3))
+        drop-shadow(0 1px 3px rgba(60, 64, 67, 0.15));
+}
+
+.tooltip {
+    --r: 12px; /* радиус углов */
+    --offset: 8px; /* место под хвостик */
+    --tailWidth: 16px; /* ширина хвостика */
+    --tailHeight: 8px; /* высота хвостика */
+    --paddingX: 16px; /* горизонтальный padding */
+    --paddingY: 12px; /* вертикальный padding */
+    inline-size: fit-content;
+    max-inline-size: 220px;
+
+    padding: var(--paddingY) var(--paddingX)
+        calc(var(--paddingY) + var(--offset));
+    color: #000;
+    text-wrap: balance;
+
+    background-color: #fff;
+
+    clip-path: shape(
+        from var(--r) 0,
+
+        /* верх и правый верхний угол */ hline to calc(100% - var(--r)),
+        curve to 100% var(--r) with 100% 0,
+
+        /* правая сторона и правый нижний угол */ vline to
+            calc(100% - var(--r) - var(--offset)),
+        curve to calc(100% - var(--r)) calc(100% - var(--offset)) with 100%
+            calc(100% - var(--offset)),
+        /* нижняя грань с хвостиком по центру */ hline to
+            calc(50% + (var(--tailWidth) / 2)),
+        line to 50% calc(100% - var(--offset) + var(--tailHeight)),
+        line to calc(50% - (var(--tailWidth) / 2)) calc(100% - var(--offset)),
+        /* левая сторона нижнего края */ hline to var(--r),
+        curve to 0 calc(100% - var(--r) - var(--offset)) with 0
+            calc(100% - var(--offset)),
+        /* левая сторона и верхний левый угол */ vline to var(--r),
+        curve to var(--r) 0 with 0 0,
+
+        close
+    );
+}
