@@ -1,0 +1,10 @@
+.chip {
+    all: unset;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+}
+
+.chip--selected {
+
+}
