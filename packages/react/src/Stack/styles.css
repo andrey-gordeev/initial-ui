@@ -2,3 +2,15 @@
     display: flex;
     gap: 16px;
 }
+
+/**
+ * Direction
+ */
+
+.stack--direction-horizontal {
+    flex-direction: row;
+}
+
+.stack--direction-vertical {
+    flex-direction: column;
+}
