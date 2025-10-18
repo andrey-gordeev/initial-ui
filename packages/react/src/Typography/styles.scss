@@ -1,0 +1,84 @@
+@import '../tokens/font-family-rubik.css';
+@import '../tokens/font-stack.scss';
+
+$system-stack: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro;
+$emoji-stack:
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+/**
+ * Heading
+ */
+
+/* Display */
+
+.iui-display-1 {
+    @include font-stack('Rubik', $system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-display-2 {
+    @include font-stack('Rubik', $system-stack, sans-serif, $emoji-stack);
+}
+
+/* Headline */
+
+.iui-headline-1 {
+    @include font-stack('Rubik', $system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-headline-2 {
+    @include font-stack('Rubik', $system-stack, sans-serif, $emoji-stack);
+}
+
+/* Title */
+
+.iui-title-1 {
+    @include font-stack('Rubik', $system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-title-2 {
+    @include font-stack('Rubik', $system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-title-3 {
+    @include font-stack('Rubik', $system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-body {
+    @include font-stack($system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-label {
+    @include font-stack($system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-action {
+    @include font-stack('Rubik', $system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-overline {
+    @include font-stack($system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-meta {
+    @include font-stack($system-stack, sans-serif, $emoji-stack);
+}
+
+.iui-caption {
+    @include font-stack($system-stack, sans-serif, $emoji-stack);
+}
+
+/**
+ * Alignment
+ */
+
+.iui-text-align-start {
+    text-align: start;
+}
+
+.iui-text-align-end {
+    text-align: end;
+}
+
+.iui-text-align-center {
+    text-align: center;
+}

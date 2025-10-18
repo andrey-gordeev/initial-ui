@@ -1,0 +1,33 @@
+/**
+ * @param $custom-font - название кастомного шрифта (например "Rubik")
+ * @param $system-stack - список системных шрифтов (например "Avenir", "Segoe UI", Roboto)
+ * @param $generic-family - generic family ("sans-serif" или "serif")
+ * @param $emoji-stack - fallback для эмодзи
+ */
+
+@mixin font-stack(
+    $custom-font,
+    $system-stack: null,
+    $generic-family: sans-serif,
+    $emoji-stack: null
+) {
+    $fonts: ();
+
+    @if $custom-font {
+        $fonts: append($fonts, $custom-font, comma);
+    }
+
+    @if $system-stack {
+        $fonts: append($fonts, $system-stack, comma);
+    }
+
+    @if $generic-family {
+        $fonts: append($fonts, $generic-family, comma);
+    }
+
+    @if $emoji-stack {
+        $fonts: append($fonts, $emoji-stack, comma);
+    }
+
+    font-family: $fonts;
+}

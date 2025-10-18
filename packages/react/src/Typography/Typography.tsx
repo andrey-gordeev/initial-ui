@@ -11,27 +11,59 @@ import {
     TextProps,
     TitleProps,
 } from './types';
-import './styles.css';
+import './styles.scss';
 
-export const Display = ({ children }: DisplayProps) => {
+export const Display1 = ({ children }: DisplayProps) => {
     return (
-        <Text className="iui-display" as="h1">
+        <Text className="iui-display-1" as="h1">
             {children}
         </Text>
     );
 };
 
-export const Headline = ({ children }: HeadlineProps) => {
+export const Display2 = ({ children }: DisplayProps) => {
     return (
-        <Text className="iui-headline" as="h2">
+        <Text className="iui-display-2" as="h1">
             {children}
         </Text>
     );
 };
 
-export const Title = ({ children }: TitleProps) => {
+export const Headline1 = ({ children }: HeadlineProps) => {
     return (
-        <Text className="iui-title" as="h3">
+        <Text className="iui-headline-1" as="h2">
+            {children}
+        </Text>
+    );
+};
+
+export const Headline2 = ({ children }: HeadlineProps) => {
+    return (
+        <Text className="iui-headline-2" as="h3">
+            {children}
+        </Text>
+    );
+};
+
+export const Title1 = ({ children }: TitleProps) => {
+    return (
+        <Text className="iui-title-1" as="h4">
+            {children}
+        </Text>
+    );
+};
+
+export const Title2 = ({ children }: TitleProps) => {
+    return (
+        <Text className="iui-title-2" as="h5">
+            {children}
+        </Text>
+    );
+};
+
+export const Title3 = ({ children }: TitleProps) => {
+    return (
+        <Text className="iui-title-3" as="h6">
             {children}
         </Text>
     );
