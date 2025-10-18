@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { Action } from '../Typography';
 import { Icon } from '../Icon';
 import { ButtonProps, ButtonVariant } from './types';
 import './styles.scss';
@@ -30,7 +31,7 @@ export const Button = ({
     return (
         <button className={className} disabled={isDisabled} onClick={onClick}>
             <Icon name={'add'} />
-            {'Button'}
+            <Action>Button</Action>
         </button>
     );
 };

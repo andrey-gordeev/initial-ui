@@ -1,0 +1,33 @@
+@import '../tokens/fonts.css';
+
+.iui-body {
+    font-family:
+        'Rubik',
+        system-ui,
+        -apple-system,
+        'Segoe UI',
+        Roboto,
+        sans-serif;
+}
+
+.iui-action {
+    font-family:
+        'Rubik',
+        system-ui,
+        -apple-system,
+        'Segoe UI',
+        Roboto,
+        sans-serif;
+}
+
+.iui-text-align-start {
+    text-align: start;
+}
+
+.iui-text-align-end {
+    text-align: end;
+}
+
+.iui-text-align-center {
+    text-align: center;
+}

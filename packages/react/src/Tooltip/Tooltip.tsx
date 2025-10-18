@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { Body } from '../Typography';
 import { TooltipProps } from './types';
 import './styles.scss';
 
@@ -10,7 +11,7 @@ export const Tooltip = ({ text, placement = 'top' }: TooltipProps) => {
     return (
         <div className="tooltip-container">
             <div className={className}>
-                <div>{text}</div>
+                <Body>{text}</Body>
             </div>
         </div>
     );
