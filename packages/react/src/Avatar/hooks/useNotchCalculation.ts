@@ -1,5 +1,5 @@
 import { useMemo, RefObject } from 'react';
-import { BadgeDimensions, BadgeProps } from '../types';
+import { BadgeDimensions, AvatarBadgeProps } from '../types';
 
 type NotchData = {
     x: number;
@@ -11,7 +11,7 @@ type NotchData = {
 
 export const useNotchCalculation = (
     badgeDimensions: BadgeDimensions[],
-    badges: BadgeProps[],
+    badges: AvatarBadgeProps[],
     avatarRef: RefObject<HTMLDivElement>,
 ) => {
     return useMemo(() => {

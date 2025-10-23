@@ -8,7 +8,7 @@ import {
     AVATAR_BADGE_PLACEMENTS,
     AVATAR_SIZES,
 } from '../../react/src/Avatar/constants';
-import { AvatarSize, BadgeProps } from '../../react/src/Avatar/types';
+import { AvatarSize, AvatarBadgeProps } from '../../react/src/Avatar/types';
 
 export const Overview = () => {
     const badgeCentrePoint = (
@@ -44,7 +44,7 @@ export const Overview = () => {
                                     placement: item,
                                     gap: 4,
                                     content: badgeCentrePoint,
-                                }) as BadgeProps,
+                                }) as AvatarBadgeProps,
                         )}
                     >
                         [AV]

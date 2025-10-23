@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
-import { BadgeDimensions, BadgeProps } from '../types';
+import { BadgeDimensions, AvatarBadgeProps } from '../types';
 
-export const useBadgeMeasurements = (badges: BadgeProps[]) => {
+export const useBadgeMeasurements = (badges: AvatarBadgeProps[]) => {
     const badgeRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [dimensions, setDimensions] = useState<BadgeDimensions[]>([]);
     const [isMeasuring, setIsMeasuring] = useState(true);
