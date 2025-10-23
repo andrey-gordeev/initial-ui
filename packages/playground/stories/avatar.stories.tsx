@@ -9,6 +9,7 @@ import {
     AVATAR_SIZES,
 } from '../../react/src/Avatar/constants';
 import { AvatarSize, AvatarBadgeProps } from '../../react/src/Avatar/types';
+import Badge from '../../react/src/Badge';
 
 export const Overview = () => {
     const badgeCentrePoint = (
@@ -53,7 +54,10 @@ export const Overview = () => {
             </ShowcaseItem>
             <ShowcaseItem label="halo">
                 <Avatar
-                    badges={{ placement: 'top-end', content: badgeCentrePoint }}
+                    badges={{
+                        placement: 'top-end',
+                        content: <Badge text="9" />,
+                    }}
                     halo={true}
                 >
                     [AV]
@@ -61,7 +65,10 @@ export const Overview = () => {
             </ShowcaseItem>
             <ShowcaseItem label="inset">
                 <Avatar
-                    badges={{ placement: 'top-end', content: badgeCentrePoint }}
+                    badges={{
+                        placement: 'top-end',
+                        content: <Badge text="9" />,
+                    }}
                     inset={true}
                 >
                     [AV]
