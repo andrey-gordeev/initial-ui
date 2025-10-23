@@ -45,31 +45,16 @@ export const Overview = () => {
                 </div>
             </ShowcaseItem>
             <Stack>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                    <button onClick={() => handle('top')}>top</button>
-                    <button onClick={() => handle('top-start')}>
-                        top-start
-                    </button>
-                    <button onClick={() => handle('top-end')}>top-end</button>
-                    <button onClick={() => handle('bottom')}>bottom</button>
-                    <button onClick={() => handle('bottom-start')}>
-                        bottom-start
-                    </button>
-                    <button onClick={() => handle('bottom-end')}>
-                        bottom-end
-                    </button>
-                    <button onClick={() => handle('left')}>left</button>
-                    <button onClick={() => handle('right')}>right</button>
-                </div>
-                <div
-                    style={{
-                        marginTop: '8px',
-                        fontSize: '14px',
-                        color: '#666',
-                    }}
-                >
-                    Current placement: <strong>{placement}</strong>
-                </div>
+                <button onClick={() => handle('top')}>top</button>
+                <button onClick={() => handle('top-start')}>top-start</button>
+                <button onClick={() => handle('top-end')}>top-end</button>
+                <button onClick={() => handle('bottom')}>bottom</button>
+                <button onClick={() => handle('bottom-start')}>
+                    bottom-start
+                </button>
+                <button onClick={() => handle('bottom-end')}>bottom-end</button>
+                <button onClick={() => handle('left')}>left</button>
+                <button onClick={() => handle('right')}>right</button>
             </Stack>
         </Showcase>
     );
