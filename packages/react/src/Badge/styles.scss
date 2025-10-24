@@ -1,0 +1,61 @@
+@use '../Typography/styles' as *;
+
+.iui-badge {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background-color: #6f6f6f;
+    border-radius: 999px;
+}
+
+/* Color */
+
+.iui-badge--color-danger {
+    color: var(--iui-color-danger);
+}
+
+.iui-badge--color-success {
+    color: var(--iui-color-success);
+}
+
+.iui-badge--color-warning {
+    color: var(--iui-color-warning);
+}
+
+.iui-badge--color-info {
+    color: var(--iui-color-info);
+}
+
+/* Size */
+
+.iui-badge--size-sm {
+    min-inline-size: 18px;
+    padding-block: 1px;
+    padding-inline: 4px;
+
+    .iui-badge__text {
+        @include font-label-1;
+    }
+}
+
+.iui-badge--size-md {
+    min-inline-size: 20px;
+    padding-block: 2px;
+    padding-inline: 5px;
+
+    .iui-badge__text {
+        @include font-label-2;
+    }
+}
+
+.iui-badge--size-lg {
+    min-inline-size: 24px;
+    padding-block: 4px;
+    padding-inline: 7px;
+
+    .iui-badge__text {
+        @include font-label-3;
+    }
+}
