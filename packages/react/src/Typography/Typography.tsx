@@ -77,9 +77,25 @@ export const Body = ({ children }: BodyProps) => {
     );
 };
 
-export const Label = ({ children }: LabelProps) => {
+export const Label1 = ({ children }: LabelProps) => {
     return (
-        <Text className="iui-label" as="p">
+        <Text className="iui-label-1" as="p">
+            {children}
+        </Text>
+    );
+};
+
+export const Label2 = ({ children }: LabelProps) => {
+    return (
+        <Text className="iui-label-2" as="p">
+            {children}
+        </Text>
+    );
+};
+
+export const Label3 = ({ children }: LabelProps) => {
+    return (
+        <Text className="iui-label-3" as="p">
             {children}
         </Text>
     );

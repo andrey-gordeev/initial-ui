@@ -47,8 +47,34 @@ $emoji-stack:
     @include font-stack($system-stack, sans-serif, $emoji-stack);
 }
 
-.iui-label {
-    @include font-stack($system-stack, sans-serif, $emoji-stack);
+@mixin font-label-1 {
+    @include font-stack($system-stack, sans-serif);
+    font-size: 11px;
+    line-height: 16px;
+}
+
+.iui-label-1 {
+    @include font-label-1();
+}
+
+@mixin font-label-2 {
+    @include font-stack($system-stack, sans-serif);
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.iui-label-2 {
+    @include font-label-2();
+}
+
+@mixin font-label-3 {
+    @include font-stack($system-stack, sans-serif);
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.iui-label-3 {
+    @include font-label-3();
 }
 
 .iui-action {

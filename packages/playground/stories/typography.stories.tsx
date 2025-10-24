@@ -7,7 +7,9 @@ import {
     Display2,
     Headline1,
     Headline2,
-    Label,
+    Label1,
+    Label2,
+    Label3,
     Meta,
     Overline,
     Title1,
@@ -44,8 +46,14 @@ export const Overview = () => {
             <ShowcaseItem label="Body">
                 <Body>{sample}</Body>
             </ShowcaseItem>
-            <ShowcaseItem label="Label">
-                <Label>{sample}</Label>
+            <ShowcaseItem label="Label 1">
+                <Label1>{sample}</Label1>
+            </ShowcaseItem>
+            <ShowcaseItem label="Label 2">
+                <Label2>{sample}</Label2>
+            </ShowcaseItem>
+            <ShowcaseItem label="Label 3">
+                <Label3>{sample}</Label3>
             </ShowcaseItem>
             <ShowcaseItem label="Action">
                 <Action>{sample}</Action>
