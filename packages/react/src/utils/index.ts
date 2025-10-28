@@ -1,0 +1,1 @@
+export { createElementTypeGuard } from './createElementTypeGuard';
