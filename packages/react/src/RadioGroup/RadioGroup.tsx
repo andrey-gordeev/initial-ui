@@ -1,11 +1,10 @@
 import {
     type ChangeEvent,
-    type ReactElement,
     type ReactNode,
     Children,
     cloneElement,
-    isValidElement,
 } from 'react';
+import { createElementTypeGuard } from '../utils';
 import Radio, { RadioProps } from '../Radio';
 import { useRadioGroupName } from './hooks';
 import { getRadioProps } from './utils';
@@ -28,6 +27,8 @@ export const RadioGroup = ({
         groupOnChange?.(event.target.value);
         itemOnChange?.(event);
     };
+
+    const isValidRadio = createElementTypeGuard<RadioProps>('Radio');
 
     let renderedOptions: ReactNode;
     if (options) {
@@ -52,10 +53,9 @@ export const RadioGroup = ({
     }
     if (children) {
         renderedOptions = Children.map(children, (child) => {
-            if (!isValidElement(child)) return child;
-            if ((child.type as any).displayName !== 'Radio') return child;
+            if (!isValidRadio(child)) return child;
 
-            const element = child as ReactElement<RadioProps>;
+            const element = child;
 
             const { isRadioControlled, isChecked, defaultChecked } =
                 getRadioProps(element.props, selectedValue);
