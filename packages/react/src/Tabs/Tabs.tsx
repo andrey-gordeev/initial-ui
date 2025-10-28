@@ -9,12 +9,11 @@ import React, {
     useEffect,
     Children,
     CSSProperties,
-    ReactElement,
-    isValidElement,
     cloneElement,
     RefObject,
 } from 'react';
 import clsx from 'clsx';
+import { createElementTypeGuard } from '../utils';
 import {
     PanelListProps,
     PanelProps,
@@ -71,87 +70,86 @@ export const Tab = ({ id, label, isDisabled, ref }: TabProps) => {
     const internalRef = useRef<HTMLButtonElement>(null);
     const buttonRef = (ref || internalRef) as RefObject<HTMLButtonElement>;
 
-        useEffect(() => {
-            if (buttonRef.current)
-                registerTab(id, buttonRef.current, isDisabled);
-        }, [id, isDisabled, registerTab]);
+    useEffect(() => {
+        if (buttonRef.current) registerTab(id, buttonRef.current, isDisabled);
+    }, [id, isDisabled, registerTab]);
 
-        // Регистрируем элемент для маркера
-        useEffect(() => {
-            const registerElement = () => {
-                if (buttonRef.current && tabsRef.current) {
-                    // В children сценарии tabs может быть пустым, используем прямую регистрацию
-                    if (tabs.length === 0) {
-                        // Находим свободный слот в массиве
-                        const freeIndex = tabsRef.current.findIndex(
-                            (ref) => ref === null,
-                        );
-                        if (freeIndex !== -1) {
-                            tabsRef.current[freeIndex] = buttonRef.current;
-                        } else {
-                            // Добавляем в конец массива
-                            tabsRef.current.push(buttonRef.current);
-                        }
+    // Регистрируем элемент для маркера
+    useEffect(() => {
+        const registerElement = () => {
+            if (buttonRef.current && tabsRef.current) {
+                // В children сценарии tabs может быть пустым, используем прямую регистрацию
+                if (tabs.length === 0) {
+                    // Находим свободный слот в массиве
+                    const freeIndex = tabsRef.current.findIndex(
+                        (ref) => ref === null,
+                    );
+                    if (freeIndex !== -1) {
+                        tabsRef.current[freeIndex] = buttonRef.current;
                     } else {
-                        // В props сценарии используем индекс из массива tabs
-                        const tabIndex = tabs.findIndex((tab) => tab.id === id);
-                        if (tabIndex !== -1) {
-                            tabsRef.current[tabIndex] = buttonRef.current;
-                        }
+                        // Добавляем в конец массива
+                        tabsRef.current.push(buttonRef.current);
+                    }
+                } else {
+                    // В props сценарии используем индекс из массива tabs
+                    const tabIndex = tabs.findIndex((tab) => tab.id === id);
+                    if (tabIndex !== -1) {
+                        tabsRef.current[tabIndex] = buttonRef.current;
                     }
                 }
-            };
-
-            // Пробуем зарегистрировать сразу
-            registerElement();
-
-            // Если не получилось, пробуем через небольшую задержку
-            if (!buttonRef.current || !tabsRef.current) {
-                const timeoutId = setTimeout(registerElement, 0);
-                return () => clearTimeout(timeoutId);
-            }
-        }, [id, buttonRef, tabsRef, tabs]);
-
-        const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-            if (isDisabled) return;
-
-            switch (e.key) {
-                case 'Enter':
-                case ' ':
-                    e.preventDefault();
-                    setActiveId(id); // только при Enter/Space
-                    break;
-                case 'ArrowRight':
-                    e.preventDefault();
-                    focusNextTab(id); // только фокус
-                    break;
-                case 'ArrowLeft':
-                    e.preventDefault();
-                    focusPrevTab(id); // только фокус
-                    break;
             }
         };
 
-        return (
-            <button
-                ref={buttonRef}
-                role="tab"
-                aria-selected={activeId === id}
-                aria-controls={`panel-${id}`}
-                id={`tab-${id}`}
-                data-tab-id={id}
-                tabIndex={activeId === id ? 0 : -1}
-                disabled={isDisabled}
-                onClick={() => !isDisabled && setActiveId(id)}
-                onKeyDown={handleKeyDown}
-                className={clsx('tab-item', {
-                    'tab-item--active': activeId === id,
-                    'tab-item--disabled': isDisabled,
-                })}
-            >
-                {label}
-            </button>
-        );
+        // Пробуем зарегистрировать сразу
+        registerElement();
+
+        // Если не получилось, пробуем через небольшую задержку
+        if (!buttonRef.current || !tabsRef.current) {
+            const timeoutId = setTimeout(registerElement, 0);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [id, buttonRef, tabsRef, tabs]);
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+        if (isDisabled) return;
+
+        switch (e.key) {
+            case 'Enter':
+            case ' ':
+                e.preventDefault();
+                setActiveId(id); // только при Enter/Space
+                break;
+            case 'ArrowRight':
+                e.preventDefault();
+                focusNextTab(id); // только фокус
+                break;
+            case 'ArrowLeft':
+                e.preventDefault();
+                focusPrevTab(id); // только фокус
+                break;
+        }
+    };
+
+    return (
+        <button
+            ref={buttonRef}
+            role="tab"
+            aria-selected={activeId === id}
+            aria-controls={`panel-${id}`}
+            id={`tab-${id}`}
+            data-tab-id={id}
+            tabIndex={activeId === id ? 0 : -1}
+            disabled={isDisabled}
+            onClick={() => !isDisabled && setActiveId(id)}
+            onKeyDown={handleKeyDown}
+            className={clsx('tab-item', {
+                'tab-item--active': activeId === id,
+                'tab-item--disabled': isDisabled,
+            })}
+        >
+            {label}
+        </button>
+    );
 };
 
 Tab.displayName = 'Tab';
@@ -203,9 +201,10 @@ Panel.displayName = 'Panel';
 // -------------------
 export const PanelList = ({ children }: PanelListProps) => {
     const { activeId } = useTabs();
+    const isValidPanel = createElementTypeGuard<PanelProps>('Panel');
+
     return Children.map(children, (child) => {
-        if (!isValidElement(child)) return null;
-        if ((child.type as any).displayName !== 'Panel') return null;
+        if (!isValidPanel(child)) return null;
         return cloneElement(child, {
             hidden: child.props.id !== activeId,
         });
@@ -235,20 +234,21 @@ export const Tabs: TabsComponent = (props) => {
             const childrenArr = Children.toArray(
                 (props as TabsPropsWithChildren).children,
             );
-            const tabs = childrenArr
-                .filter(
-                    (child) =>
-                        isValidElement(child) &&
-                        (child.type as any).displayName === 'Tab',
-                )
-                .map((child) => (child as ReactElement<TabProps>).props);
-            const panels = childrenArr
-                .filter(
-                    (child) =>
-                        isValidElement(child) &&
-                        (child.type as any).displayName === 'Panel',
-                )
-                .map((child) => (child as ReactElement<PanelProps>).props);
+
+            const isValidTab = createElementTypeGuard<TabProps>('Tab');
+            const isValidPanel = createElementTypeGuard<PanelProps>('Panel');
+
+            const tabs: TabProps[] = [];
+            const panels: PanelProps[] = [];
+
+            for (const child of childrenArr) {
+                if (isValidTab(child)) {
+                    tabs.push(child.props);
+                } else if (isValidPanel(child)) {
+                    panels.push(child.props);
+                }
+            }
+
             return { tabs, panels };
         }
     }, [props]);
