@@ -1,1 +1,3 @@
-export { Showcase, ShowcaseItem, ShowcaseVariant } from './Showcase';
+import { Showcase } from './Showcase';
+
+export default Showcase;

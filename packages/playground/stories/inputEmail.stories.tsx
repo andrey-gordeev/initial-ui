@@ -1,51 +1,47 @@
-import {
-    Showcase,
-    ShowcaseItem,
-    ShowcaseVariant,
-} from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import InputEmail from '../../react/src/InputEmail';
 
 export const Overview = () => {
     return (
         <Showcase>
-            <ShowcaseItem label="default">
-                <ShowcaseVariant>
+            <Showcase.Item label="default">
+                <Showcase.Variant>
                     <InputEmail />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="label, hint">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="label, hint">
+                <Showcase.Variant>
                     <InputEmail label="Email Address" />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputEmail
                         label="Email Address"
                         placeholder="e.g. john@example.com"
                         hint="We'll use this to send you important updates"
                     />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputEmail
                         label="Email Address"
                         placeholder="e.g. john@example.com"
                         value="john.doe@example.com"
                         hint="Enter your email address as it appears on official documents."
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="isDisabled">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="isDisabled">
+                <Showcase.Variant>
                     <InputEmail label="Email Address" isDisabled={true} />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputEmail
                         label="Email Address"
                         placeholder="e.g. john@example.com"
                         hint="We'll use this to send you important updates"
                         isDisabled={true}
                     />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputEmail
                         label="Email Address"
                         placeholder="e.g. john@example.com"
@@ -53,21 +49,21 @@ export const Overview = () => {
                         hint="Enter your email address as it appears on official documents."
                         isDisabled={true}
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="error">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="error">
+                <Showcase.Variant>
                     <InputEmail label="Email Address" />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputEmail
                         label="Email Address"
                         placeholder="e.g. john@example.com"
                         hint="We'll use this to send you important updates"
                         error="This field is required"
                     />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputEmail
                         label="Email Address"
                         placeholder="e.g. john@example.com"
@@ -75,8 +71,8 @@ export const Overview = () => {
                         hint="Enter your email address as it appears on official documents."
                         error="Please enter a valid email address format."
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
+                </Showcase.Variant>
+            </Showcase.Item>
         </Showcase>
     );
 };

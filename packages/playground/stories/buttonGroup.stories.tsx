@@ -1,16 +1,16 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import ButtonGroup from '../../react/src/ButtonGroup';
 import Button from '../../react/src/Button';
 
 export const Overview = () => {
     return (
-        <Showcase>
-            <ShowcaseItem>
+        <Showcase label="ButtonGroup">
+            <Showcase.Item>
                 <ButtonGroup>
                     <Button variant="primary" />
                     <Button variant="secondary" />
                 </ButtonGroup>
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

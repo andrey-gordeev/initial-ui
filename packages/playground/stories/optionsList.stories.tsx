@@ -1,18 +1,18 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import OptionsList, { Option } from '../../react/src/OptionsList';
 
 export const Overview = () => {
     return (
         <Showcase>
-            <ShowcaseItem label="With children (only Option elements)">
+            <Showcase.Item label="With children (only Option elements)">
                 <OptionsList>
                     <Option label="Option 1" />
                     <Option label="Option 2" />
                     <Option label="Option 3" />
                 </OptionsList>
-            </ShowcaseItem>
+            </Showcase.Item>
 
-            <ShowcaseItem label="With options array">
+            <Showcase.Item label="With options array">
                 <OptionsList
                     options={[
                         { label: 'Option A' },
@@ -20,9 +20,9 @@ export const Overview = () => {
                         { label: 'Option C' },
                     ]}
                 />
-            </ShowcaseItem>
+            </Showcase.Item>
 
-            <ShowcaseItem label="With children (including invalid elements)">
+            <Showcase.Item label="With children (including invalid elements)">
                 <OptionsList>
                     <Option label="Valid Option 1" />
                     <div>Invalid div (will be ignored)</div>
@@ -30,9 +30,9 @@ export const Overview = () => {
                     <span>Invalid span (will be ignored)</span>
                     <Option label="Valid Option 3" />
                 </OptionsList>
-            </ShowcaseItem>
+            </Showcase.Item>
 
-            <ShowcaseItem label="With additional props">
+            <Showcase.Item label="With additional props">
                 <OptionsList
                     options={[
                         {
@@ -48,7 +48,7 @@ export const Overview = () => {
                         { label: 'Normal Option', value: '3' },
                     ]}
                 />
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

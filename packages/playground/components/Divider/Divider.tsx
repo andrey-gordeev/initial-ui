@@ -1,7 +1,5 @@
-import './Divider.css';
+import './styles.css';
 
-const Divider = () => {
+export const Divider = () => {
     return <div className="divider" />;
 };
-
-export default Divider;

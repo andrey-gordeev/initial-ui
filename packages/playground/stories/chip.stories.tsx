@@ -1,8 +1,5 @@
-import {
-    Showcase,
-    ShowcaseItem,
-    ShowcaseVariant,
-} from '../components/Showcase';
+import Showcase from '../components/Showcase';
+import Grid from '../components/Grid';
 import Chip, { ChipProps } from '../../react/src/Chip';
 
 export const Overview = () => {
@@ -29,21 +26,29 @@ export const Overview = () => {
     ];
 
     return (
-        <Showcase>
-            <ShowcaseItem>
-                {items.map((item, index) => (
-                    <ShowcaseVariant key={index}>
-                        <Chip {...item} />
-                    </ShowcaseVariant>
-                ))}
-            </ShowcaseItem>
-            <ShowcaseItem>
-                {itemsWithIcons.map((item, index) => (
-                    <ShowcaseVariant key={index}>
-                        <Chip {...item} />
-                    </ShowcaseVariant>
-                ))}
-            </ShowcaseItem>
+        <Showcase label="Chip">
+            <Showcase.Item label="label">
+                <Grid columns={4}>
+                    {items.map((item, index) => (
+                        <Grid.Cell>
+                            <Showcase.Variant key={index}>
+                                <Chip {...item} />
+                            </Showcase.Variant>
+                        </Grid.Cell>
+                    ))}
+                </Grid>
+            </Showcase.Item>
+            <Showcase.Item label="icon">
+                <Grid columns={4}>
+                    {itemsWithIcons.map((item, index) => (
+                        <Grid.Cell>
+                            <Showcase.Variant key={index}>
+                                <Chip {...item} />
+                            </Showcase.Variant>
+                        </Grid.Cell>
+                    ))}
+                </Grid>
+            </Showcase.Item>
         </Showcase>
     );
 };

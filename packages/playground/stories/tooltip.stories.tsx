@@ -1,15 +1,15 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import Tooltip from '../../react/src/Tooltip';
 
 export const Overview = () => {
     return (
         <Showcase>
-            <ShowcaseItem>
+            <Showcase.Item>
                 <Tooltip text="Save changes now" />
-            </ShowcaseItem>
-            <ShowcaseItem>
+            </Showcase.Item>
+            <Showcase.Item>
                 <Tooltip text="This is a longer tooltip example to demonstrate how the tooltip adjusts its width and padding dynamically based on the content inside it." />
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

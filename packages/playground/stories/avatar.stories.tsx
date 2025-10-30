@@ -1,8 +1,5 @@
-import {
-    Showcase,
-    ShowcaseItem,
-    ShowcaseVariant,
-} from '../components/Showcase';
+import Showcase from '../components/Showcase';
+import Grid from '../components/Grid';
 import Avatar from '../../react/src/Avatar';
 import {
     AVATAR_BADGE_PLACEMENTS,
@@ -25,15 +22,17 @@ export const Overview = () => {
     );
 
     return (
-        <Showcase>
-            <ShowcaseItem label="size">
-                {(Object.keys(AVATAR_SIZES) as AvatarSize[]).map((item) => (
-                    <ShowcaseVariant label={item}>
-                        <Avatar size={item} label={`Size: '${item}' `} />
-                    </ShowcaseVariant>
-                ))}
-            </ShowcaseItem>
-            <ShowcaseItem label="badges">
+        <Showcase label="Avatar">
+            <Showcase.Item label="size">
+                <Grid columns={4}>
+                    {(Object.keys(AVATAR_SIZES) as AvatarSize[]).map((item) => (
+                        <Showcase.Variant label={item}>
+                            <Avatar size={item} label={`Size: '${item}' `} />
+                        </Showcase.Variant>
+                    ))}
+                </Grid>
+            </Showcase.Item>
+            <Showcase.Item label="badges">
                 <div
                     style={{ width: 'fit-content', backgroundColor: 'orange' }}
                 >
@@ -51,8 +50,8 @@ export const Overview = () => {
                         [AV]
                     </Avatar>
                 </div>
-            </ShowcaseItem>
-            <ShowcaseItem label="halo">
+            </Showcase.Item>
+            <Showcase.Item label="halo">
                 <Avatar
                     badges={{
                         placement: 'top-end',
@@ -62,8 +61,8 @@ export const Overview = () => {
                 >
                     [AV]
                 </Avatar>
-            </ShowcaseItem>
-            <ShowcaseItem label="inset">
+            </Showcase.Item>
+            <Showcase.Item label="inset">
                 <Avatar
                     badges={{
                         placement: 'top-end',
@@ -73,10 +72,10 @@ export const Overview = () => {
                 >
                     [AV]
                 </Avatar>
-            </ShowcaseItem>
-            <ShowcaseItem label="Add button">
+            </Showcase.Item>
+            <Showcase.Item label="Add button">
                 <Avatar type="add-button">AV</Avatar>
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

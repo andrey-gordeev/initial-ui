@@ -1,65 +1,123 @@
-import {
-    Showcase,
-    ShowcaseItem,
-    ShowcaseVariant,
-} from '../components/Showcase';
+import Showcase from '../components/Showcase';
+import Grid from '../components/Grid';
 import Badge from '../../react/src/Badge';
-import Stack from '../../react/src/Stack';
 import { BADGE_COLORS } from '../../react/src/Badge/constants';
 
 export const Overview = () => {
     return (
         <Showcase>
-            <ShowcaseItem label="text">
-                <ShowcaseVariant>
-                    <Badge text="1" />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
-                    <Badge text="12" />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
-                    <Badge text="99+" />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
-                    <Badge text="999+" />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="icon">
-                <ShowcaseVariant>
-                    <Badge icon="sun-16" />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="size">
-                <ShowcaseVariant>
-                    <Stack>
-                        <Badge text="9" size="sm" />
-                        <Badge text="9+" size="sm" />
-                        <Badge text="99+" size="sm" />
-                        <Badge text="Label" size="sm" />
-                    </Stack>
-                </ShowcaseVariant>
-                <ShowcaseVariant>
-                    <Stack>
-                        <Badge text="9" size="md" />
-                        <Badge text="9+" size="md" />
-                        <Badge text="99+" size="md" />
-                        <Badge text="Label" size="md" />
-                    </Stack>
-                </ShowcaseVariant>
-                <ShowcaseVariant>
-                    <Stack>
-                        <Badge text="9" size="lg" />
-                        <Badge text="9+" size="lg" />
-                        <Badge text="99+" size="lg" />
-                        <Badge text="Label" size="lg" />
-                    </Stack>
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="color">
-                {Object.values(BADGE_COLORS).map((item) => (
-                    <Badge key={item} color={item} text={item} />
-                ))}
-            </ShowcaseItem>
+            <Showcase.Item label="text">
+                <Grid columns={16}>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="1" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="12" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="99+" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="999+" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                </Grid>
+            </Showcase.Item>
+            <Showcase.Item label="icon">
+                <Grid columns={16}>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge icon="sun-16" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                </Grid>
+            </Showcase.Item>
+            <Showcase.Item label="size">
+                <Grid columns={16}>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="9" size="sm" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="9+" size="sm" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="99+" size="sm" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="Label" size="sm" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                </Grid>
+                <Grid columns={16}>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="9" size="md" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="9+" size="md" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="99+" size="md" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="Label" size="md" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                </Grid>
+                <Grid columns={16}>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="9" size="lg" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="9+" size="lg" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="99+" size="lg" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                    <Grid.Cell>
+                        <Showcase.Variant>
+                            <Badge text="Label" size="lg" />
+                        </Showcase.Variant>
+                    </Grid.Cell>
+                </Grid>
+            </Showcase.Item>
+            <Showcase.Item label="color">
+                <Grid columns={16}>
+                    {Object.values(BADGE_COLORS).map((item) => (
+                        <Grid.Cell>
+                            <Showcase.Variant>
+                                <Badge key={item} color={item} text={item} />
+                            </Showcase.Variant>
+                        </Grid.Cell>
+                    ))}
+                </Grid>
+            </Showcase.Item>
         </Showcase>
     );
 };

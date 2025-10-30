@@ -1,46 +1,42 @@
-import {
-    Showcase,
-    ShowcaseItem,
-    ShowcaseVariant,
-} from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import Input from '../../react/src/Input';
 
 export const Overview = () => {
     return (
         <Showcase>
-            <ShowcaseItem label="default">
-                <ShowcaseVariant>
+            <Showcase.Item label="default">
+                <Showcase.Variant>
                     <Input />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <Input placeholder="placeholder" />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <Input value="value" />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="isDisabled">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="isDisabled">
+                <Showcase.Variant>
                     <Input isDisabled={true} />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <Input placeholder="placeholder" isDisabled={true} />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <Input value="value" isDisabled={true} />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="isError">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="isError">
+                <Showcase.Variant>
                     <Input isError={true} />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <Input placeholder="placeholder" isError={true} />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <Input value="value" isError={true} />
-                </ShowcaseVariant>
-            </ShowcaseItem>
+                </Showcase.Variant>
+            </Showcase.Item>
         </Showcase>
     );
 };

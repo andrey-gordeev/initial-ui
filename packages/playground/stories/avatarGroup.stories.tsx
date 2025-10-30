@@ -1,4 +1,4 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import AvatarGroup from '../../react/src/AvatarGroup';
 
 export const Overview = () => {
@@ -12,7 +12,7 @@ export const Overview = () => {
 
     return (
         <Showcase>
-            <ShowcaseItem>
+            <Showcase.Item>
                 <div
                     style={{ width: 'fit-content', backgroundColor: 'orange' }}
                 >
@@ -24,7 +24,7 @@ export const Overview = () => {
                         // debug={true}
                     />
                 </div>
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

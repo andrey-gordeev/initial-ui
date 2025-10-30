@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import Stack from '../../react/src/Stack';
 import Popover, { PopoverProps } from '../../react/src/Popover';
 
@@ -13,7 +13,7 @@ export const Overview = () => {
 
     return (
         <Showcase>
-            <ShowcaseItem label="Interactive Placement Demo">
+            <Showcase.Item label="Interactive Placement Demo">
                 <div
                     style={{
                         display: 'flex',
@@ -43,7 +43,7 @@ export const Overview = () => {
                         </Popover>
                     </div>
                 </div>
-            </ShowcaseItem>
+            </Showcase.Item>
             <Stack>
                 <button onClick={() => handle('top')}>top</button>
                 <button onClick={() => handle('top-start')}>top-start</button>
@@ -74,7 +74,7 @@ export const AllPlacements = () => {
 
     return (
         <Showcase>
-            <ShowcaseItem label="All Placements">
+            <Showcase.Item label="All Placements">
                 <div
                     style={{
                         display: 'grid',
@@ -121,7 +121,7 @@ export const AllPlacements = () => {
                         </div>
                     ))}
                 </div>
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

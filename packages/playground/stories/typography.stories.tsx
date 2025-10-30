@@ -1,4 +1,4 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import {
     Action,
     Body,
@@ -22,51 +22,51 @@ export const Overview = () => {
 
     return (
         <Showcase>
-            <ShowcaseItem label="Display 1">
+            <Showcase.Item label="Display 1">
                 <Display1>{sample}</Display1>
-            </ShowcaseItem>
-            <ShowcaseItem label="Display 2">
+            </Showcase.Item>
+            <Showcase.Item label="Display 2">
                 <Display2>{sample}</Display2>
-            </ShowcaseItem>
-            <ShowcaseItem label="Headline 1">
+            </Showcase.Item>
+            <Showcase.Item label="Headline 1">
                 <Headline1>{sample}</Headline1>
-            </ShowcaseItem>
-            <ShowcaseItem label="Headline 2">
+            </Showcase.Item>
+            <Showcase.Item label="Headline 2">
                 <Headline2>{sample}</Headline2>
-            </ShowcaseItem>
-            <ShowcaseItem label="Title 1">
+            </Showcase.Item>
+            <Showcase.Item label="Title 1">
                 <Title1>{sample}</Title1>
-            </ShowcaseItem>
-            <ShowcaseItem label="Title 2">
+            </Showcase.Item>
+            <Showcase.Item label="Title 2">
                 <Title2>{sample}</Title2>
-            </ShowcaseItem>
-            <ShowcaseItem label="Title 3">
+            </Showcase.Item>
+            <Showcase.Item label="Title 3">
                 <Title3>{sample}</Title3>
-            </ShowcaseItem>
-            <ShowcaseItem label="Body">
+            </Showcase.Item>
+            <Showcase.Item label="Body">
                 <Body>{sample}</Body>
-            </ShowcaseItem>
-            <ShowcaseItem label="Label 1">
+            </Showcase.Item>
+            <Showcase.Item label="Label 1">
                 <Label1>{sample}</Label1>
-            </ShowcaseItem>
-            <ShowcaseItem label="Label 2">
+            </Showcase.Item>
+            <Showcase.Item label="Label 2">
                 <Label2>{sample}</Label2>
-            </ShowcaseItem>
-            <ShowcaseItem label="Label 3">
+            </Showcase.Item>
+            <Showcase.Item label="Label 3">
                 <Label3>{sample}</Label3>
-            </ShowcaseItem>
-            <ShowcaseItem label="Action">
+            </Showcase.Item>
+            <Showcase.Item label="Action">
                 <Action>{sample}</Action>
-            </ShowcaseItem>
-            <ShowcaseItem label="Overline">
+            </Showcase.Item>
+            <Showcase.Item label="Overline">
                 <Overline>{sample}</Overline>
-            </ShowcaseItem>
-            <ShowcaseItem label="Meta">
+            </Showcase.Item>
+            <Showcase.Item label="Meta">
                 <Meta>{sample}</Meta>
-            </ShowcaseItem>
-            <ShowcaseItem label="Caption">
+            </Showcase.Item>
+            <Showcase.Item label="Caption">
                 <Caption>{sample}</Caption>
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

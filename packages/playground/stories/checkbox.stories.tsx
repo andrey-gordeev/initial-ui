@@ -1,24 +1,24 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import Checkbox from '../../react/src/Checkbox';
 
 export const Overview = () => {
     return (
         <Showcase>
-            <ShowcaseItem label="default">
+            <Showcase.Item label="default">
                 <Checkbox />
-            </ShowcaseItem>
-            <ShowcaseItem label="isChecked">
+            </Showcase.Item>
+            <Showcase.Item label="isChecked">
                 <Checkbox isChecked={true} />
-            </ShowcaseItem>
-            <ShowcaseItem label="isIndeterminate">
+            </Showcase.Item>
+            <Showcase.Item label="isIndeterminate">
                 <Checkbox isIndeterminate={true} />
-            </ShowcaseItem>
-            <ShowcaseItem label="isDisabled">
+            </Showcase.Item>
+            <Showcase.Item label="isDisabled">
                 <Checkbox isDisabled={true} />
-            </ShowcaseItem>
-            <ShowcaseItem label="isChecked and isDisabled">
+            </Showcase.Item>
+            <Showcase.Item label="isChecked and isDisabled">
                 <Checkbox isChecked={true} isDisabled={true} />
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

@@ -1,10 +1,10 @@
-import { Showcase, ShowcaseItem } from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import Tabs from '../../react/src/Tabs';
 
 export const Overview = () => {
     return (
-        <Showcase>
-            <ShowcaseItem>
+        <Showcase label="Tabs">
+            <Showcase.Item label={'data'}>
                 <Tabs
                     tabList={[
                         { id: '1', label: 'Tab 1' },
@@ -17,8 +17,8 @@ export const Overview = () => {
                         { id: '3', children: 'content 3' },
                     ]}
                 />
-            </ShowcaseItem>
-            <ShowcaseItem>
+            </Showcase.Item>
+            <Showcase.Item label={'children'}>
                 <Tabs>
                     <Tabs.TabList>
                         <Tabs.Tab id="1" label="Tab 1" />
@@ -31,7 +31,7 @@ export const Overview = () => {
                         <Tabs.Panel id="3">{'content 3'}</Tabs.Panel>
                     </Tabs.PanelList>
                 </Tabs>
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

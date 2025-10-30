@@ -1,57 +1,53 @@
-import {
-    Showcase,
-    ShowcaseItem,
-    ShowcaseVariant,
-} from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import Switch from '../../react/src/Switch';
 
 export const Overview = () => {
     return (
         <>
             <Showcase>
-                <ShowcaseItem label="default">
+                <Showcase.Item label="default">
                     <Switch />
-                </ShowcaseItem>
-                <ShowcaseItem label="isChecked">
+                </Showcase.Item>
+                <Showcase.Item label="isChecked">
                     <Switch isChecked={true} />
-                </ShowcaseItem>
-                <ShowcaseItem label="isDisabled">
+                </Showcase.Item>
+                <Showcase.Item label="isDisabled">
                     <Switch isDisabled={true} />
-                </ShowcaseItem>
-                <ShowcaseItem label="isChecked and isDisabled">
+                </Showcase.Item>
+                <Showcase.Item label="isChecked and isDisabled">
                     <Switch isChecked={true} isDisabled={true} />
-                </ShowcaseItem>
+                </Showcase.Item>
             </Showcase>
             <Showcase>
-                <ShowcaseItem label="label">
-                    <ShowcaseVariant>
+                <Showcase.Item label="label">
+                    <Showcase.Variant>
                         <Switch label="Notifications" />
-                    </ShowcaseVariant>
-                    <ShowcaseVariant>
+                    </Showcase.Variant>
+                    <Showcase.Variant>
                         <Switch label="Enable notifications for updates and alerts" />
-                    </ShowcaseVariant>
-                </ShowcaseItem>
-                <ShowcaseItem label="label and hint">
-                    <ShowcaseVariant>
+                    </Showcase.Variant>
+                </Showcase.Item>
+                <Showcase.Item label="label and hint">
+                    <Showcase.Variant>
                         <Switch
                             label="Notifications"
                             hint="Turn notifications on or off"
                         />
-                    </ShowcaseVariant>
-                    <ShowcaseVariant>
+                    </Showcase.Variant>
+                    <Showcase.Variant>
                         <Switch
                             label="Enable notifications for updates and alerts"
                             hint="Choose whether the app can send you alerts, reminders, and other updates"
                         />
-                    </ShowcaseVariant>
-                </ShowcaseItem>
-                <ShowcaseItem label="label, hint and isDisabled">
+                    </Showcase.Variant>
+                </Showcase.Item>
+                <Showcase.Item label="label, hint and isDisabled">
                     <Switch
                         label="Enable notifications for updates and alerts"
                         hint="Choose whether the app can send you alerts, reminders, and other updates"
                         isDisabled={true}
                     />
-                </ShowcaseItem>
+                </Showcase.Item>
             </Showcase>
         </>
     );

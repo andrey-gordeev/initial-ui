@@ -1,59 +1,36 @@
-import { Children, ReactNode } from 'react';
-
-import Divider from '../Divider/Divider';
-
+import Divider from '../Divider';
+import { ShowcaseComponent, ItemProps, VariantProps } from './types';
 import './styles.css';
 
-type ShowcaseProps = {
-    children?: ReactNode;
+export const Showcase: ShowcaseComponent = ({ children, label }) => {
+    return (
+        <div className="showcase">
+            {label ? <h1 className="showcase__label">{label}</h1> : null}
+            <div className="showcase__content">{children}</div>
+        </div>
+    );
 };
 
-const Showcase = ({ children }: ShowcaseProps) => {
-    return <div className="showcase">{children}</div>;
-};
-
-type ShowcaseItemProps = {
-    children?: ReactNode;
-    label?: string;
-};
-
-const ShowcaseItem = ({ children, label }: ShowcaseItemProps) => {
-    const count = Children.count(children);
-
+const Item = ({ children, label }: ItemProps) => {
     return (
         <div className="showcase-item">
-            <div className="showcase-item__label">{label}</div>
+            {label ? <h2 className="showcase-item__label">{label}</h2> : null}
             <Divider />
-            <div
-                className="showcase-item__content"
-                style={
-                    count > 1
-                        ? { display: 'flex', flexWrap: 'wrap', gap: 16 }
-                        : {}
-                }
-            >
-                {children}
-            </div>
+            <div className="showcase-item__content">{children}</div>
         </div>
     );
 };
 
-type ShowcaseVariantProps = {
-    children?: ReactNode;
-    label?: string;
-};
-
-const ShowcaseVariant = ({ children, label }: ShowcaseVariantProps) => {
+const Variant = ({ children, label }: VariantProps) => {
     return (
         <div className="showcase-variant">
-            {Children.map(children, (item) => (
-                <>
-                    <div className="showcase-variant__label">{label}</div>
-                    <div className="showcase-variant__content">{item}</div>
-                </>
-            ))}
+            {label ? (
+                <div className="showcase-variant__label">{label}</div>
+            ) : null}
+            <div className="showcase-variant__content">{children}</div>
         </div>
     );
 };
 
-export { Showcase, ShowcaseItem, ShowcaseVariant };
+Showcase.Item = Item;
+Showcase.Variant = Variant;

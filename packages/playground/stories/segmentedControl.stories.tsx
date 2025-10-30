@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import {
-    Showcase,
-    ShowcaseItem,
-    ShowcaseVariant,
-} from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import SegmentedControl, { Segment } from '../../react/src/SegmentedControl';
 
 export const Overview = () => {
@@ -11,15 +7,15 @@ export const Overview = () => {
 
     return (
         <Showcase>
-            <ShowcaseItem label="with Children (uncontrolled)">
-                <ShowcaseVariant>
+            <Showcase.Item label="with Children (uncontrolled)">
+                <Showcase.Variant>
                     <SegmentedControl>
                         <Segment label="Day" />
                         <Segment label="Week" />
                         <Segment label="Month" />
                     </SegmentedControl>
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <SegmentedControl
                         segments={[
                             { label: 'Day' },
@@ -27,17 +23,17 @@ export const Overview = () => {
                             { label: 'Month' },
                         ]}
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="isSelected (uncontrolled, like native checked)">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="isSelected (uncontrolled, like native checked)">
+                <Showcase.Variant>
                     <SegmentedControl>
                         <Segment label="Day" />
                         <Segment label="Week" isSelected={true} />
                         <Segment label="Month" />
                     </SegmentedControl>
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <SegmentedControl
                         segments={[
                             { label: 'Day' },
@@ -45,17 +41,17 @@ export const Overview = () => {
                             { label: 'Month' },
                         ]}
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="isDisabled (uncontrolled, like native disabled)">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="isDisabled (uncontrolled, like native disabled)">
+                <Showcase.Variant>
                     <SegmentedControl>
                         <Segment label="Day" />
                         <Segment label="Week" isDisabled={true} />
                         <Segment label="Month" />
                     </SegmentedControl>
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <SegmentedControl
                         segments={[
                             { label: 'Day' },
@@ -63,10 +59,10 @@ export const Overview = () => {
                             { label: 'Month' },
                         ]}
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="Controlled (with state)">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="Controlled (with state)">
+                <Showcase.Variant>
                     <div>
                         <p>Selected: {selectedValue}</p>
                         <SegmentedControl
@@ -78,8 +74,8 @@ export const Overview = () => {
                             <Segment label="Month" value="Month" />
                         </SegmentedControl>
                     </div>
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <div>
                         <p>Selected: {selectedValue}</p>
                         <SegmentedControl
@@ -92,20 +88,20 @@ export const Overview = () => {
                             ]}
                         />
                     </div>
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item>
                 <input type="radio" name="testA" value={1} />
                 <input type="radio" name="testA" value={1} checked={true} />
                 <input type="radio" name="testA" value={1} checked={true} />
                 <input type="radio" name="testA" value={1} checked={true} />
-            </ShowcaseItem>
-            <ShowcaseItem>
+            </Showcase.Item>
+            <Showcase.Item>
                 <input type="radio" name="testB" />
                 <input type="radio" name="testB" checked={true} />
                 <input type="radio" name="testB" />
                 <input type="radio" name="testB" />
-            </ShowcaseItem>
+            </Showcase.Item>
         </Showcase>
     );
 };

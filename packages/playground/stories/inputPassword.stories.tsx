@@ -1,51 +1,47 @@
-import {
-    Showcase,
-    ShowcaseItem,
-    ShowcaseVariant,
-} from '../components/Showcase';
+import Showcase from '../components/Showcase';
 import InputPassword from '../../react/src/InputPassword';
 
 export const Overview = () => {
     return (
         <Showcase>
-            <ShowcaseItem label="default">
-                <ShowcaseVariant>
+            <Showcase.Item label="default">
+                <Showcase.Variant>
                     <InputPassword />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="label, hint">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="label, hint">
+                <Showcase.Variant>
                     <InputPassword label="Password" />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputPassword
                         label="Password"
                         placeholder="Enter your password"
                         hint="Must be at least 8 characters long"
                     />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputPassword
                         label="Password"
                         placeholder="Enter your password"
                         value="MySecurePassword123!"
                         hint="Use a combination of letters, numbers, and special characters."
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="isDisabled">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="isDisabled">
+                <Showcase.Variant>
                     <InputPassword label="Password" isDisabled={true} />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputPassword
                         label="Password"
                         placeholder="Enter your password"
                         hint="Must be at least 8 characters long"
                         isDisabled={true}
                     />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputPassword
                         label="Password"
                         placeholder="Enter your password"
@@ -53,21 +49,21 @@ export const Overview = () => {
                         hint="Use a combination of letters, numbers, and special characters."
                         isDisabled={true}
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
-            <ShowcaseItem label="error">
-                <ShowcaseVariant>
+                </Showcase.Variant>
+            </Showcase.Item>
+            <Showcase.Item label="error">
+                <Showcase.Variant>
                     <InputPassword label="Password" />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputPassword
                         label="Password"
                         placeholder="Enter your password"
                         hint="Must be at least 8 characters long"
                         error="This field is required"
                     />
-                </ShowcaseVariant>
-                <ShowcaseVariant>
+                </Showcase.Variant>
+                <Showcase.Variant>
                     <InputPassword
                         label="Password"
                         placeholder="Enter your password"
@@ -75,8 +71,8 @@ export const Overview = () => {
                         hint="Use a combination of letters, numbers, and special characters."
                         error="Password must contain at least one uppercase letter, one number, and one special character."
                     />
-                </ShowcaseVariant>
-            </ShowcaseItem>
+                </Showcase.Variant>
+            </Showcase.Item>
         </Showcase>
     );
 };
