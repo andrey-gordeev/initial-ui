@@ -1,7 +1,6 @@
 import Showcase from '../components/Showcase';
 import Grid from '../components/Grid';
-import Badge from '../../react/src/Badge';
-import { BADGE_COLORS } from '../../react/src/Badge/constants';
+import Badge, { BADGE_COLORS } from '../../react/src/Badge';
 
 export const Overview = () => {
     return (

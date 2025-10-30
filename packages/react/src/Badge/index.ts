@@ -1,5 +1,5 @@
 import { Badge } from './Badge';
-import { BadgeProps } from './types';
 
 export default Badge;
-export type { BadgeProps };
+export type { BadgeProps } from './types';
+export * from './constants';
