@@ -22,7 +22,7 @@ export type AvatarBadgeProps = {
 export type AvatarProps = {
     children?: ReactNode;
     content?: ReactNode;
-    type?: 'add-button';
+    type?: 'normal' | 'add-button';
     size?: AvatarSize;
     badges?: AvatarBadgeProps | AvatarBadgeProps[];
     halo?: boolean;

@@ -1,5 +1,5 @@
 import React, { type CSSProperties, useId } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import { Avatar } from '../Avatar/Avatar';
 import { useAvatarGroupLayout } from './hooks';
 import { AvatarGroupProps } from './types';
@@ -9,24 +9,24 @@ export const AvatarGroup = ({
     avatars = [],
     maxVisible = 5,
     overlap = 8,
-    gap = 0,
+    gap = 1,
     size = 'md',
     showOverflow = true,
-    className,
-    debug = false, // Добавляем режим отладки
+    debug = false,
 }: AvatarGroupProps & { debug?: boolean }) => {
     const groupId = useId();
-    const { visibleAvatars, overflowCount, groupDimensions, avatarSize } =
+    const { visibleAvatars, groupDimensions, avatarSize } =
         useAvatarGroupLayout({
             avatars,
             maxVisible,
             overlap,
             size,
+            showOverflow,
         });
 
     return (
         <div
-            className={clsx('avatar-group', className)}
+            className={clsx('avatar-group')}
             style={
                 {
                     '--avatar-group-overlap': `${overlap}px`,
@@ -35,6 +35,37 @@ export const AvatarGroup = ({
                 } as CSSProperties
             }
         >
+            {visibleAvatars.map((avatar, index) => {
+                const maskId = `${groupId}-mask-${index}`;
+                const hasNextAvatar = index < visibleAvatars.length - 1;
+
+                // Для gap=0 маски не нужны
+                const inlineStyle =
+                    gap > 0
+                        ? ({
+                              '--avatar-index': index,
+                              mask: hasNextAvatar
+                                  ? `url(#${maskId})`
+                                  : undefined,
+                              WebkitMask: hasNextAvatar
+                                  ? `url(#${maskId})`
+                                  : undefined,
+                          } as CSSProperties)
+                        : ({
+                              '--avatar-index': index,
+                          } as CSSProperties);
+
+                return (
+                    <div
+                        key={avatar.id || index}
+                        className="avatar-group__item"
+                        style={inlineStyle}
+                    >
+                        <Avatar {...avatar} size={size} />
+                    </div>
+                );
+            })}
+
             {/* SVG маски нужны только если gap > 0 */}
             {gap > 0 && (
                 <svg
@@ -55,7 +86,8 @@ export const AvatarGroup = ({
                             if (nextIndex >= visibleAvatars.length) return null;
 
                             const avatarRadius = avatarSize / 2;
-                            const nextAvatarX = avatarSize + avatarRadius - overlap;
+                            const nextAvatarX =
+                                avatarSize + avatarRadius - overlap;
                             const nextAvatarY = avatarRadius;
 
                             return (
@@ -86,7 +118,8 @@ export const AvatarGroup = ({
                             if (nextIndex >= visibleAvatars.length) return null;
 
                             const avatarRadius = avatarSize / 2;
-                            const nextAvatarX = avatarSize + avatarRadius - overlap;
+                            const nextAvatarX =
+                                avatarSize + avatarRadius - overlap;
                             const nextAvatarY = avatarRadius;
 
                             return (
@@ -121,41 +154,6 @@ export const AvatarGroup = ({
                             );
                         })}
                 </svg>
-            )}
-
-            {visibleAvatars.map((avatar, index) => {
-                const maskId = `${groupId}-mask-${index}`;
-                const hasNextAvatar = index < visibleAvatars.length - 1;
-
-                const className = clsx('avatar-group__item', {
-                    'avatar-group__item--overflow':
-                        index === maxVisible - 1 && overflowCount > 0,
-                });
-
-                // Для gap=0 маски не нужны
-                const inlineStyle = gap > 0 
-                    ? {
-                        '--avatar-index': index,
-                        mask: hasNextAvatar ? `url(#${maskId})` : undefined,
-                        WebkitMask: hasNextAvatar ? `url(#${maskId})` : undefined,
-                    } as CSSProperties
-                    : {
-                        '--avatar-index': index,
-                    } as CSSProperties;
-
-                return (
-                    <div
-                        key={avatar.id || index}
-                        className={className}
-                        style={inlineStyle}
-                    >
-                        <Avatar {...avatar} size={size} />
-                    </div>
-                );
-            })}
-
-            {showOverflow && overflowCount > 0 && (
-                <div className="avatar-group__overflow">+{overflowCount}</div>
             )}
         </div>
     );

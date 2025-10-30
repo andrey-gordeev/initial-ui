@@ -1,3 +1,5 @@
+@use '../Typography/styles' as *;
+
 .avatar {
     --avatar-size: 0;
     --avatar-radius: 0;
@@ -30,12 +32,22 @@
 /* Containers */
 
 .avatar__content {
+    @include font-label-3;
+
     display: flex;
     align-items: center;
     justify-content: center;
     inline-size: var(--avatar-size);
     block-size: var(--avatar-size);
-    background-color: mediumslateblue;
+
+    /* TMP: Color */
+    .avatar--normal & {
+        background-color: mediumslateblue;
+    }
+
+    .avatar--add-button & {
+        color: gray;
+    }
 }
 
 /* Halo */

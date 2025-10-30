@@ -7,32 +7,8 @@
 .avatar-group__item {
     position: relative;
     transition: transform 0.2s ease-in-out;
-}
 
-.avatar-group__item:not(:first-child) {
-    position: absolute;
-    inset-inline-start: calc((var(--avatar-index, 0) * var(--avatar-size, 72px)) - (var(--avatar-index, 0) * var(--avatar-group-overlap, 8px)));
-}
-
-.avatar-group__item:hover {
-    /*transform: scale(1.05);*/
-    /*z-index: 10;*/
-}
-
-.avatar-group__item--overflow {
-    position: relative;
-}
-
-.avatar-group__overflow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-inline-size: var(--avatar-group-size, 40px);
-    min-block-size: var(--avatar-group-size, 40px);
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--iui-color-text, #161616);
-    background-color: var(--iui-color-gray-20, #f4f4f4);
-    border: 2px solid var(--iui-color-background, #ffffff);
-    border-radius: 50%;
+    &:not(:first-child) {
+        margin-inline-start: calc(var(--avatar-group-overlap, 8px) * -1);
+    }
 }

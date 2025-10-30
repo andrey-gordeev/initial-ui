@@ -12,7 +12,7 @@ type NotchData = {
 export const useNotchCalculation = (
     badgeDimensions: BadgeDimensions[],
     badges: AvatarBadgeProps[],
-    avatarRef: RefObject<HTMLDivElement>,
+    avatarRef: RefObject<HTMLDivElement | null>,
 ) => {
     return useMemo(() => {
         if (!avatarRef.current || badgeDimensions.length === 0) return [];

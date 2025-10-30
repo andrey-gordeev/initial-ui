@@ -1,11 +1,10 @@
 import Showcase from '../components/Showcase';
 import Grid from '../components/Grid';
-import Avatar from '../../react/src/Avatar';
-import {
+import Avatar, {
+    AvatarBadgeProps,
     AVATAR_BADGE_PLACEMENTS,
     AVATAR_SIZES,
-} from '../../react/src/Avatar/constants';
-import { AvatarSize, AvatarBadgeProps } from '../../react/src/Avatar/types';
+} from '../../react/src/Avatar';
 import Badge from '../../react/src/Badge';
 
 export const Overview = () => {
@@ -25,7 +24,7 @@ export const Overview = () => {
         <Showcase label="Avatar">
             <Showcase.Item label="size">
                 <Grid columns={4}>
-                    {(Object.keys(AVATAR_SIZES) as AvatarSize[]).map((item) => (
+                    {Object.values(AVATAR_SIZES).map((item) => (
                         <Showcase.Variant label={item}>
                             <Avatar size={item} label={`Size: '${item}' `} />
                         </Showcase.Variant>
@@ -38,7 +37,7 @@ export const Overview = () => {
                 >
                     <Avatar
                         size="lg"
-                        badges={Object.keys(AVATAR_BADGE_PLACEMENTS).map(
+                        badges={Object.values(AVATAR_BADGE_PLACEMENTS).map(
                             (item) =>
                                 ({
                                     placement: item,
@@ -74,7 +73,7 @@ export const Overview = () => {
                 </Avatar>
             </Showcase.Item>
             <Showcase.Item label="Add button">
-                <Avatar type="add-button">AV</Avatar>
+                <Avatar type="add-button">+1</Avatar>
             </Showcase.Item>
         </Showcase>
     );

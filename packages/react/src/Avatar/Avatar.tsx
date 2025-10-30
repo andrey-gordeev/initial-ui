@@ -1,5 +1,5 @@
-import React, { useId, useRef, CSSProperties } from 'react';
-import { clsx } from 'clsx';
+import { useId, useRef, CSSProperties } from 'react';
+import clsx from 'clsx';
 import { useBadgeMeasurements, useNotchCalculation } from './hooks';
 import { calculateBadgeRadius, getAvatarSize } from './utils';
 import { AvatarProps } from './types';
@@ -7,12 +7,12 @@ import {
     AVATAR_BADGE_PLACEMENT_TO_CLASS_NAME_MAP,
     AVATAR_SIZES_TO_CLASS_NAME_MAP,
 } from './constants';
-import './styles.css';
+import './styles.scss';
 
 export const Avatar = ({
     children,
     content,
-    type,
+    type = 'normal',
     size = 'md',
     badges,
     halo,
@@ -46,7 +46,9 @@ export const Avatar = ({
     return (
         <div
             ref={avatarRef}
-            className={clsx('avatar', AVATAR_SIZES_TO_CLASS_NAME_MAP[size])}
+            className={clsx('avatar', AVATAR_SIZES_TO_CLASS_NAME_MAP[size], {
+                [`avatar--${type}`]: type,
+            })}
             style={
                 {
                     '--avatar-size': `${avatarSize}px`,
@@ -99,7 +101,7 @@ export const Avatar = ({
 
             {type === 'add-button'
                 ? (() => {
-                      const strokeWidth = 4;
+                      const strokeWidth = 2;
                       const r = avatarSize / 2 - strokeWidth / 2;
                       return (
                           <div className="avatar__add-button">
@@ -113,7 +115,7 @@ export const Avatar = ({
                                       cy={avatarSize / 2}
                                       r={r}
                                       fill="none"
-                                      stroke="orange"
+                                      stroke="gray"
                                       strokeWidth={strokeWidth}
                                       strokeDasharray="6 12"
                                       strokeLinecap="round"
@@ -130,7 +132,9 @@ export const Avatar = ({
                 {normalizedBadges.map((item, index) => (
                     <div
                         key={index}
-                        ref={(el) => (badgeRefs.current[index] = el)}
+                        ref={(el) => {
+                            badgeRefs.current[index] = el;
+                        }}
                         className={clsx(
                             'avatar-badge',
                             AVATAR_BADGE_PLACEMENT_TO_CLASS_NAME_MAP[
