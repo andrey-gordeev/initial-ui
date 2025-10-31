@@ -4,7 +4,7 @@ import RadioGroup from '../../react/src/RadioGroup';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="RadioGroup">
             <Showcase.Item label="with children (uncontrolled)">
                 <RadioGroup>
                     <Radio value="auto" label="Auto" />

@@ -3,7 +3,7 @@ import InputText from '../../react/src/InputText';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="InputText">
             <Showcase.Item label="default">
                 <Showcase.Variant>
                     <InputText />

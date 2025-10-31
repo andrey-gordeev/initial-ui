@@ -3,7 +3,7 @@ import Input from '../../react/src/Input';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="Input">
             <Showcase.Item label="default">
                 <Showcase.Variant>
                     <Input />

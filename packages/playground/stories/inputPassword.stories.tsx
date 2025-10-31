@@ -3,7 +3,7 @@ import InputPassword from '../../react/src/InputPassword';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="InputPassword">
             <Showcase.Item label="default">
                 <Showcase.Variant>
                     <InputPassword />

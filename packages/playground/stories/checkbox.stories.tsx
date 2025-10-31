@@ -3,7 +3,7 @@ import Checkbox from '../../react/src/Checkbox';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="Checkbox">
             <Showcase.Item label="default">
                 <Checkbox />
             </Showcase.Item>

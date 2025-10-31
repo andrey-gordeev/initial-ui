@@ -3,7 +3,7 @@ import Tooltip from '../../react/src/Tooltip';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="Tooltip">
             <Showcase.Item>
                 <Tooltip text="Save changes now" />
             </Showcase.Item>

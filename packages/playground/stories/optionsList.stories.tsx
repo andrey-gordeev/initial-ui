@@ -3,7 +3,7 @@ import OptionsList, { Option } from '../../react/src/OptionsList';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="OptionsList">
             <Showcase.Item label="With children (only Option elements)">
                 <OptionsList>
                     <Option label="Option 1" />

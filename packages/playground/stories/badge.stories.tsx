@@ -4,9 +4,9 @@ import Badge, { BADGE_COLORS } from '../../react/src/Badge';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="Badge">
             <Showcase.Item label="text">
-                <Grid columns={16}>
+                <Grid columns={12}>
                     <Grid.Cell>
                         <Showcase.Variant>
                             <Badge text="1" />
@@ -30,7 +30,7 @@ export const Overview = () => {
                 </Grid>
             </Showcase.Item>
             <Showcase.Item label="icon">
-                <Grid columns={16}>
+                <Grid columns={12}>
                     <Grid.Cell>
                         <Showcase.Variant>
                             <Badge icon="sun-16" />
@@ -39,7 +39,7 @@ export const Overview = () => {
                 </Grid>
             </Showcase.Item>
             <Showcase.Item label="size">
-                <Grid columns={16}>
+                <Grid columns={12}>
                     <Grid.Cell>
                         <Showcase.Variant>
                             <Badge text="9" size="sm" />
@@ -61,7 +61,7 @@ export const Overview = () => {
                         </Showcase.Variant>
                     </Grid.Cell>
                 </Grid>
-                <Grid columns={16}>
+                <Grid columns={12}>
                     <Grid.Cell>
                         <Showcase.Variant>
                             <Badge text="9" size="md" />
@@ -83,7 +83,7 @@ export const Overview = () => {
                         </Showcase.Variant>
                     </Grid.Cell>
                 </Grid>
-                <Grid columns={16}>
+                <Grid columns={12}>
                     <Grid.Cell>
                         <Showcase.Variant>
                             <Badge text="9" size="lg" />
@@ -107,7 +107,7 @@ export const Overview = () => {
                 </Grid>
             </Showcase.Item>
             <Showcase.Item label="color">
-                <Grid columns={16}>
+                <Grid columns={12}>
                     {Object.values(BADGE_COLORS).map((item) => (
                         <Grid.Cell>
                             <Showcase.Variant>

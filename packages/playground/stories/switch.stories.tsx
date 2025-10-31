@@ -4,7 +4,7 @@ import Switch from '../../react/src/Switch';
 export const Overview = () => {
     return (
         <>
-            <Showcase>
+            <Showcase label="Switch">
                 <Showcase.Item label="default">
                     <Switch />
                 </Showcase.Item>

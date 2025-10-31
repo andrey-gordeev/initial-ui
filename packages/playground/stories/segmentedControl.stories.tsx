@@ -6,7 +6,7 @@ export const Overview = () => {
     const [selectedValue, setSelectedValue] = useState<string>('Week');
 
     return (
-        <Showcase>
+        <Showcase label="SegmentedControl">
             <Showcase.Item label="with Children (uncontrolled)">
                 <Showcase.Variant>
                     <SegmentedControl>

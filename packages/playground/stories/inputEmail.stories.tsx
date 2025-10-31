@@ -3,7 +3,7 @@ import InputEmail from '../../react/src/InputEmail';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="InputEmail">
             <Showcase.Item label="default">
                 <Showcase.Variant>
                     <InputEmail />

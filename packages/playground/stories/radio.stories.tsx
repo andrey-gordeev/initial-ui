@@ -4,7 +4,7 @@ import Radio from '../../react/src/Radio';
 
 export const Overview = () => {
     return (
-        <Showcase>
+        <Showcase label="Radio">
             <Showcase.Item label="default">
                 <Radio />
             </Showcase.Item>

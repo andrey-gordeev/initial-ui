@@ -12,7 +12,7 @@ export const Overview = () => {
     };
 
     return (
-        <Showcase>
+        <Showcase label="Popover">
             <Showcase.Item label="Interactive Placement Demo">
                 <div
                     style={{

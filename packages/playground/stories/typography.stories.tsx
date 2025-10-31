@@ -21,7 +21,7 @@ export const Overview = () => {
     const sample = 'Lorem ipsum dolor sit amet, consectetur adipiscing.';
 
     return (
-        <Showcase>
+        <Showcase label="Typography">
             <Showcase.Item label="Display 1">
                 <Display1>{sample}</Display1>
             </Showcase.Item>
