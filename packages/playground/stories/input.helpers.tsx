@@ -13,8 +13,8 @@ const INPUT_INTERACTION_STATES: InputGroupProps<InputProps>[] = [
     { label: 'default' },
     { label: 'hover', props: { pseudoStates: ['hover'] } },
     { label: 'focus', props: { pseudoStates: ['focus'] } },
-    { label: 'disabled', props: { isDisabled: true } },
     { label: 'readonly', props: { isReadonly: true } },
+    { label: 'disabled', props: { isDisabled: true } },
 ];
 
 export function renderInputGroup<T extends InputProps | InputTextProps>(

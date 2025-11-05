@@ -46,21 +46,39 @@ export const Overview = () => {
                     </div>
                 </Showcase.Variant>
             </Showcase.Item>
-            <Showcase.Item label="overlap">
-                <div
-                    style={{ width: 'fit-content', backgroundColor: 'orange' }}
-                >
-                    <AvatarGroup avatars={avatars} overlap={16} />
-                </div>
-            </Showcase.Item>
             <Showcase.Item label="overlap & gap">
-                <div
-                    style={{ width: 'fit-content', backgroundColor: 'orange' }}
-                >
-                    <AvatarGroup avatars={avatars} overlap={16} gap={4} />
-                </div>
+                <Showcase.Variant label="overlap (16)">
+                    <div
+                        style={{
+                            width: 'fit-content',
+                            backgroundColor: 'orange',
+                        }}
+                    >
+                        <AvatarGroup avatars={avatars} overlap={16} />
+                    </div>
+                </Showcase.Variant>
+                <Showcase.Variant label="overlap (16), gap (4)">
+                    <div
+                        style={{
+                            width: 'fit-content',
+                            backgroundColor: 'orange',
+                        }}
+                    >
+                        <AvatarGroup avatars={avatars} overlap={16} gap={4} />
+                    </div>
+                </Showcase.Variant>
+                <Showcase.Variant label="overlap (16), gap (0)">
+                    <div
+                        style={{
+                            width: 'fit-content',
+                            backgroundColor: 'orange',
+                        }}
+                    >
+                        <AvatarGroup avatars={avatars} overlap={16} gap={0} />
+                    </div>
+                </Showcase.Variant>
             </Showcase.Item>
-            <Showcase.Item label="size (false)">
+            <Showcase.Item label="size (sm)">
                 <div
                     style={{ width: 'fit-content', backgroundColor: 'orange' }}
                 >
