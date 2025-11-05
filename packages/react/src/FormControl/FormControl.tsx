@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import { FormControlProps } from './types';
 import './styles.css';
-import { clsx } from 'clsx';
 
 export const FormControl = ({
     children,

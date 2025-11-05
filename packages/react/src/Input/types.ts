@@ -3,5 +3,9 @@ export type InputProps = {
     value?: string;
     placeholder?: string;
     isDisabled?: boolean;
+    isReadonly?: boolean;
+    isRequired?: boolean;
     isError?: boolean;
+    isSuccess?: boolean;
+    pseudoStates?: ('hover' | 'focus')[];
 };

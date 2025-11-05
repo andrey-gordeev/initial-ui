@@ -8,6 +8,16 @@
     border-style: solid;
     border-width: 1px;
 
+    &:hover,
+    &.input--hover {
+    }
+
+    &:focus-visible,
+    &.input--focus {
+        outline: 1px dotted blue;
+        outline-offset: 2px;
+    }
+
     &::placeholder {
         color: #999;
     }

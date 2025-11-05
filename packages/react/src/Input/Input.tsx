@@ -8,7 +8,10 @@ export const Input = ({
     value: defaultValue = '',
     placeholder,
     isDisabled,
+    isReadonly,
+    isRequired,
     isError,
+    pseudoStates,
 }: InputProps) => {
     const [value, setValue] = useState(defaultValue);
 
@@ -19,6 +22,8 @@ export const Input = ({
     const className = clsx('input', {
         'input--disabled': isDisabled,
         'input--error': isError,
+        'input--hover': pseudoStates?.includes('hover'),
+        'input--focus': pseudoStates?.includes('focus'),
     });
 
     return (
