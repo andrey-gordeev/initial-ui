@@ -1,33 +1,20 @@
-import Showcase from '../components/Showcase';
-import Grid from '../components/Grid';
 import Input, { InputProps } from '../../react/src/Input';
+import Showcase from '../components/Showcase';
+import { InputGroupProps, renderInputGroup } from './input.helpers';
 
-type GroupProps = {
-    label: string;
-    props?: InputProps;
-};
-
-const interactionStates: GroupProps[] = [
-    { label: 'default' },
-    { label: 'hover', props: { pseudoStates: ['hover'] } },
-    { label: 'focus', props: { pseudoStates: ['focus'] } },
-    { label: 'disabled', props: { isDisabled: true } },
-    { label: 'readonly', props: { isReadonly: true } },
-];
-
-const contentStates: GroupProps[] = [
+const contentStates: InputGroupProps<InputProps>[] = [
     { label: 'empty' },
     { label: 'filled', props: { value: 'value' } },
     { label: 'placeholder', props: { placeholder: 'placeholder' } },
 ];
 
-const validationStates: GroupProps[] = [
+const validationStates: InputGroupProps<InputProps>[] = [
     { label: 'required', props: { isRequired: true } },
     { label: 'error', props: { isError: true } },
     { label: 'success', props: { isSuccess: true } },
 ];
 
-const combinedStates: GroupProps[] = [
+const combinedStates: InputGroupProps<InputProps>[] = [
     {
         label: 'empty + required',
         props: { isRequired: true },
@@ -50,40 +37,16 @@ export const Overview = () => {
     return (
         <Showcase label="Input">
             <Showcase.Item label="Content states">
-                {renderGroup(contentStates)}
+                {renderInputGroup(contentStates, Input)}
             </Showcase.Item>
 
             <Showcase.Item label="Validation states">
-                {renderGroup(validationStates)}
+                {renderInputGroup(validationStates, Input)}
             </Showcase.Item>
 
             <Showcase.Item label="Combined states">
-                {renderGroup(combinedStates)}
+                {renderInputGroup(combinedStates, Input)}
             </Showcase.Item>
         </Showcase>
     );
 };
-
-/**
- * Универсальная функция рендера группы Grid.
- * @param group массив объектов с label и props для Input
- * @param columns число колонок, по умолчанию равно длине interactionStates
- */
-function renderGroup(group: GroupProps[], columns?: number) {
-    const colCount = columns ?? interactionStates.length;
-
-    return group.map(({ label, props }, i) => (
-        <Grid columns={colCount} key={i}>
-            <Grid.Header label={label} />
-            {interactionStates.map(
-                ({ label: stateLabel, props: interactionProps }, j) => (
-                    <Grid.Cell key={j}>
-                        <Showcase.Variant label={stateLabel}>
-                            <Input {...props} {...interactionProps} />
-                        </Showcase.Variant>
-                    </Grid.Cell>
-                ),
-            )}
-        </Grid>
-    ));
-}

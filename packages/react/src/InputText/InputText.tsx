@@ -10,6 +10,7 @@ export const InputText = ({
     hint,
     error,
     isDisabled,
+    pseudoStates,
     ...props
 }: InputTextProps) => {
     const controlProps: FormControlProps = {
@@ -23,6 +24,7 @@ export const InputText = ({
         placeholder,
         isDisabled,
         isError: !!error,
+        pseudoStates,
     };
 
     return (
