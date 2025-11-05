@@ -13,11 +13,11 @@ export const Grid: GridComponent = ({ children, columns }) => {
 };
 
 const Header = ({ label }: HeaderProps) => {
-    return <div>{label}</div>;
+    return <div className="grid-header">{label}</div>;
 };
 
 const Cell = ({ children }: CellProps) => {
-    return <div>{children}</div>;
+    return <div className="grid-cell">{children}</div>;
 };
 
 Grid.Header = Header;

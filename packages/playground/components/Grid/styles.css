@@ -2,3 +2,11 @@
     display: grid;
     gap: 12px;
 }
+
+.grid-header {
+    grid-row: 1;
+}
+
+.grid-cell {
+    grid-row: 2;
+}

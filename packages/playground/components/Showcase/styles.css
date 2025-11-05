@@ -36,6 +36,9 @@
 }
 
 .showcase-item__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 /**
