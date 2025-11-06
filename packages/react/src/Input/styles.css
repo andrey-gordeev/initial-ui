@@ -3,6 +3,8 @@
     block-size: 30px;
     padding-block: 2px;
     padding-inline: 8px;
+    font-size: 16px;
+    line-height: 30px;
     background-color: #fff;
     border-color: #ccc;
     border-style: solid;
