@@ -2,10 +2,10 @@ import React from 'react';
 import { BaseIconProps } from '../types';
 
 /**
- * AddIcon Component
+ * Search24Icon Component
  * Генерируется из SVG файла с помощью SVGR
  */
-const AddIcon: React.FC<BaseIconProps> = ({
+const Search24Icon: React.FC<BaseIconProps> = ({
   size = 'md',
   color = 'black',
   className,
@@ -27,21 +27,15 @@ const AddIcon: React.FC<BaseIconProps> = ({
 
   return (
         <svg
+    xmlns="http://www.w3.org/2000/svg"
     width={getSize()}
     height={getSize()}
-    fill="none"
     viewBox="0 0 24 24"
     aria-hidden="true"
   >
-    <path
-      stroke={getColor()}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 5v14m-7-7h14"
-    />
+    <path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2ZM3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0Z" />
   </svg>
   );
 };
 
-export default AddIcon;
+export default Search24Icon;

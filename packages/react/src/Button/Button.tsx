@@ -22,7 +22,7 @@ export const Button = ({
 
     return (
         <button className={className} disabled={isDisabled} onClick={onClick}>
-            <Icon name={'add'} />
+            <Icon name="plus-24" />
             <Action>Button</Action>
         </button>
     );
