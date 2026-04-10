@@ -9,18 +9,18 @@
 .switch {
     all: unset;
     position: relative;
-    box-sizing: border-box;
     display: block;
     flex: 0 0 auto;
+    box-sizing: border-box;
     inline-size: var(--iui-token-switch-track-width);
     block-size: var(--iui-token-switch-track-height);
     appearance: none;
-    cursor: pointer;
-    background-color: var(--iui-token-switch-track-background);
-    border-color: var(--iui-token-switch-track-border-color);
-    border-style: solid;
     border-width: var(--iui-token-switch-track-border-width);
+    border-style: solid;
+    border-color: var(--iui-token-switch-track-border-color);
     border-radius: var(--iui-token-switch-track-border-radius);
+    background-color: var(--iui-token-switch-track-background);
+    cursor: pointer;
 
     &::before {
         position: absolute;
@@ -28,15 +28,15 @@
             var(--iui-token-switch-track-spacing)
             var(--iui-token-switch-track-spacing);
         aspect-ratio: 1 / 1;
-        content: '';
-        background-color: var(--iui-token-switch-thumb-background);
-        border-color: var(--iui-token-switch-thumb-border-color);
-        border-style: solid;
         border-width: var(--iui-token-switch-thumb-border-width);
+        border-style: solid;
+        border-color: var(--iui-token-switch-thumb-border-color);
         border-radius: var(--iui-token-switch-thumb-border-radius);
+        background-color: var(--iui-token-switch-thumb-background);
         transition:
             transform 0.3s,
             background-color 0.3s;
+        content: '';
     }
 
     &:checked {
@@ -53,20 +53,20 @@
     }
 
     &:disabled {
-        cursor: not-allowed;
-        background-color: var(--iui-token-switch-disabled-track-background);
         border-color: var(--iui-token-switch-disabled-track-border-color);
+        background-color: var(--iui-token-switch-disabled-track-background);
+        cursor: not-allowed;
 
         &::before {
-            background-color: var(--iui-token-switch-disabled-thumb-background);
             border-color: var(--iui-token-switch-disabled-thumb-border-color);
+            background-color: var(--iui-token-switch-disabled-thumb-background);
         }
     }
 }
 
 .switch__label {
-    font-size: 16px;
     color: #000;
+    font-size: 16px;
 
     &.switch__label--disabled {
         color: #999;
@@ -74,9 +74,9 @@
 }
 
 .switch__hint {
-    font-size: 14px;
     color: #ccc;
     white-space: pre-line;
+    font-size: 14px;
 
     &::before {
         content: '\A';

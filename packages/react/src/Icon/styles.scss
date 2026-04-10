@@ -8,19 +8,21 @@
 
 .icon {
     display: inline-flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 
     /* Базовые стили для всех иконок */
+
     svg {
         display: block;
         inline-size: var(--iui-token-icon-default-size);
         block-size: var(--iui-token-icon-default-size);
-        fill: none;
         stroke: currentColor;
+        fill: none;
     }
 
     /* Размеры иконок */
+
     &--size-sm svg {
         inline-size: var(--iui-token-icon-size-sm);
         block-size: var(--iui-token-icon-size-sm);
@@ -42,6 +44,7 @@
     }
 
     /* Цвета иконок */
+
     &--color-red svg {
         stroke: var(--iui-token-icon-color-red);
     }

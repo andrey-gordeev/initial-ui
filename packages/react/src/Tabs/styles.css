@@ -14,22 +14,22 @@
 
     position: relative;
     display: flex;
-    padding: 0;
     margin: 0;
+    padding: 0;
 
     &::after {
         position: absolute;
-        content: '';
         background-color: var(--tab-item-active-indicator-color, transparent);
         transition: all 0.3s ease;
+        content: '';
     }
 
     &.tab-list--horizontal {
         border-block-end: var(--tab-list-border-size) solid rgb(229, 231, 235);
 
         &::after {
-            inset-block-end: calc(var(--tab-list-border-size) * -1);
             inset-inline-start: var(--tab-item-active-left, 0);
+            inset-block-end: calc(var(--tab-list-border-size) * -1);
             inline-size: var(--tab-item-active-width, 0);
             block-size: 2px;
         }
@@ -41,8 +41,8 @@
         border-inline-end: var(--tab-list-border-size) solid rgb(229, 231, 235);
 
         &::after {
-            inset-block-start: var(--tab-item-active-top, 0);
             inset-inline-end: calc(var(--tab-list-border-size) * -1);
+            inset-block-start: var(--tab-item-active-top, 0);
             inline-size: 2px;
             block-size: var(--tab-item-active-height, 0);
         }

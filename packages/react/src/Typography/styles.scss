@@ -49,8 +49,8 @@ $emoji-stack:
 
 @mixin font-label-1 {
     @include font-stack($system-stack, sans-serif);
-    font-size: 11px;
     line-height: 16px;
+    font-size: 11px;
 }
 
 .iui-label-1 {
@@ -59,8 +59,8 @@ $emoji-stack:
 
 @mixin font-label-2 {
     @include font-stack($system-stack, sans-serif);
-    font-size: 12px;
     line-height: 16px;
+    font-size: 12px;
 }
 
 .iui-label-2 {
@@ -69,8 +69,8 @@ $emoji-stack:
 
 @mixin font-label-3 {
     @include font-stack($system-stack, sans-serif);
-    font-size: 14px;
     line-height: 16px;
+    font-size: 14px;
 }
 
 .iui-label-3 {

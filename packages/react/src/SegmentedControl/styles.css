@@ -13,28 +13,28 @@
 
     display: flex;
     gap: 4px;
-    inline-size: fit-content;
     padding: 4px;
+    inline-size: fit-content;
     border: var(--tab-item-active-indicator-border-width) solid #ccc;
 
     &:after {
         position: absolute;
-        inset-block-start: calc(
-            var(--tab-item-active-indicator-top) -
-                var(--tab-item-active-indicator-border-width)
-        );
         inset-inline-start: calc(
             var(--tab-item-active-indicator-left) -
+                var(--tab-item-active-indicator-border-width)
+        );
+        inset-block-start: calc(
+            var(--tab-item-active-indicator-top) -
                 var(--tab-item-active-indicator-border-width)
         );
         z-index: -1;
         inline-size: var(--tab-item-active-indicator-width);
         block-size: var(--tab-item-active-indicator-height);
-        content: '';
         background-color: #f1f1f1;
-        transition-timing-function: ease;
         transition-duration: 0.3s;
         transition-property: left, width;
+        transition-timing-function: ease;
+        content: '';
     }
 }
 
@@ -49,15 +49,15 @@
         all: unset;
         /* sr-only */
         position: absolute;
+        margin: -1px;
+        padding: 0;
         inline-size: 1px;
         block-size: 1px;
-        padding: 0;
-        margin: -1px;
         overflow: hidden;
-        white-space: nowrap;
+        clip: rect(0, 0, 0, 0);
         appearance: none;
         border-width: 0;
-        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
 
         &:focus-visible {
         }

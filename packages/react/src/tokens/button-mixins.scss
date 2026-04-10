@@ -19,140 +19,140 @@
 
 @mixin button-kind-solid($base-color) {
     @include color-palette($base-color);
-    color: white;
-
-    background-color: var(--color-500);
     border-color: var(--color-500);
 
+    background-color: var(--color-500);
+    color: white;
+
     &:hover:not(:disabled) {
-        background-color: var(--color-600);
         border-color: var(--color-600);
+        background-color: var(--color-600);
     }
 
     &:active:not(:disabled) {
-        background-color: var(--color-700);
         border-color: var(--color-700);
+        background-color: var(--color-700);
     }
 
     &:disabled {
-        color: var(--color-100);
-        background-color: var(--color-300);
         border-color: var(--color-300);
+        background-color: var(--color-300);
+        color: var(--color-100);
     }
 }
 
 @mixin button-kind-outline($base-color) {
     @include color-palette($base-color);
-    color: var(--color-500);
-
-    background-color: transparent;
     border-color: var(--color-500);
 
+    background-color: transparent;
+    color: var(--color-500);
+
     &:hover:not(:disabled) {
-        color: var(--color-600);
-        background-color: var(--color-50);
         border-color: var(--color-600);
+        background-color: var(--color-50);
+        color: var(--color-600);
     }
 
     &:active:not(:disabled) {
-        color: var(--color-700);
-        background-color: var(--color-100);
         border-color: var(--color-700);
+        background-color: var(--color-100);
+        color: var(--color-700);
     }
 
     &:disabled {
-        color: var(--color-300);
         border-color: var(--color-300);
+        color: var(--color-300);
     }
 }
 
 @mixin button-kind-light($base-color) {
     @include color-palette($base-color);
-    color: var(--color-500);
-
-    background-color: var(--color-50);
     border-color: transparent;
 
+    background-color: var(--color-50);
+    color: var(--color-500);
+
     &:hover:not(:disabled) {
-        color: var(--color-600);
         background-color: var(--color-100);
+        color: var(--color-600);
     }
 
     &:active:not(:disabled) {
-        color: var(--color-700);
         background-color: var(--color-200);
+        color: var(--color-700);
     }
 
     &:disabled {
-        color: var(--color-300);
         background-color: var(--color-50);
+        color: var(--color-300);
     }
 }
 
 @mixin button-kind-ghost($base-color) {
     @include color-palette($base-color);
-    color: var(--color-500);
-
-    background-color: transparent;
     border-color: transparent;
 
+    background-color: transparent;
+    color: var(--color-500);
+
     &:hover:not(:disabled) {
-        color: var(--color-600);
         background-color: rgba(141, 141, 141, 0.12);
+        color: var(--color-600);
     }
 
     &:active:not(:disabled) {
-        color: var(--color-700);
         background-color: rgba(141, 141, 141, 0.5);
+        color: var(--color-700);
     }
 
     &:disabled {
-        color: var(--color-300);
         background-color: transparent;
+        color: var(--color-300);
     }
 }
 
 @mixin button-kind-inverse($base-color) {
     @include color-palette($base-color);
-    color: var(--color-500);
-
-    background-color: var(--color-50);
     border-color: var(--color-50);
 
+    background-color: var(--color-50);
+    color: var(--color-500);
+
     &:hover:not(:disabled) {
-        color: var(--color-600);
-        background-color: var(--color-100);
         border-color: var(--color-100);
+        background-color: var(--color-100);
+        color: var(--color-600);
     }
 
     &:active:not(:disabled) {
-        color: var(--color-700);
-        background-color: var(--color-200);
         border-color: var(--color-200);
+        background-color: var(--color-200);
+        color: var(--color-700);
     }
 
     &:disabled {
-        color: var(--color-300);
-        background-color: var(--color-50);
         border-color: var(--color-50);
+        background-color: var(--color-50);
+        color: var(--color-300);
     }
 }
 
 @mixin button-kind-subtle($base-color) {
     @include color-palette($base-color);
-    color: var(--color-500);
-
-    background-color: transparent;
     border-color: transparent;
 
+    background-color: transparent;
+    color: var(--color-500);
+
     &:hover:not(:disabled) {
-        color: var(--color-600);
         background-color: var(--color-50);
+        color: var(--color-600);
     }
 
     &:active:not(:disabled) {
-        color: var(--color-700);
         background-color: var(--color-100);
+        color: var(--color-700);
     }
 
     &:disabled {

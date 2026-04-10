@@ -2,18 +2,18 @@
     position: relative;
     display: flex;
     align-items: center;
-    block-size: 30px;
-    padding-block: 2px;
     padding-inline: 8px;
-    background-color: #fff;
-    border-color: #ccc;
-    border-style: solid;
+    padding-block: 2px;
+    block-size: 30px;
     border-width: 1px;
+    border-style: solid;
+    border-color: #ccc;
+    background-color: #fff;
 }
 
 .iui-select__value {
-    font-size: 16px;
     line-height: 30px;
+    font-size: 16px;
 }
 
 .iui-select__trailing-icon {
@@ -23,8 +23,8 @@
 
 .iui-select__options {
     position: absolute;
-    inset-block-start: 100%;
     inset-inline-start: 0;
+    inset-block-start: 100%;
     display: none;
     inline-size: 200px;
 

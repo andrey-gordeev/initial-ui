@@ -35,12 +35,13 @@
     @include font-label-3;
 
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     inline-size: var(--avatar-size);
     block-size: var(--avatar-size);
 
     /* TMP: Color */
+
     .avatar--normal & {
         background-color: mediumslateblue;
     }
@@ -55,9 +56,9 @@
 .avatar__halo {
     position: absolute;
     inset: -4px;
-    pointer-events: none;
     border: 2px solid forestgreen;
     border-radius: 50%;
+    pointer-events: none;
 }
 
 /* Inset */
@@ -65,9 +66,9 @@
 .avatar__inset {
     position: absolute;
     inset: 0;
-    pointer-events: none;
     border: 2px solid salmon;
     border-radius: 50%;
+    pointer-events: none;
 }
 
 /* Add button */
@@ -107,8 +108,8 @@
 
 .avatar__badges {
     position: absolute;
-    inset-block-start: 0;
     inset-inline-start: 0;
+    inset-block-start: 0;
     z-index: 1;
     inline-size: var(--avatar-size);
     block-size: var(--avatar-size);
@@ -118,49 +119,49 @@
 .avatar-badge {
     position: absolute;
     display: flex;
-    align-items: center;
     justify-content: center;
-    pointer-events: auto;
+    align-items: center;
     transform: translate(-50%, -50%);
+    pointer-events: auto;
 }
 
 .avatar-badge--top {
-    inset-block-start: calc(50% - var(--avatar-radius) * sin(90deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(90deg));
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(90deg));
 }
 
 .avatar-badge--top-start {
-    inset-block-start: calc(50% - var(--avatar-radius) * sin(45deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(45deg));
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(45deg));
 }
 
 .avatar-badge--top-end {
-    inset-block-start: calc(50% - var(--avatar-radius) * sin(135deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(135deg));
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(135deg));
 }
 
 .avatar-badge--bottom {
-    inset-block-start: calc(50% - var(--avatar-radius) * sin(270deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(270deg));
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(270deg));
 }
 
 .avatar-badge--bottom-start {
     position: absolute;
-    inset-block-start: calc(50% - var(--avatar-radius) * sin(225deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(225deg));
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(225deg));
 }
 
 .avatar-badge--bottom-end {
-    inset-block-start: calc(50% - var(--avatar-radius) * sin(315deg));
     inset-inline-start: calc(50% + var(--avatar-radius) * cos(315deg));
+    inset-block-start: calc(50% - var(--avatar-radius) * sin(315deg));
 }
 
 .avatar-badge--left {
-    inset-block-start: calc(50%);
     inset-inline-start: calc(50% - var(--avatar-radius));
+    inset-block-start: calc(50%);
 }
 
 .avatar-badge--right {
-    inset-block-start: calc(50%);
     inset-inline-start: calc(50% + var(--avatar-radius));
+    inset-block-start: calc(50%);
 }

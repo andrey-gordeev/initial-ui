@@ -4,14 +4,14 @@
 .popover {
     position: absolute;
     z-index: 1;
-    min-inline-size: 100px;
     padding: 16px;
-    font-size: 16px;
-    color: var(--iui-token-popover-text-color);
-    background-color: var(--iui-token-popover-background);
+    min-inline-size: 100px;
     border: var(--iui-token-popover-border-width) solid
         var(--iui-token-popover-border-color);
     border-radius: var(--iui-token-popover-border-radius);
+    background-color: var(--iui-token-popover-background);
+    color: var(--iui-token-popover-text-color);
+    font-size: 16px;
     filter: drop-shadow(0 1px 2px rgba(60, 64, 67, 0.3))
         drop-shadow(0 1px 3px rgba(60, 64, 67, 0.15));
 
@@ -20,37 +20,36 @@
         z-index: -2;
         inline-size: var(--iui-token-popover-arrow-size);
         block-size: var(--iui-token-popover-arrow-size);
-        content: '';
-        background-color: inherit;
         border: inherit;
+        background-color: inherit;
         transform: rotate(45deg);
+        content: '';
     }
 
     &::after {
         position: absolute;
         inset: 0;
         z-index: -1;
-        content: '';
-        background-color: inherit;
         border-radius: inherit;
+        background-color: inherit;
+        content: '';
     }
 
     &--top {
-        inset-block-end: calc(100% + var(--iui-token-popover-offset));
         inset-inline-start: 50%;
+        inset-block-end: calc(100% + var(--iui-token-popover-offset));
         transform: translateX(-50%);
 
         &::before {
+            inset-inline-start: 50%;
             inset-block-start: calc(
                 100% - var(--iui-token-popover-arrow-offset)
             );
-            inset-inline-start: 50%;
             transform: translateX(-50%) rotate(45deg);
         }
     }
 
     &--top-start {
-        inset-block-end: calc(100% + var(--iui-token-popover-offset));
         inset-inline-start: calc(
             50% - var(--iui-token-popover-arrow-position-start, 0px) - var(
                     --iui-token-popover-arrow-half-size,
@@ -58,17 +57,17 @@
                 ) -
                 (var(--iui-token-popover-border-width, 0px) * 2)
         );
+        inset-block-end: calc(100% + var(--iui-token-popover-offset));
 
         &::before {
+            inset-inline-start: var(--iui-token-popover-arrow-position-start);
             inset-block-start: calc(
                 100% - var(--iui-token-popover-arrow-offset)
             );
-            inset-inline-start: var(--iui-token-popover-arrow-position-start);
         }
     }
 
     &--top-end {
-        inset-block-end: calc(100% + var(--iui-token-popover-offset));
         inset-inline-end: calc(
             50% - var(--iui-token-popover-arrow-position-end, 0px) - var(
                     --iui-token-popover-arrow-half-size,
@@ -76,29 +75,29 @@
                 ) -
                 (var(--iui-token-popover-border-width, 0px) * 2)
         );
+        inset-block-end: calc(100% + var(--iui-token-popover-offset));
 
         &::before {
+            inset-inline-end: var(--iui-token-popover-arrow-position-end);
             inset-block-start: calc(
                 100% - var(--iui-token-popover-arrow-offset)
             );
-            inset-inline-end: var(--iui-token-popover-arrow-position-end);
         }
     }
 
     &--bottom {
-        inset-block-start: calc(100% + var(--iui-token-popover-offset));
         inset-inline-start: 50%;
+        inset-block-start: calc(100% + var(--iui-token-popover-offset));
         transform: translateX(-50%);
 
         &::before {
-            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
             inset-inline-start: 50%;
+            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
             transform: translateX(-50%) rotate(45deg);
         }
     }
 
     &--bottom-start {
-        inset-block-start: calc(100% + var(--iui-token-popover-offset));
         inset-inline-start: calc(
             50% - var(--iui-token-popover-arrow-position-start, 0px) - var(
                     --iui-token-popover-arrow-half-size,
@@ -106,15 +105,15 @@
                 ) -
                 (var(--iui-token-popover-border-width, 0px) * 2)
         );
+        inset-block-start: calc(100% + var(--iui-token-popover-offset));
 
         &::before {
-            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
             inset-inline-start: var(--iui-token-popover-arrow-position-start);
+            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
         }
     }
 
     &--bottom-end {
-        inset-block-start: calc(100% + var(--iui-token-popover-offset));
         inset-inline-end: calc(
             50% - var(--iui-token-popover-arrow-position-end, 0px) - var(
                     --iui-token-popover-arrow-half-size,
@@ -122,37 +121,38 @@
                 ) -
                 (var(--iui-token-popover-border-width, 0px) * 2)
         );
+        inset-block-start: calc(100% + var(--iui-token-popover-offset));
 
         &::before {
-            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
             inset-inline-end: var(--iui-token-popover-arrow-position-end);
+            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
         }
     }
 
     &--left {
-        inset-block-start: 50%;
         inset-inline-end: calc(100% + var(--iui-token-popover-offset));
+        inset-block-start: 50%;
         transform: translateY(-50%);
 
         &::before {
-            inset-block-start: 50%;
             inset-inline-start: calc(
                 100% - var(--iui-token-popover-arrow-offset)
             );
+            inset-block-start: 50%;
             transform: translateY(-50%) rotate(45deg);
         }
     }
 
     &--right {
-        inset-block-start: 50%;
         inset-inline-start: calc(100% + var(--iui-token-popover-offset));
+        inset-block-start: 50%;
         transform: translateY(-50%);
 
         &::before {
-            inset-block-start: 50%;
             inset-inline-end: calc(
                 100% - var(--iui-token-popover-arrow-offset)
             );
+            inset-block-start: 50%;
             transform: translateY(-50%) rotate(45deg);
         }
     }

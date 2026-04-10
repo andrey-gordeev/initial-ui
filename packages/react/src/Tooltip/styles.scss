@@ -1,6 +1,6 @@
 .tooltip-container {
-    inline-size: fit-content;
     padding: 8px;
+    inline-size: fit-content;
     border: 1px dotted #999;
     filter: drop-shadow(0 1px 2px rgba(60, 64, 67, 0.3))
         drop-shadow(0 1px 3px rgba(60, 64, 67, 0.15));
@@ -13,15 +13,11 @@
     --tailHeight: 8px; /* высота хвостика */
     --paddingX: 16px; /* горизонтальный padding */
     --paddingY: 12px; /* вертикальный padding */
-    inline-size: fit-content;
-    max-inline-size: 220px;
 
     padding: var(--paddingY) var(--paddingX)
         calc(var(--paddingY) + var(--offset));
-    color: #000;
-    text-wrap: balance;
-
-    background-color: #fff;
+    inline-size: fit-content;
+    max-inline-size: 220px;
 
     clip-path: shape(
         from var(--r) 0,
@@ -45,4 +41,8 @@
 
         close
     );
+
+    background-color: #fff;
+    color: #000;
+    text-wrap: balance;
 }
