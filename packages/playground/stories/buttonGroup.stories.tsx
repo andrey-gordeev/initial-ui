@@ -7,8 +7,8 @@ export const Overview = () => {
         <Showcase label="ButtonGroup">
             <Showcase.Item>
                 <ButtonGroup>
-                    <Button variant="primary" />
-                    <Button variant="secondary" />
+                    <Button label="Primary" variant="primary" />
+                    <Button label="Secondary" variant="secondary" />
                 </ButtonGroup>
             </Showcase.Item>
         </Showcase>
