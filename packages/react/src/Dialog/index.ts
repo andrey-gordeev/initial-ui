@@ -1,4 +1,8 @@
 import { Dialog } from './Dialog';
 
 export default Dialog;
-export type { DialogRef } from './types';
+export type {
+    DialogControlledProps,
+    DialogIsOpenProps,
+    DialogRef,
+} from './types';

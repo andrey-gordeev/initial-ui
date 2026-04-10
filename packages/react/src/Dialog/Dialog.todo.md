@@ -3,30 +3,42 @@
 ## Important
 
 - [x] **`import.meta.env.DEV` → `process.env.NODE_ENV !== 'production'`**
-  `import.meta.env.DEV` работает только в Vite/esbuild. Потребители на webpack/Rspack/Turbopack увидят ошибку.
-  Либо tree-shake на этапе сборки пакета.
+      `import.meta.env.DEV` only works in Vite/esbuild. Consumers on webpack/Rspack/Turbopack will see an error.
+      Alternatively, tree-shake at the package build step.
 
 ## Accessibility
 
 - [ ] **Explicit focus management** (initial focus, focus return on close)
 
 - [ ] **Focus restoration on close**
-  При закрытии диалога фокус должен вернуться на элемент, который его открыл.
-  Сохранять `document.activeElement` перед `showModal()`, вызывать `.focus()` после закрытия.
+      On close, focus should return to the element that opened the dialog.
+      Save `document.activeElement` before `showModal()`, call `.focus()` after close.
 
-- [ ] **`role="alertdialog"` для confirmation/destructive диалогов**
-  Alert dialog не должен закрываться по backdrop click. Требует явного ответа от пользователя.
-  Добавить проп `role?: 'dialog' | 'alertdialog'`, при `alertdialog` отключать light dismiss.
+- [ ] **`role="alertdialog"` for confirmation/destructive dialogs**
+      Alert dialog must not close on backdrop click. Requires an explicit response from the user.
+      Add prop `role?: 'dialog' | 'alertdialog'`; when `alertdialog`, disable outside dismiss.
 
-- [ ] **Compound component pattern для автоматических aria-связей**
-  `Dialog.Title` / `Dialog.Description` автоматически генерируют `id` и пробрасывают `aria-labelledby` / `aria-describedby` через контекст.
-  Убирает целый класс a11y-багов (забытые `id`, рассинхрон между `id` и `aria-labelledby`).
+- [ ] **Compound component pattern for automatic aria bindings**
+      `Dialog.Title` / `Dialog.Description` auto-generate `id` and propagate `aria-labelledby` / `aria-describedby` via context.
+      Eliminates a whole class of a11y bugs (forgotten `id`, `id` / `aria-labelledby` mismatch).
 
 ## Architecture
 
 - [ ] **Compound component pattern** (`Dialog.Root`, `Dialog.Trigger`, `Dialog.Content`, `Dialog.Title`, `Dialog.Description`, `Dialog.Close`)
-  Текущий монолитный компонент вынуждает потребителя вручную управлять trigger-кнопкой, `useId()`, aria-атрибутами.
-  Compound components убирают boilerplate и делают API декларативным.
+      The current monolithic component forces consumers to manually manage trigger buttons, `useId()`, and aria attributes.
+      Compound components remove boilerplate and make the API declarative.
+
+## Behavior
+
+- [ ] **Esc/backdrop dismiss — should ConfirmationDialog call `dismiss.onAction`?**
+      Currently `handleDismiss` (which calls `dismiss.onAction`) is bound to `onOpenChange` and `onClose`,
+      so Esc and backdrop for `low`/`medium` are routed through it.
+      Verify this is intentional, not a side effect — semantically Esc is not the same as clicking "Cancel".
+
+- [ ] **Native `<dialog>` CloseWatcher vs `shouldEscapeDismiss={false}`**
+      Browsers can fire a second Escape that is non-cancelable (CloseWatcher “escape hatch”) after the first `cancel` was prevented.
+      We currently call `preventDefault()` on `keydown` for Escape when escape dismiss is disabled, so the dialog stays open until explicit user actions.
+      Revisit later: product/accessibility trade-off (strict confirmation UX vs aligning with platform default “always a way out”), nested dialogs, and whether to document any residual browser quirks.
 
 ## UX
 

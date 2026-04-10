@@ -1,5 +1,7 @@
 import { useId, useRef, useState } from 'react';
 import Dialog, { type DialogRef } from '../../react/src/Dialog';
+import ConfirmationDialog from '../../react/src/ConfirmationDialog';
+import type { ConfirmationDialogState } from '../../react/src/ConfirmationDialog';
 import Button from '../../react/src/Button';
 import ButtonGroup from '../../react/src/ButtonGroup';
 
@@ -73,49 +75,150 @@ export const Overview = () => {
     );
 };
 
-export const ConfirmationDialog = () => {
+export const ConfirmLow = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const titleId = useId();
-    const descId = useId();
 
-    function onDelete() {
-        console.log('deleted!');
+    return (
+        <>
+            <Button
+                label="Archive item"
+                variant="secondary"
+                onClick={() => setIsOpen(true)}
+            />
+            <ConfirmationDialog
+                isOpen={isOpen}
+                onOpenChange={setIsOpen}
+                severity="low"
+                title="Archive this item?"
+                description="You can restore it later from the archive."
+                confirm={{
+                    label: 'Archive',
+                    onAction: () => {
+                        console.log('archived');
+                        setIsOpen(false);
+                    },
+                }}
+            />
+        </>
+    );
+};
+
+ConfirmLow.storyName = 'Archive (Low severity)';
+
+export const ConfirmMedium = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <>
+            <Button
+                label="Remove member"
+                variant="danger"
+                onClick={() => setIsOpen(true)}
+            />
+            <ConfirmationDialog
+                isOpen={isOpen}
+                onOpenChange={setIsOpen}
+                severity="medium"
+                title="Remove team member?"
+                description="They will lose access to all shared resources."
+                confirm={{
+                    label: 'Remove',
+                    onAction: () => {
+                        console.log('removed');
+                        setIsOpen(false);
+                    },
+                }}
+            />
+        </>
+    );
+};
+
+export const ConfirmHigh = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <>
+            <Button
+                label="Delete project"
+                variant="danger"
+                onClick={() => setIsOpen(true)}
+            />
+            <ConfirmationDialog
+                isOpen={isOpen}
+                onOpenChange={setIsOpen}
+                severity="high"
+                title="Delete this project?"
+                description="All data will be permanently removed. This action cannot be undone."
+                confirm={{
+                    label: 'Delete',
+                    onAction: () => {
+                        console.log('deleted');
+                        setIsOpen(false);
+                    },
+                }}
+            />
+        </>
+    );
+};
+
+export const ConfirmCritical = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <>
+            <Button
+                label="Delete account"
+                variant="danger"
+                onClick={() => setIsOpen(true)}
+            />
+            <ConfirmationDialog
+                isOpen={isOpen}
+                onOpenChange={setIsOpen}
+                severity="critical"
+                title="Delete your account?"
+                description="This will permanently delete your account, all projects, and all associated data. This action is irreversible."
+                confirm={{
+                    label: 'Delete my account',
+                    onAction: () => {
+                        console.log('account deleted');
+                        setIsOpen(false);
+                    },
+                }}
+            />
+        </>
+    );
+};
+
+export const ConfirmAsync = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [confirmState, setConfirmState] = useState<ConfirmationDialogState>('idle');
+
+    async function handleConfirm() {
+        setConfirmState('loading');
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setConfirmState('idle');
         setIsOpen(false);
     }
 
     return (
         <>
             <Button
-                label="Delete"
+                label="Delete with async"
                 variant="danger"
                 onClick={() => setIsOpen(true)}
             />
-
-            <Dialog
+            <ConfirmationDialog
                 isOpen={isOpen}
                 onOpenChange={setIsOpen}
-                aria-labelledby={titleId}
-                aria-describedby={descId}
-            >
-                <div className="dialog-contents">
-                    <h2 id={titleId}>Confirm deletion</h2>
-                    <p id={descId}>
-                        Are you sure? This action cannot be undone.
-                    </p>
-                    <ButtonGroup>
-                        <Button
-                            label="Cancel"
-                            variant="secondary"
-                            onClick={() => setIsOpen(false)}
-                        />
-                        <Button
-                            label="Delete"
-                            variant="danger"
-                            onClick={onDelete}
-                        />
-                    </ButtonGroup>
-                </div>
-            </Dialog>
+                severity="high"
+                title="Delete item?"
+                description="This may take a moment."
+                state={confirmState}
+                confirm={{
+                    label: 'Delete',
+                    onAction: handleConfirm,
+                }}
+            />
         </>
     );
 };

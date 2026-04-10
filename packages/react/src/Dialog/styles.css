@@ -18,9 +18,12 @@
     @media (prefers-reduced-motion: no-preference) {
         /* TODO: Safari position jump on close — https://bugs.webkit.org/show_bug.cgi?id=275184 */
         transition:
-            overlay var(--iui-dialog-animation-duration) var(--iui-dialog-animation-easing) allow-discrete,
-            opacity var(--iui-dialog-animation-duration) var(--iui-dialog-animation-easing),
-            display var(--iui-dialog-animation-duration) var(--iui-dialog-animation-easing) allow-discrete;
+            overlay var(--iui-dialog-animation-duration)
+                var(--iui-dialog-animation-easing) allow-discrete,
+            opacity var(--iui-dialog-animation-duration)
+                var(--iui-dialog-animation-easing),
+            display var(--iui-dialog-animation-duration)
+                var(--iui-dialog-animation-easing) allow-discrete;
         opacity: 0;
 
         &[open] {
@@ -31,7 +34,8 @@
             transition:
                 display var(--iui-dialog-animation-duration) allow-discrete,
                 overlay var(--iui-dialog-animation-duration) allow-discrete,
-                background-color var(--iui-dialog-animation-duration);
+                background-color var(--iui-dialog-animation-duration)
+                    var(--iui-dialog-animation-easing);
         }
     }
 

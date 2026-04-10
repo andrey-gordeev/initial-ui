@@ -1,4 +1,5 @@
 import {
+    type KeyboardEvent,
     type MouseEvent,
     type SyntheticEvent,
     useEffect,
@@ -6,16 +7,19 @@ import {
     useRef,
     useState,
 } from 'react';
+
 import type { DialogProps } from './types';
-import { validateDialogProps } from './validate';
+import { validateDialogProps } from './utils';
 import './styles.css';
 
 export function Dialog({
     ref,
-    shouldLightDismiss = true,
+    shouldOutsideDismiss = true,
+    shouldEscapeDismiss = true,
     initialOpen = false,
     isOpen: controlledOpen,
     onOpenChange: controlledOpenChange,
+    onKeyDown,
     onClose,
     children,
     ...ariaProps
@@ -36,8 +40,14 @@ export function Dialog({
     const onCloseRef = useRef(onClose);
     onCloseRef.current = onClose;
 
-    const mountedRef = useRef(true);
-    useEffect(() => () => { mountedRef.current = false; }, []);
+    const mountedRef = useRef(false);
+    useEffect(() => {
+        mountedRef.current = true;
+
+        return () => {
+            mountedRef.current = false;
+        };
+    }, []);
 
     const closingRef = useRef(false);
 
@@ -77,13 +87,22 @@ export function Dialog({
         [isOpen],
     );
 
+    function handleKeyDown(event: KeyboardEvent<HTMLDialogElement>) {
+        if (event.key === 'Escape' && !shouldEscapeDismiss) {
+            event.preventDefault();
+        }
+        onKeyDown?.(event);
+    }
+
     function handleCancel(event: SyntheticEvent) {
         event.preventDefault();
-        requestClose(event);
+        if (shouldEscapeDismiss) {
+            requestClose(event);
+        }
     }
 
     function handleClick(event: MouseEvent<HTMLDialogElement>) {
-        if (shouldLightDismiss && event.target === event.currentTarget) {
+        if (shouldOutsideDismiss && event.target === event.currentTarget) {
             requestClose(event);
         }
     }
@@ -106,6 +125,7 @@ export function Dialog({
         <dialog
             ref={dialogRef}
             className="iui-dialog"
+            onKeyDown={handleKeyDown}
             onCancel={handleCancel}
             onClick={handleClick}
             onClose={handleClose}
