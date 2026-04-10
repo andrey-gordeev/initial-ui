@@ -1,0 +1,47 @@
+.iui-dialog {
+    --iui-dialog-backdrop-bg-open: rgb(0 0 0 / 75%);
+    --iui-dialog-backdrop-bg-closed: rgb(0 0 0 / 0%);
+    --iui-dialog-animation-duration: 150ms;
+    --iui-dialog-animation-easing: ease-in-out;
+
+    /* No padding on <dialog> so clicks on the backdrop area aren't swallowed. Apply padding to child elements instead. */
+    padding: 0;
+
+    &::backdrop {
+        background-color: var(--iui-dialog-backdrop-bg-closed);
+    }
+
+    &[open]::backdrop {
+        background-color: var(--iui-dialog-backdrop-bg-open);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        /* TODO: Safari position jump on close — https://bugs.webkit.org/show_bug.cgi?id=275184 */
+        transition:
+            overlay var(--iui-dialog-animation-duration) var(--iui-dialog-animation-easing) allow-discrete,
+            opacity var(--iui-dialog-animation-duration) var(--iui-dialog-animation-easing),
+            display var(--iui-dialog-animation-duration) var(--iui-dialog-animation-easing) allow-discrete;
+        opacity: 0;
+
+        &[open] {
+            opacity: 1;
+        }
+
+        &::backdrop {
+            transition:
+                display var(--iui-dialog-animation-duration) allow-discrete,
+                overlay var(--iui-dialog-animation-duration) allow-discrete,
+                background-color var(--iui-dialog-animation-duration);
+        }
+    }
+
+    @starting-style {
+        &[open] {
+            opacity: 0;
+        }
+
+        &[open]::backdrop {
+            background-color: var(--iui-dialog-backdrop-bg-closed);
+        }
+    }
+}
