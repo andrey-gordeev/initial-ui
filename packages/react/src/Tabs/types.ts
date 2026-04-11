@@ -21,7 +21,7 @@ export type PanelProps = {
 
 export type PanelListProps = {
     children: ReactNode;
-}
+};
 
 export interface TabsPropsWithChildren {
     children: React.ReactNode;

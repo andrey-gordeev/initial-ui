@@ -1,4 +1,9 @@
-import { AvatarSize, AvatarProps, BadgeDimensions, AvatarBadgeProps } from './types';
+import {
+    AvatarSize,
+    AvatarProps,
+    BadgeDimensions,
+    AvatarBadgeProps,
+} from './types';
 
 const SIZE_TO_VALUE_MAP: Record<AvatarSize, number> = {
     sm: 48,

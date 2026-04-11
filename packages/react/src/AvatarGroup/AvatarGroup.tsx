@@ -44,10 +44,10 @@ export const AvatarGroup = ({
                     gap > 0
                         ? ({
                               '--avatar-index': index,
-                              mask: hasNextAvatar
+                              'mask': hasNextAvatar
                                   ? `url(#${maskId})`
                                   : undefined,
-                              WebkitMask: hasNextAvatar
+                              'WebkitMask': hasNextAvatar
                                   ? `url(#${maskId})`
                                   : undefined,
                           } as CSSProperties)

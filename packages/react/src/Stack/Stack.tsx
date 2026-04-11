@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import { StackProps } from './types';
 import './styles.css';
 

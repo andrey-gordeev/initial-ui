@@ -1,3 +1,5 @@
+import { Label3 } from '../Typography';
+
 import { RadioProps } from './types';
 import './styles.css';
 
@@ -11,10 +13,9 @@ export const Radio = ({
     onChange,
 }: RadioProps) => {
     return (
-        <label>
+        <label className="radio">
             <input
                 type="radio"
-                className="radio"
                 name={name}
                 value={value}
                 defaultChecked={defaultChecked}
@@ -22,7 +23,7 @@ export const Radio = ({
                 disabled={isDisabled}
                 onChange={onChange}
             />
-            {label}
+            {label ? <Label3>{label}</Label3> : null}
         </label>
     );
 };

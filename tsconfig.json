@@ -5,7 +5,7 @@
     "module": "ESNext", // для современного модульного синтаксиса
     "jsx": "react-jsx", // поддержка JSX для React 17+
     "strict": true, // включает все строгие проверки
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true, // для корректного импорта CommonJS
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true // пропуск проверки типов в node_modules

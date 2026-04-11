@@ -1,27 +1,32 @@
 .checkbox {
-    all: unset;
-    position: relative;
-    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-    inline-size: 20px;
-    appearance: none;
+    & > input {
+        all: unset;
+        position: relative;
+        display: block;
+        aspect-ratio: 1 / 1;
+        inline-size: 20px;
+        appearance: none;
+        border: 1px solid #ccc;
 
-    border: 1px solid #ccc;
-
-    &:checked {
-        &::before {
-            position: absolute;
-            inset: 2px;
-            display: inline-block;
-            inline-size: 1em;
-            block-size: 1em;
-            background: no-repeat center/contain
-                url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12.5l5 5 9-13' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-            content: '';
+        &:checked {
+            &::before {
+                position: absolute;
+                inset: 2px;
+                display: inline-block;
+                inline-size: 1em;
+                block-size: 1em;
+                background: no-repeat center/contain
+                    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12.5l5 5 9-13' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+                content: '';
+            }
         }
     }
 
-    &.checkbox--indeterminate {
+    &.checkbox--indeterminate > input {
         &::before {
             position: absolute;
             inset: 2px;
@@ -32,5 +37,9 @@
                 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='6' y='11' width='12' height='2' fill='currentColor'/></svg>");
             content: '';
         }
+    }
+
+    &:has(> input:disabled) {
+        opacity: 0.55;
     }
 }

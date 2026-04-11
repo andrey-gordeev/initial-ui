@@ -1,6 +1,8 @@
 import clsx from 'clsx';
-import { Action } from '../Typography';
+
 import { Icon } from '../Icon';
+import { Action } from '../Typography';
+
 import { ButtonProps } from './types';
 import { BUTTON_VARIANT_TO_CLASS_NAME_MAP } from './constants';
 import './styles.scss';

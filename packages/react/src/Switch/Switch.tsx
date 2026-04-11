@@ -1,5 +1,7 @@
 import { useId } from 'react';
 import { clsx } from 'clsx';
+
+import { Label2, Label3 } from '../Typography';
 import { SwitchProps } from './types';
 import './styles.css';
 
@@ -44,9 +46,9 @@ export const Switch = ({
                 {input}
                 {label ? (
                     <label htmlFor={id}>
-                        <span className={className.label}>{label}</span>
+                        <Label3 className={className.label}>{label}</Label3>
                         {hint ? (
-                            <span className={className.hint}>{hint}</span>
+                            <Label2 className={className.hint}>{hint}</Label2>
                         ) : null}
                     </label>
                 ) : null}

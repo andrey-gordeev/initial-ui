@@ -36,11 +36,14 @@ export const SegmentedControl = ({
             const childrenArray = Children.toArray(children);
             for (const child of childrenArray) {
                 if (isValidElement(child) && child.props.isSelected) {
-                    return child.props.value ?? String(childrenArray.indexOf(child));
+                    return (
+                        child.props.value ??
+                        String(childrenArray.indexOf(child))
+                    );
                 }
             }
         }
-        
+
         // Проверяем segments
         if (segments) {
             for (let i = 0; i < segments.length; i++) {
@@ -50,13 +53,13 @@ export const SegmentedControl = ({
                 }
             }
         }
-        
+
         return null;
     };
 
-    const activeValue = isControlled 
-        ? value! 
-        : getActiveValueFromChildrenAndSegments() ?? internalValue;
+    const activeValue = isControlled
+        ? value!
+        : (getActiveValueFromChildrenAndSegments() ?? internalValue);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         // Если есть isSelected в children или segments, не обрабатываем изменения (как нативные радио)

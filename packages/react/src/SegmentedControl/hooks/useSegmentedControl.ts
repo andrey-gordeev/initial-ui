@@ -9,6 +9,3 @@ export const useSegmentedControl = (initialValue: string = '') => {
         onChange: setValue,
     };
 };
-
-
-

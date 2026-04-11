@@ -1,19 +1,13 @@
-import { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 
-type AllowedTags =
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'h4'
-    | 'h5'
-    | 'h6'
-    | 'p'
-    | 'div'
-    | 'span';
+type AllowedTags = Extract<
+    keyof JSX.IntrinsicElements,
+    'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'span'
+>;
 
 export type TextProps = {
     children: ReactNode;
-    className: string;
+    className?: string;
     as?: AllowedTags;
     align?: 'start' | 'end' | 'center';
 };
@@ -26,7 +20,7 @@ export type TitleProps = Pick<TextProps, 'children'>;
 
 export type BodyProps = Pick<TextProps, 'children'>;
 
-export type LabelProps = Pick<TextProps, 'children'>;
+export type LabelProps = Pick<TextProps, 'children' | 'className' | 'as'>;
 
 export type ActionProps = Pick<TextProps, 'children'>;
 

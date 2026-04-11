@@ -77,25 +77,25 @@ export const Body = ({ children }: BodyProps) => {
     );
 };
 
-export const Label1 = ({ children }: LabelProps) => {
+export const Label1 = ({ children, className, as }: LabelProps) => {
     return (
-        <Text className="iui-label-1" as="p">
+        <Text className={clsx('iui-label-1', className)} as={as}>
             {children}
         </Text>
     );
 };
 
-export const Label2 = ({ children }: LabelProps) => {
+export const Label2 = ({ children, className, as }: LabelProps) => {
     return (
-        <Text className="iui-label-2" as="p">
+        <Text className={clsx('iui-label-2', className)} as={as}>
             {children}
         </Text>
     );
 };
 
-export const Label3 = ({ children }: LabelProps) => {
+export const Label3 = ({ children, className, as }: LabelProps) => {
     return (
-        <Text className="iui-label-3" as="p">
+        <Text className={clsx('iui-label-3', className)} as={as}>
             {children}
         </Text>
     );

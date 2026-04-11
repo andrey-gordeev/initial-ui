@@ -1,12 +1,18 @@
 {
   "scripts": {
-    "ladle": "ladle serve",
     "lint:styles": "stylelint 'packages/**/*.{css,scss}'",
     "lint:styles:fix": "stylelint 'packages/**/*.{css,scss}' --fix",
-    "generate:icons": "node packages/react/scripts/generate-icons.js"
+    "generate:icons": "node packages/react/scripts/generate-icons.js",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^5.1.1",
     "@playwright/test": "^1.59.1",
+    "@storybook/addon-a11y": "^10.3.5",
+    "@storybook/addon-docs": "^10.3.5",
+    "@storybook/addon-vitest": "^10.3.5",
+    "@storybook/react-vite": "^10.3.5",
     "@svgr/cli": "^8.1.0",
     "@terrazzo/cli": "^0.10.3",
     "@terrazzo/plugin-css": "^0.10.4",
@@ -14,17 +20,21 @@
     "@types/node": "^25.5.2",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "@vitest/browser-playwright": "^4.1.4",
+    "@vitest/coverage-v8": "^4.1.4",
+    "playwright": "^1.59.1",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.6.2",
     "sass-embedded": "^1.93.2",
+    "storybook": "^10.3.5",
     "stylelint": "^16.26.1",
     "stylelint-config-pepelsbey": "^1.2.0",
     "stylelint-order": "^7.0.1",
     "stylelint-plugin-logical-css": "^1.2.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.4"
   },
   "dependencies": {
-    "@ladle/react": "^5.1.0",
     "clsx": "^2.1.1"
   }
 }

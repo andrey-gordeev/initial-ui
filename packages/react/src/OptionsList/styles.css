@@ -10,7 +10,9 @@
 .option {
     padding: var(--iui-token-spacing-sm, 8px) var(--iui-token-spacing-md, 16px);
     background-color: var(--iui-token-background-color, #fff);
-    transition: background-color 0.2s, border-color 0.2s;
+    transition:
+        background-color 0.2s,
+        border-color 0.2s;
     cursor: pointer;
 }
 
@@ -31,5 +33,3 @@
     cursor: not-allowed;
     pointer-events: none;
 }
-
-
