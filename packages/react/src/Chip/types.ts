@@ -1,4 +1,5 @@
 import { IconName } from '../Icon';
+import { JSX } from 'react';
 
 export type ChipProps = {
     label: string;
@@ -7,3 +8,5 @@ export type ChipProps = {
     isSelected?: boolean;
     onClick?: () => void;
 };
+
+export type Tags = Extract<keyof JSX.IntrinsicElements, 'button' | 'div'>;
