@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, Ref } from 'react';
+import { CSSProperties, ReactNode, Ref } from 'react';
 
 export type TabProps = {
     id: string;
@@ -23,15 +23,6 @@ export type PanelListProps = {
     children: ReactNode;
 };
 
-export interface TabsPropsWithChildren {
-    children: React.ReactNode;
-    orientation?: 'horizontal' | 'vertical';
-}
-
-export interface TabsPropsWithLists {
-    tabList: TabProps[];
-    panelList?: PanelProps[];
-    orientation?: 'horizontal' | 'vertical';
-}
-
-export type TabsProps = TabsPropsWithChildren | TabsPropsWithLists;
+export type TabsProps = {
+    children: ReactNode;
+};
