@@ -9,20 +9,15 @@ export type TabProps = {
 
 export type TabListProps = {
     children: ReactNode;
-    orientation?: 'horizontal' | 'vertical';
     styles?: CSSProperties;
 };
 
 export type PanelProps = {
     children: ReactNode;
     id: string;
-    hidden?: boolean;
-};
-
-export type PanelListProps = {
-    children: ReactNode;
 };
 
 export type TabsProps = {
     children: ReactNode;
+    orientation?: 'horizontal' | 'vertical';
 };
