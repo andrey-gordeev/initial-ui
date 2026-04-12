@@ -3,6 +3,7 @@ import React, {
     useRef,
     createContext,
     useContext,
+    useCallback,
     KeyboardEvent,
     useEffect,
     CSSProperties,
@@ -82,7 +83,7 @@ export const TabList = ({
     }, [activeId, setActiveId]);
 
     // Update indicator position
-    useEffect(() => {
+    const updateIndicator = useCallback(() => {
         const activeTab = listRef.current?.querySelector<HTMLElement>(
             '[aria-selected="true"]',
         );
@@ -93,7 +94,20 @@ export const TabList = ({
             width: activeTab.offsetWidth,
             height: activeTab.offsetHeight,
         });
-    }, [activeId]);
+    }, []);
+
+    useEffect(() => {
+        updateIndicator();
+    }, [activeId, updateIndicator]);
+
+    // Re-measure on resize (window resize, zoom, font change)
+    useEffect(() => {
+        const list = listRef.current;
+        if (!list) return;
+        const observer = new ResizeObserver(updateIndicator);
+        observer.observe(list);
+        return () => observer.disconnect();
+    }, [updateIndicator]);
 
     // Keyboard navigation (manual activation, W3C APG)
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
