@@ -188,8 +188,19 @@ type TabsComponent = {
 export const Tabs: TabsComponent = ({
     children,
     orientation = 'horizontal',
+    defaultActiveId,
+    activeId: controlledActiveId,
+    onActiveIdChange,
 }) => {
-    const [activeId, setActiveId] = useState('');
+    const [uncontrolledId, setUncontrolledId] = useState(
+        defaultActiveId ?? '',
+    );
+    const activeId = controlledActiveId ?? uncontrolledId;
+
+    const setActiveId = (id: string) => {
+        if (controlledActiveId === undefined) setUncontrolledId(id);
+        onActiveIdChange?.(id);
+    };
 
     const contextValue: TabsContextType = {
         activeId,

@@ -20,4 +20,7 @@ export type PanelProps = {
 export type TabsProps = {
     children: ReactNode;
     orientation?: 'horizontal' | 'vertical';
+    defaultActiveId?: string;
+    activeId?: string;
+    onActiveIdChange?: (id: string) => void;
 };

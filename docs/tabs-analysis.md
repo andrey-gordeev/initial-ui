@@ -40,12 +40,12 @@ Analysis of `packages/react/src/Tabs/` against:
 
 ## 2. Controlled / Uncontrolled
 
-### Current state
+### Current state ✅ DONE
 
-Uncontrolled only — internal `useState` for `activeId`. No way to:
-- Set initial value (`defaultActiveId`)
-- Control externally (`activeId` + `onActiveIdChange`)
-- React to tab changes (no callback)
+Standard controlled/uncontrolled pattern implemented:
+- `defaultActiveId` — uncontrolled with initial value
+- `activeId` + `onActiveIdChange` — fully controlled
+- No props — auto-init first enabled tab (backwards compatible)
 
 ### Required for design system base
 
@@ -119,7 +119,7 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 |---|---|---|---|---|
 | ARIA roles/states | 6/10 | 6/10 | **8/10** | `aria-orientation` added, missing `aria-label` + panel `tabindex` |
 | Keyboard navigation | 5/10 | 5/10 | **9/10** | Home/End, ArrowUp/Down, stopPropagation, native Enter/Space |
-| Controlled/Uncontrolled | 3/10 | 3/10 | 3/10 | Still uncontrolled only — Phase 2 |
+| Controlled/Uncontrolled | 3/10 | 3/10 | **9/10** | defaultActiveId, activeId, onActiveIdChange |
 | Code complexity | 4/10 | 6/10 | **9/10** | 3-field context, no registration, no cloneElement |
 | Indicator | 5/10 | 5/10 | **6/10** | Simpler (DOM query), still no ResizeObserver |
 | CSS | 4/10 | 4/10 | 4/10 | Still hardcoded — Phase 3 |
@@ -164,9 +164,11 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 - [ ] Add `tabindex="0"` on tabpanel when no focusable content inside
 - [ ] Improve focus ring (2px solid, forced-colors support)
 
-### Phase 2 — Controlled / Uncontrolled
+### Phase 2 — Controlled / Uncontrolled ✅ DONE
 
-- [ ] Add `defaultActiveId`, `activeId`, `onActiveIdChange`
+- [x] Add `defaultActiveId`, `activeId`, `onActiveIdChange`
+- [x] Add stories: `defaultActiveId`, controlled with external state
+- [x] Update argTypes for new props
 
 ### Phase 3 — CSS & tokens
 
@@ -176,8 +178,8 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 
 ### Phase 4 — DX
 
-- [ ] Update stories for all scenarios
-- [ ] Add story for controlled mode
+- [x] Update stories for all scenarios
+- [x] Add story for controlled mode
 - [ ] Add story for vertical + keyboard
 - [ ] Add E2E tests (keyboard navigation, ARIA states)
 
@@ -222,4 +224,3 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 - `label` prop removed from `Tab` — children instead (flexibility: icons, badges)
 - `isDisabled` → `disabled` (consistency with native HTML)
 - `aria-label` required on `TabList` (via types)
-- `defaultActiveId` / `activeId` / `onActiveIdChange` — standard controlled/uncontrolled
