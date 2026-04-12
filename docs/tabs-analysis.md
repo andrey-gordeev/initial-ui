@@ -191,9 +191,9 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 // Composition-only API
 <Tabs defaultActiveId="profile" onActiveIdChange={handleChange}>
     <Tabs.TabList aria-label="User settings">
-        <Tabs.Tab id="profile">Profile</Tabs.Tab>
-        <Tabs.Tab id="security">Security</Tabs.Tab>
-        <Tabs.Tab id="billing" disabled>Billing</Tabs.Tab>
+        <Tabs.Tab id="profile" label="Profile" />
+        <Tabs.Tab id="security" label="Security" />
+        <Tabs.Tab id="billing" label="Billing" isDisabled={true} />
     </Tabs.TabList>
     <Tabs.Panel id="profile">
         <ProfileSettings />
@@ -220,6 +220,6 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 </Tabs>
 ```
 
-**API changes not yet implemented:**
-- `label` prop removed from `Tab` — children instead (flexibility: icons, badges)
-- `isDisabled` → `disabled` (consistency with native HTML)
+**Design decisions (intentional, not planned for change):**
+- `label: string` on Tab — text-only content by design
+- `isDisabled` prefix — project-wide convention for boolean props (`is`/`has` prefix)
