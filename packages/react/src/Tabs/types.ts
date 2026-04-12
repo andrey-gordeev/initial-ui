@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, Ref } from 'react';
+import { AriaAttributes, ReactNode, Ref } from 'react';
 
 export type TabProps = {
     id: string;
@@ -9,8 +9,7 @@ export type TabProps = {
 
 export type TabListProps = {
     children: ReactNode;
-    styles?: CSSProperties;
-};
+} & Required<Pick<AriaAttributes, 'aria-label'>>;
 
 export type PanelProps = {
     children: ReactNode;

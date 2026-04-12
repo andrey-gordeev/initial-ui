@@ -55,8 +55,14 @@
     color: #000;
 
     &:focus-visible {
-        outline: 1px dotted blue;
-        outline-offset: 2px;
+        outline: 2px solid var(--tab-item-active-indicator-color);
+        outline-offset: -2px;
+    }
+
+    @media (forced-colors: active) {
+        &:focus-visible {
+            outline: 2px solid LinkText;
+        }
     }
 }
 

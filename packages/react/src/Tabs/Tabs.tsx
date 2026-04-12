@@ -58,7 +58,10 @@ Tab.displayName = 'Tab';
 // -------------------
 // TabList
 // -------------------
-export const TabList = ({ children, styles }: TabListProps) => {
+export const TabList = ({
+    children,
+    'aria-label': ariaLabel,
+}: TabListProps) => {
     const { activeId, setActiveId, orientation } = useTabs();
     const listRef = useRef<HTMLDivElement>(null);
     const [indicatorStyle, setIndicatorStyle] = useState({
@@ -135,13 +138,13 @@ export const TabList = ({ children, styles }: TabListProps) => {
         '--tab-item-active-left': `${indicatorStyle.left}px`,
         '--tab-item-active-width': `${indicatorStyle.width}px`,
         '--tab-item-active-height': `${indicatorStyle.height}px`,
-        ...styles,
     } as CSSProperties;
 
     return (
         <div
             ref={listRef}
             role="tablist"
+            aria-label={ariaLabel}
             aria-orientation={orientation}
             className={clsx('tab-list', `tab-list--${orientation}`)}
             style={inlineStyles}
@@ -166,6 +169,7 @@ export const Panel = ({ children, id }: PanelProps) => {
             id={`panel-${id}`}
             hidden={id !== activeId}
             aria-labelledby={`tab-${id}`}
+            tabIndex={0}
         >
             {children}
         </div>

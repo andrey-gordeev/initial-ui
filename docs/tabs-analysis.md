@@ -16,8 +16,8 @@ Analysis of `packages/react/src/Tabs/` against:
 | Attribute | Element | Requirement | Status |
 |---|---|---|---|
 | `aria-orientation` | `[role="tablist"]` | Required for vertical, default = `"horizontal"` | **Done** |
-| `aria-label` / `aria-labelledby` | `[role="tablist"]` | One of the two is required | **Not implemented** |
-| `tabindex="0"` | `[role="tabpanel"]` | When first element inside panel is not focusable | **Not implemented** |
+| `aria-label` / `aria-labelledby` | `[role="tablist"]` | One of the two is required | **Done** (required prop) |
+| `tabindex="0"` | `[role="tabpanel"]` | When first element inside panel is not focusable | **Done** (always set) |
 
 ### 1.2 Keyboard navigation
 
@@ -30,10 +30,10 @@ Analysis of `packages/react/src/Tabs/` against:
 | `Enter` / `Space` | Native button click (no explicit handler) | **Done** |
 | `event.stopPropagation()` | Called for all handled keys | **Done** |
 
-### 1.3 Style issues (not yet addressed)
+### 1.3 Style issues
 
-- `outline: 1px dotted blue` — weak focus ring, no forced-colors / high contrast support
-- Hardcoded colors (`#000`, `#999`, `rgb(79, 70, 229)`) instead of design tokens
+- ~~`outline: 1px dotted blue` — weak focus ring~~ **Done**: 2px solid + forced-colors media query
+- Hardcoded colors (`#000`, `#999`, `rgb(79, 70, 229)`) instead of design tokens — Phase 3
 - W3C recommends separate visual indication for focus vs selection
 
 ---
@@ -117,7 +117,7 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 
 | Aspect | Original | After Phase 0 | After Phase 0.5 | Notes |
 |---|---|---|---|---|
-| ARIA roles/states | 6/10 | 6/10 | **8/10** | `aria-orientation` added, missing `aria-label` + panel `tabindex` |
+| ARIA roles/states | 6/10 | 6/10 | **10/10** | All required attributes in place |
 | Keyboard navigation | 5/10 | 5/10 | **9/10** | Home/End, ArrowUp/Down, stopPropagation, native Enter/Space |
 | Controlled/Uncontrolled | 3/10 | 3/10 | **9/10** | defaultActiveId, activeId, onActiveIdChange |
 | Code complexity | 4/10 | 6/10 | **9/10** | 3-field context, no registration, no cloneElement |
@@ -158,11 +158,11 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 - [x] Replace `React.FC` with callable type signature
 - [x] Storybook build passing
 
-### Phase 1 — Remaining accessibility
+### Phase 1 — Remaining accessibility ✅ DONE
 
-- [ ] Add `aria-label` prop for tablist
-- [ ] Add `tabindex="0"` on tabpanel when no focusable content inside
-- [ ] Improve focus ring (2px solid, forced-colors support)
+- [x] Add `aria-label` prop for tablist (required, via `Required<Pick<AriaAttributes>>`)
+- [x] Add `tabindex="0"` on tabpanel for keyboard focusability
+- [x] Improve focus ring (2px solid, forced-colors support)
 
 ### Phase 2 — Controlled / Uncontrolled ✅ DONE
 
@@ -223,4 +223,3 @@ Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildre
 **API changes not yet implemented:**
 - `label` prop removed from `Tab` — children instead (flexibility: icons, badges)
 - `isDisabled` → `disabled` (consistency with native HTML)
-- `aria-label` required on `TabList` (via types)

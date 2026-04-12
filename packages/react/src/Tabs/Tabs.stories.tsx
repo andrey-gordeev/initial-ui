@@ -62,7 +62,7 @@ const meta = {
 } satisfies Meta<typeof Tabs>;
 
 const tabsTemplate = [
-    <Tabs.TabList key="list">
+    <Tabs.TabList key="list" aria-label="Sample tabs">
         <Tabs.Tab id="1" label="Tab 1" />
         <Tabs.Tab id="2" label="Tab 2" isDisabled={true} />
         <Tabs.Tab id="3" label="Tab 3" />
@@ -106,7 +106,7 @@ export const Controlled = {
                     </button>
                 </div>
                 <Tabs activeId={activeId} onActiveIdChange={setActiveId}>
-                    <Tabs.TabList>
+                    <Tabs.TabList aria-label="Controlled tabs">
                         <Tabs.Tab id="1" label="Tab 1" />
                         <Tabs.Tab id="2" label="Tab 2" />
                         <Tabs.Tab id="3" label="Tab 3" />
