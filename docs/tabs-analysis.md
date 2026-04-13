@@ -90,9 +90,9 @@ Consistent with Dialog (`Dialog.tsx:31-36`). Core logic is correct.
 
 | Scenario | Behavior | Assessment |
 |---|---|---|
-| `defaultActiveId` + `activeId` together | `controlledActiveId` wins (line 216) | **OK**, but no dev warning |
+| `defaultActiveId` + `activeId` together | `controlledActiveId` wins (line 216) | **OK**, dev warning added |
 | Only `defaultActiveId` | Initializes `uncontrolledId` | **OK** |
-| Neither `defaultActiveId` nor `activeId` | `uncontrolledId = ''` -> useEffect in TabList auto-selects first enabled | **Bug** (see below) |
+| Neither `defaultActiveId` nor `activeId` | `uncontrolledId = ''` -> useLayoutEffect in TabList auto-selects first enabled | **OK** (flash fixed) |
 | `activeId` points to disabled tab | Tab gets selected + disabled simultaneously, `aria-selected="true"` on disabled button | **Semantically invalid** |
 | `activeId` points to non-existent id | No tab selected, no panel visible | **No dev warning** |
 | Switch uncontrolled -> controlled | Controlled `activeId` overrides immediately | **OK** |
@@ -107,12 +107,17 @@ Lines 76-83 (TabList): `useEffect` for auto-selecting first tab.
 
 This affects the default use case `<Tabs>` without `defaultActiveId`.
 
-### No dev-mode validation (Low)
+### ~~No dev-mode validation~~ FIXED
 
-Dialog uses `validateDialogProps()` (`Dialog.tsx:27-29`). Tabs doesn't validate:
-- `defaultActiveId` + `activeId` simultaneously
-- `activeId` without `onActiveIdChange` (read-only, no way to change)
-- Non-existent `activeId`
+`validateTabsProps()` in `utils.ts`, called in dev mode only (same pattern as Dialog):
+- `activeId` without `onActiveIdChange` — `invariant` (throws)
+- `defaultActiveId` + `activeId` simultaneously — `console.warn`
+
+### Remaining (won't fix — too minor)
+
+- **`activeId` on non-existent id** — empty UI, no warning. Tabs can't validate because it doesn't know child tab IDs (they live in TabList children). Would require DOM validation in TabList, disproportionate complexity for the edge case.
+- **`activeId` on disabled tab** — `aria-selected="true"` on a disabled button is semantically odd. Same limitation: Tabs doesn't know which tabs are disabled.
+- **Discriminated union types** for controlled vs uncontrolled — would prevent invalid prop combos at the type level, but hurts DX (autocomplete, readability). Runtime warnings are sufficient.
 
 ---
 
@@ -259,7 +264,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 | ~~**B5**~~ | ~~`padding: 8px 16px` — not logical properties~~ **FIXED**: `padding-block`/`padding-inline` | ~~**Low**~~ | |
 | **B6** | `tabIndex={0}` unconditional on panel | **Low** | `Tabs.tsx:186` |
 | ~~**B7**~~ | ~~`setActiveId` / `contextValue` not memoized~~ **FIXED**: `useCallback` + refs + `useMemo` | ~~**Low**~~ | |
-| **B8** | No dev warnings (prop conflicts, non-existent id) | **Low** | `Tabs.tsx:206-234` |
+| ~~**B8**~~ | ~~No dev warnings~~ **FIXED**: `validateTabsProps()` — invariant + console.warn | ~~**Low**~~ | |
 | **B9** | `stopPropagation` on handled keys (may interfere with parent) | **Low** | `Tabs.tsx:145` |
 | ~~**B10**~~ | ~~No hover styles~~ **FIXED**: hover background on non-disabled tabs | ~~**Low**~~ | |
 
@@ -315,7 +320,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 
 6. **B2** — Roving tabindex follows focus (requires `focusedId` in state)
 7. ~~**B7** — Memoize context value~~ **FIXED**
-8. **B8** — Dev-mode warnings
+8. ~~**B8** — Dev-mode warnings~~ **FIXED**
 9. `activationMode` prop (auto/manual)
 10. Additional stories
 
@@ -325,7 +330,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 |---|---|---|
 | ARIA | **8/10** | Nearly complete, but `aria-labelledby` not supported, unconditional `tabIndex={0}` |
 | Keyboard | **8/10** | Full spec coverage with RTL, roving tabindex doesn't follow W3C |
-| Controlled/Uncontrolled | **8/10** | Correct pattern, flash fixed, no dev warnings |
+| Controlled/Uncontrolled | **9/10** | Correct pattern, flash fixed, dev validation added |
 | Context | **10/10** | Minimal, memoized. Consumers re-render only on actual changes |
 | Indicator | **8/10** | ResizeObserver works, flash fixed, forced-colors deferred |
 | CSS | **6/10** | Hardcoded colors, no dark theme. Hover, logical properties fixed |

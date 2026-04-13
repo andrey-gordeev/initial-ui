@@ -14,6 +14,7 @@ import clsx from 'clsx';
 import { PanelProps, TabListProps, TabProps, TabsProps } from './types';
 import './styles.css';
 import { Action } from '../Typography';
+import { validateTabsProps } from './utils';
 
 interface TabsContextType {
     activeId: string;
@@ -232,6 +233,10 @@ export const Tabs: TabsComponent = ({
     activeId: controlledActiveId,
     onActiveIdChange,
 }) => {
+    if (process.env.NODE_ENV !== 'production') {
+        validateTabsProps(controlledActiveId, onActiveIdChange, defaultActiveId);
+    }
+
     const [uncontrolledId, setUncontrolledId] = useState(defaultActiveId ?? '');
     const activeId = controlledActiveId ?? uncontrolledId;
 
