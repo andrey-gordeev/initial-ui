@@ -128,9 +128,9 @@ interface TabsContextType {
 
 **3 fields — minimal.** Down from 7 in the original. Excellent.
 
-### `setActiveId` / `contextValue` not memoized (Low)
+### ~~`setActiveId` / `contextValue` not memoized~~ FIXED
 
-Lines 218-221: `setActiveId` is a new function every render. Lines 223-227: `contextValue` is a new object every render. All context consumers re-render on every Tabs render. Negligible for 3-10 tabs, but for a design system base worth wrapping `setActiveId` in `useCallback` and `contextValue` in `useMemo`.
+`setActiveId` wrapped in `useCallback` with stable refs for props (same pattern as Dialog). `contextValue` wrapped in `useMemo` — only changes when `activeId` or `orientation` change.
 
 ---
 
@@ -258,7 +258,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 | **B4** | Indicator invisible in forced-colors mode | **Medium** | `styles.css:20-49` (no `forced-colors` for `::after`) |
 | ~~**B5**~~ | ~~`padding: 8px 16px` — not logical properties~~ **FIXED**: `padding-block`/`padding-inline` | ~~**Low**~~ | |
 | **B6** | `tabIndex={0}` unconditional on panel | **Low** | `Tabs.tsx:186` |
-| **B7** | `setActiveId` / `contextValue` not memoized | **Low** | `Tabs.tsx:218-227` |
+| ~~**B7**~~ | ~~`setActiveId` / `contextValue` not memoized~~ **FIXED**: `useCallback` + refs + `useMemo` | ~~**Low**~~ | |
 | **B8** | No dev warnings (prop conflicts, non-existent id) | **Low** | `Tabs.tsx:206-234` |
 | **B9** | `stopPropagation` on handled keys (may interfere with parent) | **Low** | `Tabs.tsx:145` |
 | ~~**B10**~~ | ~~No hover styles~~ **FIXED**: hover background on non-disabled tabs | ~~**Low**~~ | |
@@ -314,7 +314,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 ### Nice to have
 
 6. **B2** — Roving tabindex follows focus (requires `focusedId` in state)
-7. **B7** — Memoize context value
+7. ~~**B7** — Memoize context value~~ **FIXED**
 8. **B8** — Dev-mode warnings
 9. `activationMode` prop (auto/manual)
 10. Additional stories
@@ -326,7 +326,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 | ARIA | **8/10** | Nearly complete, but `aria-labelledby` not supported, unconditional `tabIndex={0}` |
 | Keyboard | **8/10** | Full spec coverage with RTL, roving tabindex doesn't follow W3C |
 | Controlled/Uncontrolled | **8/10** | Correct pattern, flash fixed, no dev warnings |
-| Context | **9/10** | Minimal, clean. Memoization is nice to have |
+| Context | **10/10** | Minimal, memoized. Consumers re-render only on actual changes |
 | Indicator | **8/10** | ResizeObserver works, flash fixed, forced-colors deferred |
 | CSS | **6/10** | Hardcoded colors, no dark theme. Hover, logical properties fixed |
 | Types | **8/10** | Strict, no any, but no discriminated union for controlled |

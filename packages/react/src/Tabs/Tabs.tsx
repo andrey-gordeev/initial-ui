@@ -4,6 +4,7 @@ import React, {
     createContext,
     useContext,
     useCallback,
+    useMemo,
     KeyboardEvent,
     useLayoutEffect,
     useEffect,
@@ -234,16 +235,21 @@ export const Tabs: TabsComponent = ({
     const [uncontrolledId, setUncontrolledId] = useState(defaultActiveId ?? '');
     const activeId = controlledActiveId ?? uncontrolledId;
 
-    const setActiveId = (id: string) => {
-        if (controlledActiveId === undefined) setUncontrolledId(id);
-        onActiveIdChange?.(id);
-    };
+    const controlledRef = useRef(controlledActiveId);
+    controlledRef.current = controlledActiveId;
 
-    const contextValue: TabsContextType = {
-        activeId,
-        setActiveId,
-        orientation,
-    };
+    const onChangeRef = useRef(onActiveIdChange);
+    onChangeRef.current = onActiveIdChange;
+
+    const setActiveId = useCallback((id: string) => {
+        if (controlledRef.current === undefined) setUncontrolledId(id);
+        onChangeRef.current?.(id);
+    }, []);
+
+    const contextValue = useMemo<TabsContextType>(
+        () => ({ activeId, setActiveId, orientation }),
+        [activeId, setActiveId, orientation],
+    );
 
     return (
         <TabsContext.Provider value={contextValue}>
