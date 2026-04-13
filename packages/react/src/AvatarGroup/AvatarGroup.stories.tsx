@@ -1,18 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import Showcase from '../../../playground/components/Showcase';
 import { AvatarGroup } from './AvatarGroup';
 
 type Story = StoryObj<typeof meta>;
-
-const meta = {
-    title: 'Components/AvatarGroup',
-    component: AvatarGroup,
-    parameters: {
-        layout: 'centered',
-    },
-    tags: ['autodocs'],
-} satisfies Meta<typeof AvatarGroup>;
 
 const avatars = [
     { id: '1', content: 'AV' },
@@ -27,107 +17,117 @@ const avatars = [
     { id: '10', content: 'XL' },
 ];
 
-export const Overview: Story = {
-    render: () => (
-        <Showcase label="AvatarGroup">
-            <Showcase.Item label="default">
-                <div
-                    style={{
-                        width: 'fit-content',
-                        backgroundColor: 'orange',
-                    }}
-                >
-                    <AvatarGroup avatars={avatars} />
-                </div>
-            </Showcase.Item>
-            <Showcase.Item label="maxVisible">
-                <Showcase.Variant label="default (5)">
-                    <div
-                        style={{
-                            width: 'fit-content',
-                            backgroundColor: 'orange',
-                        }}
-                    >
-                        <AvatarGroup avatars={avatars} maxVisible={4} />
-                    </div>
-                </Showcase.Variant>
-                <Showcase.Variant label="99">
-                    <div
-                        style={{
-                            width: 'fit-content',
-                            backgroundColor: 'orange',
-                        }}
-                    >
-                        <AvatarGroup avatars={avatars} maxVisible={99} />
-                    </div>
-                </Showcase.Variant>
-            </Showcase.Item>
-            <Showcase.Item label="overlap & gap">
-                <Showcase.Variant label="overlap (16)">
-                    <div
-                        style={{
-                            width: 'fit-content',
-                            backgroundColor: 'orange',
-                        }}
-                    >
-                        <AvatarGroup avatars={avatars} overlap={16} />
-                    </div>
-                </Showcase.Variant>
-                <Showcase.Variant label="overlap (16), gap (4)">
-                    <div
-                        style={{
-                            width: 'fit-content',
-                            backgroundColor: 'orange',
-                        }}
-                    >
-                        <AvatarGroup
-                            avatars={avatars}
-                            overlap={16}
-                            gap={4}
-                        />
-                    </div>
-                </Showcase.Variant>
-                <Showcase.Variant label="overlap (16), gap (0)">
-                    <div
-                        style={{
-                            width: 'fit-content',
-                            backgroundColor: 'orange',
-                        }}
-                    >
-                        <AvatarGroup
-                            avatars={avatars}
-                            overlap={16}
-                            gap={0}
-                        />
-                    </div>
-                </Showcase.Variant>
-            </Showcase.Item>
-            <Showcase.Item label="size (sm)">
-                <div
-                    style={{
-                        width: 'fit-content',
-                        backgroundColor: 'orange',
-                    }}
-                >
-                    <AvatarGroup avatars={avatars} size="sm" />
-                </div>
-            </Showcase.Item>
-            <Showcase.Item label="showOverflow (false)">
-                <div
-                    style={{
-                        width: 'fit-content',
-                        backgroundColor: 'orange',
-                    }}
-                >
-                    <AvatarGroup
-                        avatars={avatars}
-                        maxVisible={4}
-                        showOverflow={false}
-                    />
-                </div>
-            </Showcase.Item>
-        </Showcase>
-    ),
+const meta = {
+    title: 'Components/AvatarGroup',
+    component: AvatarGroup,
+    parameters: {
+        layout: 'centered',
+    },
+    tags: ['autodocs'],
+    argTypes: {
+        avatars: {
+            control: false,
+            description: 'Avatars to display in the group.',
+            table: { type: { summary: 'AvatarGroupItem[]' } },
+        },
+        maxVisible: {
+            description: 'Maximum number of avatars to show.',
+            control: { type: 'number', min: 1 },
+            table: {
+                type: { summary: 'number' },
+                defaultValue: { summary: '5' },
+            },
+        },
+        overlap: {
+            description: 'Overlap between avatars (px).',
+            control: { type: 'number', min: 0 },
+            table: {
+                type: { summary: 'number' },
+                defaultValue: { summary: '8' },
+            },
+        },
+        gap: {
+            description: 'Gap in the cut-out (px).',
+            control: { type: 'number', min: 0 },
+            table: {
+                type: { summary: 'number' },
+                defaultValue: { summary: '0' },
+            },
+        },
+        size: {
+            description: 'Size of all avatars in the group.',
+            control: 'select',
+            options: ['sm', 'md', 'lg', 'jumbo'],
+            table: {
+                type: { summary: "'sm' | 'md' | 'lg' | 'jumbo'" },
+                defaultValue: { summary: 'md' },
+            },
+        },
+        showOverflow: {
+            description: 'Show overflow badge with hidden avatar count.',
+            control: 'boolean',
+            table: {
+                type: { summary: 'boolean' },
+                defaultValue: { summary: 'true' },
+            },
+        },
+    },
+} satisfies Meta<typeof AvatarGroup>;
+
+export const Default: Story = {
+    args: {
+        avatars,
+    },
+};
+
+export const MaxVisible: Story = {
+    storyName: 'maxVisible',
+    args: {
+        avatars,
+        maxVisible: 4,
+    },
+};
+
+export const MaxVisibleLarge: Story = {
+    storyName: 'maxVisible: 99',
+    args: {
+        avatars,
+        maxVisible: 99,
+    },
+};
+
+export const Overlap: Story = {
+    storyName: 'overlap',
+    args: {
+        avatars,
+        overlap: 16,
+    },
+};
+
+export const OverlapAndGap: Story = {
+    storyName: 'overlap + gap',
+    args: {
+        avatars,
+        overlap: 16,
+        gap: 4,
+    },
+};
+
+export const Size: Story = {
+    storyName: "size: 'sm'",
+    args: {
+        avatars,
+        size: 'sm',
+    },
+};
+
+export const HiddenOverflow: Story = {
+    storyName: 'showOverflow: false',
+    args: {
+        avatars,
+        maxVisible: 4,
+        showOverflow: false,
+    },
 };
 
 export default meta;

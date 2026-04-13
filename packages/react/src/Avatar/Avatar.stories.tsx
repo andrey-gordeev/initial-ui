@@ -1,13 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import Showcase from '../../../playground/components/Showcase';
-import Grid from '../../../playground/components/Grid';
+import { StoryGrid } from '../../../../.storybook/StoryGrid';
 import { Avatar } from './Avatar';
 import { AVATAR_BADGE_PLACEMENTS, AVATAR_SIZES } from './constants';
-import type { AvatarBadgeProps } from './types';
+import type { AvatarBadgeProps, AvatarProps } from './types';
 import Badge from '../Badge';
 
 type Story = StoryObj<typeof meta>;
+
+const SIZES = Object.values(AVATAR_SIZES);
+const PLACEMENTS = Object.values(AVATAR_BADGE_PLACEMENTS);
 
 const meta = {
     title: 'Components/Avatar',
@@ -16,87 +18,133 @@ const meta = {
         layout: 'centered',
     },
     tags: ['autodocs'],
+    argTypes: {
+        children: {
+            control: 'text',
+            description: 'Avatar content (initials or image).',
+            table: { type: { summary: 'ReactNode' } },
+        },
+        size: {
+            description: 'Avatar size.',
+            control: 'select',
+            options: SIZES,
+            table: {
+                type: { summary: SIZES.map((s) => `'${s}'`).join(' | ') },
+                defaultValue: { summary: 'md' },
+            },
+        },
+        type: {
+            description: 'Avatar type.',
+            control: 'select',
+            options: ['normal', 'add-button'],
+            table: {
+                type: { summary: "'normal' | 'add-button'" },
+                defaultValue: { summary: 'normal' },
+            },
+        },
+        halo: {
+            description: 'Show halo ring around the avatar.',
+            control: 'boolean',
+            table: { type: { summary: 'boolean' } },
+        },
+        inset: {
+            description: 'Inset the badge into the avatar circle.',
+            control: 'boolean',
+            table: { type: { summary: 'boolean' } },
+        },
+        label: {
+            description: 'Accessible label.',
+            control: 'text',
+            table: { type: { summary: 'string' } },
+        },
+        badges: {
+            control: false,
+            table: {
+                type: {
+                    summary: 'AvatarBadgeProps | AvatarBadgeProps[]',
+                },
+            },
+        },
+    },
 } satisfies Meta<typeof Avatar>;
 
-export const Overview: Story = {
-    render: () => {
-        const badgeCentrePoint = (
-            <div
-                style={{
-                    inlineSize: '12px',
-                    blockSize: '12px',
-                    content: '',
-                    backgroundColor: 'crimson',
-                    borderRadius: '50%',
-                }}
-            />
-        );
+export const Default: Story = {
+    args: {
+        children: '[AV]',
+        size: 'md',
+    },
+};
 
-        return (
-            <Showcase label="Avatar">
-                <Showcase.Item label="size">
-                    <Grid columns={4}>
-                        {Object.values(AVATAR_SIZES).map((item) => (
-                            <Showcase.Variant label={item}>
-                                <Avatar
-                                    size={item}
-                                    label={`Size: '${item}' `}
-                                />
-                            </Showcase.Variant>
-                        ))}
-                    </Grid>
-                </Showcase.Item>
-                <Showcase.Item label="badges">
-                    <div
-                        style={{
-                            width: 'fit-content',
-                            backgroundColor: 'orange',
-                        }}
-                    >
-                        <Avatar
-                            size="lg"
-                            badges={Object.values(
-                                AVATAR_BADGE_PLACEMENTS,
-                            ).map(
-                                (item) =>
-                                    ({
-                                        placement: item,
-                                        gap: 4,
-                                        content: badgeCentrePoint,
-                                    }) as AvatarBadgeProps,
-                            )}
-                        >
-                            [AV]
-                        </Avatar>
-                    </div>
-                </Showcase.Item>
-                <Showcase.Item label="halo">
-                    <Avatar
-                        badges={{
-                            placement: 'top-end',
-                            content: <Badge text="9" />,
-                        }}
-                        halo={true}
-                    >
-                        [AV]
-                    </Avatar>
-                </Showcase.Item>
-                <Showcase.Item label="inset">
-                    <Avatar
-                        badges={{
-                            placement: 'top-end',
-                            content: <Badge text="9" />,
-                        }}
-                        inset={true}
-                    >
-                        [AV]
-                    </Avatar>
-                </Showcase.Item>
-                <Showcase.Item label="Add button">
-                    <Avatar type="add-button">+1</Avatar>
-                </Showcase.Item>
-            </Showcase>
-        );
+export const Sizes: Story = {
+    storyName: 'sizes',
+    render: () => (
+        <StoryGrid<AvatarProps>
+            columns={SIZES.length}
+            args={SIZES.map((size) => ({
+                size,
+                label: `Size: '${size}'`,
+            }))}
+            component={Avatar}
+        />
+    ),
+};
+
+const badgeCentrePoint = (
+    <div
+        style={{
+            inlineSize: 12,
+            blockSize: 12,
+            backgroundColor: 'crimson',
+            borderRadius: '50%',
+        }}
+    />
+);
+
+export const AllBadgePlacements: Story = {
+    storyName: 'badge placements',
+    args: {
+        children: '[AV]',
+        size: 'lg',
+        badges: PLACEMENTS.map(
+            (placement) =>
+                ({
+                    placement,
+                    gap: 4,
+                    content: badgeCentrePoint,
+                }) as AvatarBadgeProps,
+        ),
+    },
+};
+
+export const Halo: Story = {
+    storyName: 'halo',
+    args: {
+        children: '[AV]',
+        halo: true,
+        badges: {
+            placement: 'top-end',
+            content: <Badge text="9" />,
+        },
+    },
+};
+
+export const Inset: Story = {
+    storyName: 'inset',
+    args: {
+        children: '[AV]',
+        inset: true,
+        badges: {
+            placement: 'top-end',
+            content: <Badge text="9" />,
+        },
+    },
+};
+
+export const AddButton: Story = {
+    storyName: "type: 'add-button'",
+    args: {
+        children: '+1',
+        type: 'add-button',
     },
 };
 
