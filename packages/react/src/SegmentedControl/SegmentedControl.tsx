@@ -26,12 +26,9 @@ export const SegmentedControl = ({
     const defaultName = useId();
     const isControlled = value !== undefined;
 
-    const [internalValue, setInternalValue] =
-        useState<SegmentedControlProps['value']>(undefined);
-
-    // Определяем activeValue с учетом isSelected в children и segments
-    const getActiveValueFromChildrenAndSegments = () => {
-        // Проверяем children
+    const [internalValue, setInternalValue] = useState<
+        SegmentedControlProps['value']
+    >(() => {
         if (children) {
             const childrenArray = Children.toArray(children);
             for (const child of childrenArray) {
@@ -43,35 +40,22 @@ export const SegmentedControl = ({
                 }
             }
         }
-
-        // Проверяем segments
         if (segments) {
             for (let i = 0; i < segments.length; i++) {
-                const segment = segments[i];
-                if (segment.isSelected) {
-                    return segment.value ?? String(i);
+                if (segments[i].isSelected) {
+                    return segments[i].value ?? String(i);
                 }
             }
         }
+        return undefined;
+    });
 
-        return null;
-    };
-
-    const activeValue = isControlled
-        ? value!
-        : (getActiveValueFromChildrenAndSegments() ?? internalValue);
+    const activeValue = isControlled ? value! : internalValue;
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        // Если есть isSelected в children или segments, не обрабатываем изменения (как нативные радио)
-        if (getActiveValueFromChildrenAndSegments() !== null) {
-            event.preventDefault();
-            return;
-        }
-
-        const value = event.target.value;
-        console.log(value);
-        if (!isControlled) setInternalValue(value);
-        onChange?.(value);
+        const newValue = event.target.value;
+        if (!isControlled) setInternalValue(newValue);
+        onChange?.(newValue);
     };
 
     const allSegments = [...(segments ?? []), ...Children.toArray(children)];
