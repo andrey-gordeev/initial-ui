@@ -1,25 +1,41 @@
-import Showcase from '../components/Showcase';
-import AvatarGroup from '../../react/src/AvatarGroup';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
-export const Overview = () => {
-    const avatars = [
-        { id: '1', content: 'AV' },
-        { id: '2', content: 'AC' },
-        { id: '3', content: 'DC' },
-        { id: '4', content: 'KO' },
-        { id: '5', content: 'AI' },
-        { id: '6', content: 'VR' },
-        { id: '7', content: 'DJ' },
-        { id: '8', content: 'PR' },
-        { id: '9', content: 'HR' },
-        { id: '10', content: 'XL' },
-    ];
+import Showcase from '../../../playground/components/Showcase';
+import { AvatarGroup } from './AvatarGroup';
 
-    return (
+type Story = StoryObj<typeof meta>;
+
+const meta = {
+    title: 'Components/AvatarGroup',
+    component: AvatarGroup,
+    parameters: {
+        layout: 'centered',
+    },
+    tags: ['autodocs'],
+} satisfies Meta<typeof AvatarGroup>;
+
+const avatars = [
+    { id: '1', content: 'AV' },
+    { id: '2', content: 'AC' },
+    { id: '3', content: 'DC' },
+    { id: '4', content: 'KO' },
+    { id: '5', content: 'AI' },
+    { id: '6', content: 'VR' },
+    { id: '7', content: 'DJ' },
+    { id: '8', content: 'PR' },
+    { id: '9', content: 'HR' },
+    { id: '10', content: 'XL' },
+];
+
+export const Overview: Story = {
+    render: () => (
         <Showcase label="AvatarGroup">
             <Showcase.Item label="default">
                 <div
-                    style={{ width: 'fit-content', backgroundColor: 'orange' }}
+                    style={{
+                        width: 'fit-content',
+                        backgroundColor: 'orange',
+                    }}
                 >
                     <AvatarGroup avatars={avatars} />
                 </div>
@@ -64,7 +80,11 @@ export const Overview = () => {
                             backgroundColor: 'orange',
                         }}
                     >
-                        <AvatarGroup avatars={avatars} overlap={16} gap={4} />
+                        <AvatarGroup
+                            avatars={avatars}
+                            overlap={16}
+                            gap={4}
+                        />
                     </div>
                 </Showcase.Variant>
                 <Showcase.Variant label="overlap (16), gap (0)">
@@ -74,20 +94,30 @@ export const Overview = () => {
                             backgroundColor: 'orange',
                         }}
                     >
-                        <AvatarGroup avatars={avatars} overlap={16} gap={0} />
+                        <AvatarGroup
+                            avatars={avatars}
+                            overlap={16}
+                            gap={0}
+                        />
                     </div>
                 </Showcase.Variant>
             </Showcase.Item>
             <Showcase.Item label="size (sm)">
                 <div
-                    style={{ width: 'fit-content', backgroundColor: 'orange' }}
+                    style={{
+                        width: 'fit-content',
+                        backgroundColor: 'orange',
+                    }}
                 >
                     <AvatarGroup avatars={avatars} size="sm" />
                 </div>
             </Showcase.Item>
             <Showcase.Item label="showOverflow (false)">
                 <div
-                    style={{ width: 'fit-content', backgroundColor: 'orange' }}
+                    style={{
+                        width: 'fit-content',
+                        backgroundColor: 'orange',
+                    }}
                 >
                     <AvatarGroup
                         avatars={avatars}
@@ -97,5 +127,7 @@ export const Overview = () => {
                 </div>
             </Showcase.Item>
         </Showcase>
-    );
+    ),
 };
+
+export default meta;
