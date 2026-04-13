@@ -1,32 +1,16 @@
-import { ChangeEvent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-type SegmentedControlBase = {
-    name?: string;
-    value?: string;
-    onChange?: (value: SegmentedControlBase['value']) => void;
+export type ItemProps = {
+    value: string;
+    label: string;
+    description?: string;
+    isDisabled?: boolean;
 };
 
-type SegmentedControlWithChildren = {
-    children?: ReactNode;
-    segments?: never;
-} & SegmentedControlBase;
-
-type SegmentedControlWithSegments = {
-    children?: never;
-    segments: SegmentProps[];
-} & SegmentedControlBase;
-
-export type SegmentedControlProps =
-    | SegmentedControlWithChildren
-    | SegmentedControlWithSegments;
-
-export type SegmentProps = {
-    ref?: (element: HTMLLabelElement | null) => void;
+export type SegmentedControlProps = {
+    children: ReactNode;
     name?: string;
+    defaultValue?: string;
     value?: string;
-    label?: string;
-    description?: string;
-    isSelected?: boolean;
-    isDisabled?: boolean;
-    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (value: string) => void;
 };

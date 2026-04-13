@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import Showcase from '../../../playground/components/Showcase';
-import { SegmentedControl, Segment } from './SegmentedControl';
+import { SegmentedControl } from './SegmentedControl';
 
 type Story = StoryObj<typeof meta>;
 
@@ -13,103 +12,128 @@ const meta = {
         layout: 'centered',
     },
     tags: ['autodocs'],
+    argTypes: {
+        children: {
+            control: false,
+            description: 'Composition API: `SegmentedControl.Item`.',
+            table: {
+                type: { summary: 'ReactNode' },
+            },
+        },
+        name: {
+            description: 'Radio group name shared across inputs.',
+            control: 'text',
+            table: {
+                type: { summary: 'string' },
+            },
+        },
+        defaultValue: {
+            description: 'Initial selected value (uncontrolled).',
+            control: 'text',
+            table: {
+                type: { summary: 'string' },
+            },
+        },
+        value: {
+            description: 'Selected value (controlled).',
+            control: 'text',
+            table: {
+                type: { summary: 'string' },
+            },
+        },
+        onChange: {
+            description: 'Callback when selection changes.',
+            control: false,
+            table: {
+                type: { summary: '(value: string) => void' },
+            },
+        },
+    },
 } satisfies Meta<typeof SegmentedControl>;
 
-export const Overview: Story = {
-    render: () => {
-        const [selectedValue, setSelectedValue] = useState<string>('Week');
+const itemsTemplate = [
+    <SegmentedControl.Item key="day" value="day" label="Day" />,
+    <SegmentedControl.Item key="week" value="week" label="Week" />,
+    <SegmentedControl.Item key="month" value="month" label="Month" />,
+];
 
+export const Default: Story = {
+    args: {
+        children: itemsTemplate,
+    },
+};
+
+export const DefaultValue: Story = {
+    storyName: 'defaultValue',
+    args: {
+        defaultValue: 'week',
+        children: itemsTemplate,
+    },
+};
+
+export const Controlled = {
+    storyName: 'controlled',
+    render: () => {
+        const [value, setValue] = useState('week');
         return (
-            <Showcase label="SegmentedControl">
-                <Showcase.Item label="with Children (uncontrolled)">
-                    <Showcase.Variant>
-                        <SegmentedControl>
-                            <Segment label="Day" />
-                            <Segment label="Week" />
-                            <Segment label="Month" />
-                        </SegmentedControl>
-                    </Showcase.Variant>
-                    <Showcase.Variant>
-                        <SegmentedControl
-                            segments={[
-                                { label: 'Day' },
-                                { label: 'Week' },
-                                { label: 'Month' },
-                            ]}
-                        />
-                    </Showcase.Variant>
-                </Showcase.Item>
-                <Showcase.Item label="isSelected (uncontrolled, like native checked)">
-                    <Showcase.Variant>
-                        <SegmentedControl>
-                            <Segment label="Day" />
-                            <Segment label="Week" isSelected={true} />
-                            <Segment label="Month" />
-                        </SegmentedControl>
-                    </Showcase.Variant>
-                    <Showcase.Variant>
-                        <SegmentedControl
-                            segments={[
-                                { label: 'Day' },
-                                { label: 'Week', isSelected: true },
-                                { label: 'Month' },
-                            ]}
-                        />
-                    </Showcase.Variant>
-                </Showcase.Item>
-                <Showcase.Item label="isDisabled (uncontrolled, like native disabled)">
-                    <Showcase.Variant>
-                        <SegmentedControl>
-                            <Segment label="Day" />
-                            <Segment label="Week" isDisabled={true} />
-                            <Segment label="Month" />
-                        </SegmentedControl>
-                    </Showcase.Variant>
-                    <Showcase.Variant>
-                        <SegmentedControl
-                            segments={[
-                                { label: 'Day' },
-                                { label: 'Week', isDisabled: true },
-                                { label: 'Month' },
-                            ]}
-                        />
-                    </Showcase.Variant>
-                </Showcase.Item>
-                <Showcase.Item label="Controlled (with state)">
-                    <Showcase.Variant>
-                        <div>
-                            <p>Selected: {selectedValue}</p>
-                            <SegmentedControl
-                                value={selectedValue}
-                                onChange={(value) =>
-                                    setSelectedValue(value!)
-                                }
-                            >
-                                <Segment label="Day" value="Day" />
-                                <Segment label="Week" value="Week" />
-                                <Segment label="Month" value="Month" />
-                            </SegmentedControl>
-                        </div>
-                    </Showcase.Variant>
-                    <Showcase.Variant>
-                        <div>
-                            <p>Selected: {selectedValue}</p>
-                            <SegmentedControl
-                                value={selectedValue}
-                                onChange={(value) =>
-                                    setSelectedValue(value!)
-                                }
-                                segments={[
-                                    { label: 'Day', value: 'Day' },
-                                    { label: 'Week', value: 'Week' },
-                                    { label: 'Month', value: 'Month' },
-                                ]}
-                            />
-                        </div>
-                    </Showcase.Variant>
-                </Showcase.Item>
-            </Showcase>
+            <>
+                <div style={{ marginBlockEnd: 8 }}>
+                    Selected: <strong>{value}</strong>
+                    <button onClick={() => setValue('month')}>
+                        Select Month
+                    </button>
+                </div>
+                <SegmentedControl value={value} onChange={setValue}>
+                    <SegmentedControl.Item value="day" label="Day" />
+                    <SegmentedControl.Item value="week" label="Week" />
+                    <SegmentedControl.Item value="month" label="Month" />
+                </SegmentedControl>
+            </>
         );
+    },
+};
+
+export const Disabled: Story = {
+    storyName: 'isDisabled',
+    args: {
+        defaultValue: 'day',
+        children: [
+            <SegmentedControl.Item key="day" value="day" label="Day" />,
+            <SegmentedControl.Item
+                key="week"
+                value="week"
+                label="Week"
+                isDisabled={true}
+            />,
+            <SegmentedControl.Item key="month" value="month" label="Month" />,
+        ],
+    },
+};
+
+export const WithDescription: Story = {
+    storyName: 'description',
+    args: {
+        defaultValue: 'week',
+        children: [
+            <SegmentedControl.Item
+                key="day"
+                value="day"
+                label="Day"
+                description="24 hours"
+            />,
+            <SegmentedControl.Item
+                key="week"
+                value="week"
+                label="Week"
+                description="7 days"
+            />,
+            <SegmentedControl.Item
+                key="month"
+                value="month"
+                label="Month"
+                description="30 days"
+            />,
+        ],
     },
 };
 

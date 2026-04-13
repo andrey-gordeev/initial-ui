@@ -31,10 +31,13 @@
         inline-size: var(--tab-item-active-indicator-width);
         block-size: var(--tab-item-active-indicator-height);
         background-color: #f1f1f1;
-        transition-duration: 0.3s;
-        transition-property: left, width;
-        transition-timing-function: ease;
         content: '';
+    }
+
+    &.segmented-control--animated::after {
+        transition-duration: 0.3s;
+        transition-property: left, top, width, height;
+        transition-timing-function: ease;
     }
 }
 
@@ -79,6 +82,8 @@
 
 .segment__label {
     display: block;
+
+    @ex
 }
 
 .segment__description {
