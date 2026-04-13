@@ -20,8 +20,11 @@
     &::after {
         position: absolute;
         background-color: var(--tab-item-active-indicator-color, transparent);
-        transition: all 0.3s ease;
         content: '';
+    }
+
+    &.tab-list--animated::after {
+        transition: all 0.3s ease;
     }
 
     &.tab-list--horizontal {

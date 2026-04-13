@@ -5,6 +5,7 @@ import React, {
     useContext,
     useCallback,
     KeyboardEvent,
+    useLayoutEffect,
     useEffect,
     CSSProperties,
 } from 'react';
@@ -71,9 +72,10 @@ export const TabList = ({
         width: 0,
         height: 0,
     });
+    const [isAnimated, setIsAnimated] = useState(false);
 
-    // Initialize activeId with the first enabled tab
-    useEffect(() => {
+    // Initialize activeId with the first enabled tab (before paint)
+    useLayoutEffect(() => {
         if (activeId) return;
         const firstTab = listRef.current?.querySelector<HTMLElement>(
             '[role="tab"]:not([disabled])',
@@ -96,9 +98,15 @@ export const TabList = ({
         });
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         updateIndicator();
     }, [activeId, updateIndicator]);
+
+    // Enable indicator animation after browser paints initial position
+    useEffect(() => {
+        const id = requestAnimationFrame(() => setIsAnimated(true));
+        return () => cancelAnimationFrame(id);
+    }, []);
 
     // Re-measure on resize (window resize, zoom, font change)
     useEffect(() => {
@@ -115,9 +123,7 @@ export const TabList = ({
         if (!list) return;
 
         const tabs = Array.from(
-            list.querySelectorAll<HTMLElement>(
-                '[role="tab"]:not([disabled])',
-            ),
+            list.querySelectorAll<HTMLElement>('[role="tab"]:not([disabled])'),
         );
         const currentIndex = tabs.indexOf(e.target as HTMLElement);
         if (currentIndex === -1) return;
@@ -160,7 +166,9 @@ export const TabList = ({
             role="tablist"
             aria-label={ariaLabel}
             aria-orientation={orientation}
-            className={clsx('tab-list', `tab-list--${orientation}`)}
+            className={clsx('tab-list', `tab-list--${orientation}`, {
+                'tab-list--animated': isAnimated,
+            })}
             style={inlineStyles}
             onKeyDown={handleKeyDown}
         >
@@ -210,9 +218,7 @@ export const Tabs: TabsComponent = ({
     activeId: controlledActiveId,
     onActiveIdChange,
 }) => {
-    const [uncontrolledId, setUncontrolledId] = useState(
-        defaultActiveId ?? '',
-    );
+    const [uncontrolledId, setUncontrolledId] = useState(defaultActiveId ?? '');
     const activeId = controlledActiveId ?? uncontrolledId;
 
     const setActiveId = (id: string) => {

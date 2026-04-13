@@ -1,225 +1,335 @@
-# Tabs Component — Deep Analysis
+# Tabs Component — Deep Audit
 
-## Context
-
-Analysis of `packages/react/src/Tabs/` against:
-- W3C WAI-ARIA APG Tabs Pattern (manual activation)
-- Dual API approach (data + composition) — comparison with RadioGroup
-- Architecture for a design system base (copy-paste, Mid+, restricted interface, strong foundation)
+Post-refactoring review of `packages/react/src/Tabs/` against W3C WAI-ARIA APG Tabs Pattern (manual activation), reference implementations (Radix UI, Ariakit), and design system quality bar.
 
 ---
 
-## 1. Accessibility — remaining issues
+## 1. ARIA compliance (line-by-line against W3C APG)
 
-### 1.1 Missing ARIA attributes
+### `role="tablist"` — TabList (`Tabs.tsx:157-169`)
 
-| Attribute | Element | Requirement | Status |
+| W3C Requirement | Implementation | Line | Status |
 |---|---|---|---|
-| `aria-orientation` | `[role="tablist"]` | Required for vertical, default = `"horizontal"` | **Done** |
-| `aria-label` / `aria-labelledby` | `[role="tablist"]` | One of the two is required | **Done** (required prop) |
-| `tabindex="0"` | `[role="tabpanel"]` | When first element inside panel is not focusable | **Done** (always set) |
+| `role="tablist"` | `role="tablist"` | :160 | **OK** |
+| `aria-label` OR `aria-labelledby` | Only `aria-label` (Required in types) | :161, `types.ts:12` | **Partial** |
+| `aria-orientation` | `aria-orientation={orientation}` | :162 | **OK** |
 
-### 1.2 Keyboard navigation
+**Note:** W3C allows `aria-labelledby` as an alternative to `aria-label`. The type `Required<Pick<AriaAttributes, 'aria-label'>>` prevents using `aria-labelledby` instead. For a design system component this is a limitation — there are cases where a visible heading already exists and `aria-labelledby` is the correct approach.
 
-| Key | Spec | Status |
+### `role="tab"` — Tab (`Tabs.tsx:33-55`)
+
+| W3C Requirement | Implementation | Line | Status |
+|---|---|---|---|
+| `role="tab"` | `role="tab"` | :39 | **OK** |
+| `aria-selected="true"/"false"` | `aria-selected={activeId === id}` -> true/false | :40 | **OK** |
+| `aria-controls` -> panel id | `aria-controls={\`panel-${id}\`}` | :41 | **OK** |
+| `id` for panel's `aria-labelledby` | `id={\`tab-${id}\`}` | :42 | **OK** |
+| Roving tabindex (0 on active, -1 on rest) | `tabIndex={activeId === id ? 0 : -1}` | :44 | **Deviation** (see below) |
+
+**Roving tabindex deviation (Medium):** `tabIndex` is tied to `activeId` (selected tab), not the last focused tab. Per W3C APG manual activation example, when arrow keys move focus, `tabindex=0` should follow focus, not selection. Scenario:
+
+1. Tab A is active (`tabindex=0`), user arrows to Tab C
+2. Tab C receives `.focus()` but `tabindex` stays `-1`
+3. User presses Tab -> focus leaves the tablist
+4. Shift+Tab -> focus returns to Tab A (not Tab C where user navigated)
+
+Radix UI follows the same approach (tabindex tracks selection), but this deviates from the letter of W3C APG.
+
+### `role="tabpanel"` — Panel (`Tabs.tsx:177-191`)
+
+| W3C Requirement | Implementation | Line | Status |
+|---|---|---|---|
+| `role="tabpanel"` | `role="tabpanel"` | :182 | **OK** |
+| `id` for tab's `aria-controls` | `id={\`panel-${id}\`}` | :183 | **OK** |
+| `hidden` when inactive | `hidden={id !== activeId}` | :184 | **OK** |
+| `aria-labelledby` -> tab id | `aria-labelledby={\`tab-${id}\`}` | :185 | **OK** |
+| `tabindex="0"` if no focusable children | `tabIndex={0}` (unconditional) | :186 | **Excessive** |
+
+**Note (Low):** `tabIndex={0}` is set unconditionally. W3C recommends it only when the panel has no focusable children. If the panel contains buttons/links, the extra tab stop hurts navigation. Radix/Ariakit also use unconditional `tabIndex={0}` — acceptable compromise.
+
+---
+
+## 2. Keyboard navigation (`Tabs.tsx:113-148`)
+
+| Key | W3C Spec | Implementation | Status |
+|---|---|---|---|
+| ArrowRight (horiz) / ArrowDown (vert) | Next tab | :129-130, wrap-around `% tabs.length` | **OK** |
+| ArrowLeft (horiz) / ArrowUp (vert) | Previous tab | :131-133, wrap-around | **OK** |
+| Home | First tab | :134-135 | **OK** |
+| End | Last tab | :137-138 | **OK** |
+| Enter / Space | Activate tab (manual) | Native `<button>` behavior | **OK** |
+| Tab / Shift+Tab | Enter/leave tablist | Roving tabindex | **OK** (with caveat from section 1) |
+| Disabled tabs skipped | `:not([disabled])` in querySelectorAll | :118-120 | **OK** |
+
+### No RTL support (Medium)
+
+Lines 128-133: `ArrowRight` always means "next", `ArrowLeft` always means "previous". In RTL layouts the semantics must invert: Arrow**Right** should be "previous" (visually left in RTL). W3C APG doesn't specify this explicitly, but all reference implementations (Radix, Ariakit, Adobe React Aria) reverse arrows in RTL.
+
+### `stopPropagation` (Low)
+
+Line 145: `e.stopPropagation()` on all handled keys. W3C doesn't require this. May break parent components listening for these keys. `e.preventDefault()` alone is sufficient.
+
+---
+
+## 3. Controlled / Uncontrolled (`Tabs.tsx:206-234`)
+
+### Pattern
+
+```
+Tabs.tsx:213  const [uncontrolledId, setUncontrolledId] = useState(defaultActiveId ?? '');
+Tabs.tsx:216  const activeId = controlledActiveId ?? uncontrolledId;
+Tabs.tsx:218  const setActiveId = (id: string) => {
+Tabs.tsx:219      if (controlledActiveId === undefined) setUncontrolledId(id);
+Tabs.tsx:220      onActiveIdChange?.(id);
+Tabs.tsx:221  };
+```
+
+Consistent with Dialog (`Dialog.tsx:31-36`). Core logic is correct.
+
+### Edge cases
+
+| Scenario | Behavior | Assessment |
 |---|---|---|
-| `Home` | Focus first tab | **Done** |
-| `End` | Focus last tab | **Done** |
-| `ArrowUp` (vertical) | Same as `ArrowLeft` when `aria-orientation="vertical"` | **Done** |
-| `ArrowDown` (vertical) | Same as `ArrowRight` when `aria-orientation="vertical"` | **Done** |
-| `Enter` / `Space` | Native button click (no explicit handler) | **Done** |
-| `event.stopPropagation()` | Called for all handled keys | **Done** |
+| `defaultActiveId` + `activeId` together | `controlledActiveId` wins (line 216) | **OK**, but no dev warning |
+| Only `defaultActiveId` | Initializes `uncontrolledId` | **OK** |
+| Neither `defaultActiveId` nor `activeId` | `uncontrolledId = ''` -> useEffect in TabList auto-selects first enabled | **Bug** (see below) |
+| `activeId` points to disabled tab | Tab gets selected + disabled simultaneously, `aria-selected="true"` on disabled button | **Semantically invalid** |
+| `activeId` points to non-existent id | No tab selected, no panel visible | **No dev warning** |
+| Switch uncontrolled -> controlled | Controlled `activeId` overrides immediately | **OK** |
 
-### 1.3 Style issues
+### BUG: Flash on first render without `defaultActiveId` (High)
 
-- ~~`outline: 1px dotted blue` — weak focus ring~~ **Done**: 2px solid + forced-colors media query
-- Hardcoded colors (`#000`, `#999`, `rgb(79, 70, 229)`) instead of design tokens — Phase 3
-- W3C recommends separate visual indication for focus vs selection
+Lines 76-83 (TabList): `useEffect` for auto-selecting first tab.
+
+1. **First render:** `activeId = ''` -> no tab active, indicator at 0,0 position, no panel visible
+2. **After useEffect:** `setActiveId('1')` -> re-render with active tab
+3. **Visual result:** flash (empty state -> content), and indicator animates from 0,0 to tab position (due to `transition: all 0.3s` on `::after`)
+
+This affects the default use case `<Tabs>` without `defaultActiveId`.
+
+### No dev-mode validation (Low)
+
+Dialog uses `validateDialogProps()` (`Dialog.tsx:27-29`). Tabs doesn't validate:
+- `defaultActiveId` + `activeId` simultaneously
+- `activeId` without `onActiveIdChange` (read-only, no way to change)
+- Non-existent `activeId`
 
 ---
 
-## 2. Controlled / Uncontrolled
+## 4. Context (`Tabs.tsx:16-28`)
 
-### Current state ✅ DONE
+```tsx
+interface TabsContextType {
+    activeId: string;
+    setActiveId: (id: string) => void;
+    orientation: 'horizontal' | 'vertical';
+}
+```
 
-Standard controlled/uncontrolled pattern implemented:
-- `defaultActiveId` — uncontrolled with initial value
-- `activeId` + `onActiveIdChange` — fully controlled
-- No props — auto-init first enabled tab (backwards compatible)
+**3 fields — minimal.** Down from 7 in the original. Excellent.
 
-### Required for design system base
+### `setActiveId` / `contextValue` not memoized (Low)
 
-| Scenario | Mode |
+Lines 218-221: `setActiveId` is a new function every render. Lines 223-227: `contextValue` is a new object every render. All context consumers re-render on every Tabs render. Negligible for 3-10 tabs, but for a design system base worth wrapping `setActiveId` in `useCallback` and `contextValue` in `useMemo`.
+
+---
+
+## 5. Indicator (`Tabs.tsx:86-110`)
+
+### Mechanism
+`querySelector('[aria-selected="true"]')` -> `offsetTop/Left/Width/Height` -> CSS variables -> `::after` with `transition`.
+
+### ResizeObserver (`Tabs.tsx:104-110`)
+Observes the `list` element. Recalculates indicator on resize (window resize, zoom, font change). Correctly disconnects in cleanup.
+
+### Edge cases
+
+| Scenario | Behavior | Assessment |
+|---|---|---|
+| 0 tabs | `querySelector` -> null, early return | **OK** |
+| All disabled, no active | `querySelector('[aria-selected="true"]')` -> null | **OK**, but indicator stays at last position |
+| Dynamic tab addition | ResizeObserver catches list resize -> recalc | **OK** |
+| Active tab removed | `activeId` still points to removed id -> querySelector null -> indicator not updated | **Bug in uncontrolled mode** |
+| Tab text change (i18n) | Tab resizes -> list resizes -> ResizeObserver fires | **OK** |
+
+### ~~BUG: `transition: all` on initial render~~ FIXED
+
+Fixed via three mechanisms:
+1. `useLayoutEffect` for auto-init (`Tabs.tsx:78`) — sets `activeId` before paint, preventing content flash
+2. `useLayoutEffect` for indicator update (`Tabs.tsx:101`) — calculates position before paint
+3. `isAnimated` state + `requestAnimationFrame` (`Tabs.tsx:106-109`) — CSS class `tab-list--animated` is added only after browser paints the initial position, so `transition` never fires on mount
+4. CSS: `transition` moved from `::after` to `.tab-list--animated::after` (`styles.css:26-28`)
+
+---
+
+## 6. CSS (`styles.css`)
+
+### Logical properties
+
+| Line | Property | Logical? |
+|---|---|---|
+| :28 | `border-block-end` | **Yes** |
+| :31 | `inset-inline-start` | **Yes** |
+| :32 | `inset-block-end` | **Yes** |
+| :33 | `inline-size` | **Yes** |
+| :34 | `block-size` | **Yes** |
+| :41 | `border-inline-end` | **Yes** |
+| :44 | `inset-inline-end` | **Yes** |
+| :45 | `inset-block-start` | **Yes** |
+| **:54** | **`padding: 8px 16px`** | **No** — should be `padding-block: 8px; padding-inline: 16px;` |
+
+Stylelint doesn't catch this (verified), but CLAUDE.md mandates logical CSS properties.
+
+### Forced colors
+
+Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But the **indicator** (`::after` with `background-color`) is completely invisible in forced-colors mode. Needs:
+```css
+@media (forced-colors: active) {
+    .tab-list::after {
+        background-color: LinkText;
+    }
+}
+```
+
+### Hardcoded colors
+`#000`, `#999`, `rgb(79, 70, 229)`, `rgb(99, 102, 241)`, `rgb(229, 231, 235)` — all without tokens. The project has `--iui-color-*` and `--iui-spacing-*` tokens. Blocks dark theme support.
+
+### Missing
+
+| What | Importance |
 |---|---|
-| Simple out-of-the-box tabs | Uncontrolled with `defaultActiveId` |
-| URL sync (`?tab=settings`) | Controlled |
-| Conditional logic ("show tab if...") | Controlled |
-| Analytics / tracking | `onChange` callback |
-
-### Recommended pattern
-
-```tsx
-type TabsProps = {
-    defaultActiveId?: string;   // uncontrolled
-    activeId?: string;          // controlled
-    onActiveIdChange?: (id: string) => void;
-};
-```
-
-Internal implementation:
-```tsx
-const [uncontrolledId, setUncontrolledId] = useState(defaultActiveId ?? firstEnabledId);
-const currentId = activeId ?? uncontrolledId;
-const handleChange = (id: string) => {
-    if (activeId === undefined) setUncontrolledId(id);
-    onActiveIdChange?.(id);
-};
-```
-
-This pattern is already used in `Dialog` — consistency.
+| Hover styles for tabs | Medium — no visual feedback on hover |
+| `cursor: pointer` on tabs (after `all: unset`) | Low |
+| `cursor: not-allowed` on disabled | Low |
+| Dark theme (`[data-theme="dark"]`) | Blocked by hardcoded colors |
 
 ---
 
-## 3. Dual API: Data + Composition ✅ DONE (Phase 0)
+## 7. Types (`types.ts`)
 
-> **Decision: removed data-driven API, composition-only.**
+| Aspect | Assessment |
+|---|---|
+| No `any` | **OK** |
+| `as CSSProperties` (Tabs.tsx:155) | Standard for CSS vars, only cast in the file |
+| `Ref<HTMLButtonElement>` — new React ref pattern (no forwardRef) | **OK** |
+| `Required<Pick<AriaAttributes, 'aria-label'>>` | **Strict**, but excludes `aria-labelledby` |
+| No `className` / `style` props | **Intentional** for DS — correct |
+| No `constants.ts` | **Deviation from pattern** — CLAUDE.md describes `constants.ts` with enums and `*_TO_CLASS_NAME_MAP`. Acceptable here since there are no variants to extract |
 
-Removed `tabList`/`panelList` props, `TabsPropsWithLists`, `TabsPropsWithChildren`, `hasChildren` guard, dual `activeId` initialization, dual ref registration, data-driven render path. ~400 → ~240 lines, one code path.
+### No discriminated union for controlled vs uncontrolled
 
----
-
-## 4. Architecture simplification ✅ DONE (Phase 0.5)
-
-### What changed
-
-**Panel reads context directly:**
-- `PanelList` component removed entirely
-- `Panel` reads `activeId` from context, decides its own `hidden` state
-- Removed: `cloneElement`, `Children.map`, `createElementTypeGuard` dependency
-
-**Keyboard + indicator moved to TabList:**
-- TabList handles keyboard navigation via DOM (`querySelectorAll('[role="tab"]:not([disabled])')`)
-- TabList measures active tab position via `querySelector('[aria-selected="true"]')`
-- Removed from Tabs: `registerTab`, `focusNextTab`, `focusPrevTab`, `tabsRefs` Map, `disabledTabs` Set, `tabsRef` array, `inlineStyles`
-- Removed `useElementSize` hook + `hooks/` directory
-- Tab component: ~70 → ~25 lines, zero `useEffect`s
-
-**orientation moved from TabList to Tabs:**
-- `orientation` is a property of the entire tabbed interface
-- Passed via context — TabList uses it for CSS/ARIA, keyboard handler uses it for arrow key direction
-- `aria-orientation` attribute now set on tablist element
-
-**Context:** 7 fields → 3 (`activeId`, `setActiveId`, `orientation`)
-
-**No React.FC** — callable type signature for compound component type.
-
-### Current scores
-
-| Aspect | Original | After Phase 0 | After Phase 0.5 | Notes |
-|---|---|---|---|---|
-| ARIA roles/states | 6/10 | 6/10 | **10/10** | All required attributes in place |
-| Keyboard navigation | 5/10 | 5/10 | **9/10** | Home/End, ArrowUp/Down, stopPropagation, native Enter/Space |
-| Controlled/Uncontrolled | 3/10 | 3/10 | **9/10** | defaultActiveId, activeId, onActiveIdChange |
-| Code complexity | 4/10 | 6/10 | **9/10** | 3-field context, no registration, no cloneElement |
-| Indicator | 5/10 | 5/10 | **6/10** | Simpler (DOM query), still no ResizeObserver |
-| CSS | 4/10 | 4/10 | 4/10 | Still hardcoded — Phase 3 |
-| Type safety | 6/10 | 7/10 | **8/10** | Clean types, no displayName guard |
-| Extensibility | 5/10 | 6/10 | **8/10** | Minimal context, thin Tab, easy to extend |
+`TabsProps` allows any combination: `activeId` without `onActiveIdChange`, `defaultActiveId` + `activeId`, etc. Types don't prevent invalid combinations. Advanced DS libraries solve this with discriminated unions, but for current stage runtime dev warnings would be sufficient.
 
 ---
 
-## 5. Refactoring plan
+## 8. Stories (`Tabs.stories.tsx`)
 
-### Phase 0 — Remove data API ✅ DONE
+### Coverage
 
-- [x] Remove data-driven API (`tabList`/`panelList` props)
-- [x] Remove types `TabsPropsWithChildren`, `TabsPropsWithLists`
-- [x] Remove `hasChildren` type guard
-- [x] Simplify `activeId` initialization (one code path)
-- [x] Simplify ref registration in `Tab` (one code path)
-- [x] Remove `tabs` field from context
-- [x] Update stories (composition-only)
-- [x] Storybook build passing
+| Scenario | Story | Status |
+|---|---|---|
+| Default (horizontal) | `Default` | **OK** |
+| `defaultActiveId` | `DefaultActiveId` | **OK** |
+| Controlled mode | `Controlled` | **OK** |
+| Vertical | `Vertical` | **OK** |
+| Disabled tab | Included in `Default` template | **OK** |
 
-### Phase 0.5 — Architecture simplification ✅ DONE
+### Missing
 
-- [x] Panel reads context directly (removes `cloneElement`, `displayName` guard)
-- [x] Remove `PanelList` component
-- [x] Move keyboard navigation to TabList (DOM-based, no registration)
-- [x] Move indicator positioning to TabList
-- [x] Move `orientation` from TabList to Tabs (via context)
-- [x] Remove imperative registration system (`registerTab`, refs, Maps, Sets)
-- [x] Remove `useElementSize` hook
-- [x] Add `aria-orientation` on tablist
-- [x] Add `Home`/`End` keyboard support
-- [x] Add `ArrowUp`/`ArrowDown` for vertical orientation
-- [x] Native button click for Enter/Space (no explicit handler)
-- [x] Add `event.stopPropagation()` for handled keys
-- [x] Replace `React.FC` with callable type signature
-- [x] Storybook build passing
-
-### Phase 1 — Remaining accessibility ✅ DONE
-
-- [x] Add `aria-label` prop for tablist (required, via `Required<Pick<AriaAttributes>>`)
-- [x] Add `tabindex="0"` on tabpanel for keyboard focusability
-- [x] Improve focus ring (2px solid, forced-colors support)
-
-### Phase 2 — Controlled / Uncontrolled ✅ DONE
-
-- [x] Add `defaultActiveId`, `activeId`, `onActiveIdChange`
-- [x] Add stories: `defaultActiveId`, controlled with external state
-- [x] Update argTypes for new props
-
-### Phase 3 — CSS & tokens
-
-- [ ] Add `ResizeObserver` to indicator
-- [ ] Replace hardcoded colors with design tokens
-- [ ] Convert CSS to SCSS (consistency with other components)
-
-### Phase 4 — DX
-
-- [x] Update stories for all scenarios
-- [x] Add story for controlled mode
-- [ ] Add story for vertical + keyboard
-- [ ] Add E2E tests (keyboard navigation, ARIA states)
+| Scenario | Importance |
+|---|---|
+| All tabs disabled | Medium |
+| Dynamic tabs (add/remove) | Medium |
+| Many tabs (overflow) | Medium |
+| No `defaultActiveId` (auto-select first) | Medium — most common use case not shown |
+| Vertical + keyboard + disabled | Low |
+| Nested tabs (tabs inside panel) | Low |
+| Long label | Low |
+| Controlled with invalid `activeId` | Low |
 
 ---
 
-## 6. Target API (after all phases)
+## 9. Bugs and edge cases (summary)
 
-```tsx
-// Composition-only API
-<Tabs defaultActiveId="profile" onActiveIdChange={handleChange}>
-    <Tabs.TabList aria-label="User settings">
-        <Tabs.Tab id="profile" label="Profile" />
-        <Tabs.Tab id="security" label="Security" />
-        <Tabs.Tab id="billing" label="Billing" isDisabled={true} />
-    </Tabs.TabList>
-    <Tabs.Panel id="profile">
-        <ProfileSettings />
-    </Tabs.Panel>
-    <Tabs.Panel id="security">
-        <SecuritySettings />
-    </Tabs.Panel>
-    <Tabs.Panel id="billing">
-        <BillingSettings />
-    </Tabs.Panel>
-</Tabs>
+| # | Issue | Severity | Lines |
+|---|---|---|---|
+| ~~**B1**~~ | ~~Flash without `defaultActiveId`~~ **FIXED**: `useLayoutEffect` for auto-init + indicator, `requestAnimationFrame` for deferred animation enable | ~~**High**~~ | |
+| **B2** | Roving tabindex follows selection, not focus (deviation from W3C manual activation) | **Medium** | `Tabs.tsx:44` |
+| **B3** | No RTL: ArrowRight always = "next" | **Medium** | `Tabs.tsx:128-133` |
+| **B4** | Indicator invisible in forced-colors mode | **Medium** | `styles.css:20-49` (no `forced-colors` for `::after`) |
+| **B5** | `padding: 8px 16px` — not logical properties | **Low** | `styles.css:54` |
+| **B6** | `tabIndex={0}` unconditional on panel | **Low** | `Tabs.tsx:186` |
+| **B7** | `setActiveId` / `contextValue` not memoized | **Low** | `Tabs.tsx:218-227` |
+| **B8** | No dev warnings (prop conflicts, non-existent id) | **Low** | `Tabs.tsx:206-234` |
+| **B9** | `stopPropagation` on handled keys (may interfere with parent) | **Low** | `Tabs.tsx:145` |
+| **B10** | No hover styles | **Low** | `styles.css:52-67` |
 
-// Controlled
-<Tabs activeId={tab} onActiveIdChange={setTab}>
-    ...
-</Tabs>
+---
 
-// Vertical
-<Tabs orientation="vertical" defaultActiveId="1">
-    <Tabs.TabList aria-label="...">
-        ...
-    </Tabs.TabList>
-    ...
-</Tabs>
-```
+## 10. Comparison with Radix UI / Ariakit
 
-**Design decisions (intentional, not planned for change):**
-- `label: string` on Tab — text-only content by design
-- `isDisabled` prefix — project-wide convention for boolean props (`is`/`has` prefix)
+| Aspect | Our implementation | Radix UI | Ariakit |
+|---|---|---|---|
+| **API** | `label: string` prop | `children` | `children` |
+| **Compound pattern** | `Tabs.Tab` / `Tabs.Panel` | `Tabs.Trigger` / `Tabs.Content` | `Tab` / `TabPanel` |
+| **Indicator** | Built-in, CSS transition | None (user implements) | None |
+| **Activation mode** | Manual only | `activationMode` prop | `focusMove` + `selectOnMove` |
+| **RTL** | No | Yes (`dir` prop) | Yes |
+| **Controlled/Uncontrolled** | Yes | Yes | Yes (store pattern) |
+| **Roving tabindex** | Follows selection | Follows selection | Follows focus |
+| **forced-colors** | Partial (focus only) | Full | Full |
+| **Size** | ~240 lines | ~800+ (with utilities) | ~1000+ |
+| **Dependencies** | `clsx` | `@radix-ui/primitive`, `@radix-ui/react-*` | `ariakit-*` |
+
+### What's better in our implementation
+- **Built-in animated indicator** — Radix and Ariakit leave this to the user
+- **Simplicity** — 240 lines, 3-field context, 0 external dependencies besides `clsx`
+- **`label: string`** — stricter, but guarantees a textual accessible name without errors
+- **`aria-label` required** — TypeScript won't let you forget (neither Radix nor Ariakit enforce this)
+
+### What's worse
+- **No RTL** — critical for internationalized products
+- **No `activationMode`** — manual only, no auto
+- ~~**Indicator flash**~~ — fixed
+- **Incomplete forced-colors** — Radix and Ariakit handle it fully
+
+---
+
+## 11. Final assessment
+
+### Ready as a design system base?
+
+**Yes, with caveats.** Architecture is clean, ARIA coverage is nearly complete, controlled/uncontrolled works. The component is significantly better than before the refactoring.
+
+### Must fix before production (blockers)
+
+1. ~~**B1** — Flash without `defaultActiveId`.~~ **FIXED**
+2. **B4** — Forced-colors on the indicator. Accessibility baseline (deferred — no final color decisions yet)
+
+### Should fix before v1
+
+3. **B3** — RTL support (check `dir` attribute, reverse arrow keys)
+4. **B5** — `padding` to logical properties
+5. **B10** — Hover styles
+
+### Nice to have
+
+6. **B2** — Roving tabindex follows focus (requires `focusedId` in state)
+7. **B7** — Memoize context value
+8. **B8** — Dev-mode warnings
+9. `activationMode` prop (auto/manual)
+10. Additional stories
+
+### Scores
+
+| Aspect | Score | Notes |
+|---|---|---|
+| ARIA | **8/10** | Nearly complete, but `aria-labelledby` not supported, unconditional `tabIndex={0}` |
+| Keyboard | **7/10** | Full spec coverage, but no RTL, roving tabindex doesn't follow W3C |
+| Controlled/Uncontrolled | **8/10** | Correct pattern, flash fixed, no dev warnings |
+| Context | **9/10** | Minimal, clean. Memoization is nice to have |
+| Indicator | **8/10** | ResizeObserver works, flash fixed, forced-colors deferred |
+| CSS | **5/10** | Hardcoded colors, no hover, no dark theme, `padding` not logical |
+| Types | **8/10** | Strict, no any, but no discriminated union for controlled |
+| Stories | **6/10** | Core cases covered, many gaps |
+| **Overall** | **7/10** | Solid base. 2 blockers before production, rest is iteratively improvable |
