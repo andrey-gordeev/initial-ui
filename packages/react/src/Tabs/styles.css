@@ -54,7 +54,8 @@
 
 .tab-item {
     all: unset;
-    padding: 8px 16px;
+    padding-block: 8px;
+    padding-inline: 16px;
     color: #000;
 
     &:focus-visible {
@@ -67,6 +68,10 @@
             outline: 2px solid LinkText;
         }
     }
+}
+
+.tab-item:hover:not([disabled]) {
+    background-color: rgb(243, 244, 246);
 }
 
 .tab-item--active {

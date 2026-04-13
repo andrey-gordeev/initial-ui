@@ -129,13 +129,26 @@ export const TabList = ({
         if (currentIndex === -1) return;
 
         const isHorizontal = orientation === 'horizontal';
+        const isRtl =
+            list.closest('[dir]')?.getAttribute('dir') === 'rtl';
         let nextIndex: number | null = null;
 
+        const nextKey = isHorizontal
+            ? isRtl
+                ? 'ArrowLeft'
+                : 'ArrowRight'
+            : 'ArrowDown';
+        const prevKey = isHorizontal
+            ? isRtl
+                ? 'ArrowRight'
+                : 'ArrowLeft'
+            : 'ArrowUp';
+
         switch (e.key) {
-            case isHorizontal ? 'ArrowRight' : 'ArrowDown':
+            case nextKey:
                 nextIndex = (currentIndex + 1) % tabs.length;
                 break;
-            case isHorizontal ? 'ArrowLeft' : 'ArrowUp':
+            case prevKey:
                 nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
                 break;
             case 'Home':

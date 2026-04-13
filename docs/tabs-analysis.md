@@ -61,9 +61,9 @@ Radix UI follows the same approach (tabindex tracks selection), but this deviate
 | Tab / Shift+Tab | Enter/leave tablist | Roving tabindex | **OK** (with caveat from section 1) |
 | Disabled tabs skipped | `:not([disabled])` in querySelectorAll | :118-120 | **OK** |
 
-### No RTL support (Medium)
+### ~~No RTL support~~ FIXED
 
-Lines 128-133: `ArrowRight` always means "next", `ArrowLeft` always means "previous". In RTL layouts the semantics must invert: Arrow**Right** should be "previous" (visually left in RTL). W3C APG doesn't specify this explicitly, but all reference implementations (Radix, Ariakit, Adobe React Aria) reverse arrows in RTL.
+RTL detection via `list.closest('[dir]')?.getAttribute('dir')` (`Tabs.tsx:132-133`). Arrow keys are swapped in RTL: ArrowLeft = next, ArrowRight = previous.
 
 ### `stopPropagation` (Low)
 
@@ -176,9 +176,9 @@ Fixed via three mechanisms:
 | :41 | `border-inline-end` | **Yes** |
 | :44 | `inset-inline-end` | **Yes** |
 | :45 | `inset-block-start` | **Yes** |
-| **:54** | **`padding: 8px 16px`** | **No** — should be `padding-block: 8px; padding-inline: 16px;` |
+| :57-58 | `padding-block` / `padding-inline` | **Yes** |
 
-Stylelint doesn't catch this (verified), but CLAUDE.md mandates logical CSS properties.
+~~Stylelint doesn't catch shorthand `padding` — fixed to logical `padding-block`/`padding-inline`.~~
 
 ### Forced colors
 
@@ -198,9 +198,8 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 
 | What | Importance |
 |---|---|
-| Hover styles for tabs | Medium — no visual feedback on hover |
-| `cursor: pointer` on tabs (after `all: unset`) | Low |
-| `cursor: not-allowed` on disabled | Low |
+| ~~Hover styles for tabs~~ | ~~Medium~~ — **FIXED** (`styles.css:73-75`) |
+| `cursor: not-allowed` on disabled | Low — intentionally skipped |
 | Dark theme (`[data-theme="dark"]`) | Blocked by hardcoded colors |
 
 ---
@@ -255,14 +254,14 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 |---|---|---|---|
 | ~~**B1**~~ | ~~Flash without `defaultActiveId`~~ **FIXED**: `useLayoutEffect` for auto-init + indicator, `requestAnimationFrame` for deferred animation enable | ~~**High**~~ | |
 | **B2** | Roving tabindex follows selection, not focus (deviation from W3C manual activation) | **Medium** | `Tabs.tsx:44` |
-| **B3** | No RTL: ArrowRight always = "next" | **Medium** | `Tabs.tsx:128-133` |
+| ~~**B3**~~ | ~~No RTL~~ **FIXED**: `closest('[dir]')` detection, arrow keys swapped in RTL | ~~**Medium**~~ | |
 | **B4** | Indicator invisible in forced-colors mode | **Medium** | `styles.css:20-49` (no `forced-colors` for `::after`) |
-| **B5** | `padding: 8px 16px` — not logical properties | **Low** | `styles.css:54` |
+| ~~**B5**~~ | ~~`padding: 8px 16px` — not logical properties~~ **FIXED**: `padding-block`/`padding-inline` | ~~**Low**~~ | |
 | **B6** | `tabIndex={0}` unconditional on panel | **Low** | `Tabs.tsx:186` |
 | **B7** | `setActiveId` / `contextValue` not memoized | **Low** | `Tabs.tsx:218-227` |
 | **B8** | No dev warnings (prop conflicts, non-existent id) | **Low** | `Tabs.tsx:206-234` |
 | **B9** | `stopPropagation` on handled keys (may interfere with parent) | **Low** | `Tabs.tsx:145` |
-| **B10** | No hover styles | **Low** | `styles.css:52-67` |
+| ~~**B10**~~ | ~~No hover styles~~ **FIXED**: hover background on non-disabled tabs | ~~**Low**~~ | |
 
 ---
 
@@ -274,7 +273,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 | **Compound pattern** | `Tabs.Tab` / `Tabs.Panel` | `Tabs.Trigger` / `Tabs.Content` | `Tab` / `TabPanel` |
 | **Indicator** | Built-in, CSS transition | None (user implements) | None |
 | **Activation mode** | Manual only | `activationMode` prop | `focusMove` + `selectOnMove` |
-| **RTL** | No | Yes (`dir` prop) | Yes |
+| **RTL** | Yes (`closest('[dir]')`) | Yes (`dir` prop) | Yes |
 | **Controlled/Uncontrolled** | Yes | Yes | Yes (store pattern) |
 | **Roving tabindex** | Follows selection | Follows selection | Follows focus |
 | **forced-colors** | Partial (focus only) | Full | Full |
@@ -308,9 +307,9 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 
 ### Should fix before v1
 
-3. **B3** — RTL support (check `dir` attribute, reverse arrow keys)
-4. **B5** — `padding` to logical properties
-5. **B10** — Hover styles
+3. ~~**B3** — RTL support~~ **FIXED**
+4. ~~**B5** — `padding` to logical properties~~ **FIXED**
+5. ~~**B10** — Hover styles~~ **FIXED**
 
 ### Nice to have
 
@@ -325,11 +324,11 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 | Aspect | Score | Notes |
 |---|---|---|
 | ARIA | **8/10** | Nearly complete, but `aria-labelledby` not supported, unconditional `tabIndex={0}` |
-| Keyboard | **7/10** | Full spec coverage, but no RTL, roving tabindex doesn't follow W3C |
+| Keyboard | **8/10** | Full spec coverage with RTL, roving tabindex doesn't follow W3C |
 | Controlled/Uncontrolled | **8/10** | Correct pattern, flash fixed, no dev warnings |
 | Context | **9/10** | Minimal, clean. Memoization is nice to have |
 | Indicator | **8/10** | ResizeObserver works, flash fixed, forced-colors deferred |
-| CSS | **5/10** | Hardcoded colors, no hover, no dark theme, `padding` not logical |
+| CSS | **6/10** | Hardcoded colors, no dark theme. Hover, logical properties fixed |
 | Types | **8/10** | Strict, no any, but no discriminated union for controlled |
 | Stories | **6/10** | Core cases covered, many gaps |
 | **Overall** | **7/10** | Solid base. 2 blockers before production, rest is iteratively improvable |
