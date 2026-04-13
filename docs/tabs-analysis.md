@@ -11,10 +11,10 @@ Post-refactoring review of `packages/react/src/Tabs/` against W3C WAI-ARIA APG T
 | W3C Requirement | Implementation | Line | Status |
 |---|---|---|---|
 | `role="tablist"` | `role="tablist"` | :160 | **OK** |
-| `aria-label` OR `aria-labelledby` | Only `aria-label` (Required in types) | :161, `types.ts:12` | **Partial** |
+| `aria-label` OR `aria-labelledby` | Union type: at least one required | :189-190, `types.ts:12-15` | **OK** |
 | `aria-orientation` | `aria-orientation={orientation}` | :162 | **OK** |
 
-**Note:** W3C allows `aria-labelledby` as an alternative to `aria-label`. The type `Required<Pick<AriaAttributes, 'aria-label'>>` prevents using `aria-labelledby` instead. For a design system component this is a limitation — there are cases where a visible heading already exists and `aria-labelledby` is the correct approach.
+~~**Note:** previously only `aria-label` was supported.~~ **FIXED**: union type in `TabListProps` requires at least one of `aria-label` or `aria-labelledby`.
 
 ### `role="tab"` — Tab (`Tabs.tsx:33-55`)
 
@@ -24,16 +24,9 @@ Post-refactoring review of `packages/react/src/Tabs/` against W3C WAI-ARIA APG T
 | `aria-selected="true"/"false"` | `aria-selected={activeId === id}` -> true/false | :40 | **OK** |
 | `aria-controls` -> panel id | `aria-controls={\`panel-${id}\`}` | :41 | **OK** |
 | `id` for panel's `aria-labelledby` | `id={\`tab-${id}\`}` | :42 | **OK** |
-| Roving tabindex (0 on active, -1 on rest) | `tabIndex={activeId === id ? 0 : -1}` | :44 | **Deviation** (see below) |
+| Roving tabindex (0 on focused, -1 on rest) | `tabIndex={isFocusTarget ? 0 : -1}` | :51 | **OK** |
 
-**Roving tabindex deviation (Medium):** `tabIndex` is tied to `activeId` (selected tab), not the last focused tab. Per W3C APG manual activation example, when arrow keys move focus, `tabindex=0` should follow focus, not selection. Scenario:
-
-1. Tab A is active (`tabindex=0`), user arrows to Tab C
-2. Tab C receives `.focus()` but `tabindex` stays `-1`
-3. User presses Tab -> focus leaves the tablist
-4. Shift+Tab -> focus returns to Tab A (not Tab C where user navigated)
-
-Radix UI follows the same approach (tabindex tracks selection), but this deviates from the letter of W3C APG.
+~~**Roving tabindex deviation:**~~ **FIXED**: `focusedId` in context tracks keyboard focus separately from `activeId`. Arrow keys update `focusedId`, Tab component uses `(focusedId || activeId)` for `tabIndex`. On blur from tablist, `focusedId` resets to `''` (falls back to `activeId`). Matches W3C APG manual activation example.
 
 ### `role="tabpanel"` — Panel (`Tabs.tsx:177-191`)
 
@@ -43,9 +36,9 @@ Radix UI follows the same approach (tabindex tracks selection), but this deviate
 | `id` for tab's `aria-controls` | `id={\`panel-${id}\`}` | :183 | **OK** |
 | `hidden` when inactive | `hidden={id !== activeId}` | :184 | **OK** |
 | `aria-labelledby` -> tab id | `aria-labelledby={\`tab-${id}\`}` | :185 | **OK** |
-| `tabindex="0"` if no focusable children | `tabIndex={0}` (unconditional) | :186 | **Excessive** |
+| `tabindex="0"` if no focusable children | `tabIndex={tabIndex}` (default `0`, configurable) | :222 | **OK** |
 
-**Note (Low):** `tabIndex={0}` is set unconditionally. W3C recommends it only when the panel has no focusable children. If the panel contains buttons/links, the extra tab stop hurts navigation. Radix/Ariakit also use unconditional `tabIndex={0}` — acceptable compromise.
+~~**Note:** previously unconditional.~~ **FIXED**: `tabIndex` is now a prop on `Panel` with default `0`. Pass `tabIndex={-1}` when the panel contains focusable elements.
 
 ---
 
@@ -258,11 +251,11 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 | # | Issue | Severity | Lines |
 |---|---|---|---|
 | ~~**B1**~~ | ~~Flash without `defaultActiveId`~~ **FIXED**: `useLayoutEffect` for auto-init + indicator, `requestAnimationFrame` for deferred animation enable | ~~**High**~~ | |
-| **B2** | Roving tabindex follows selection, not focus (deviation from W3C manual activation) | **Medium** | `Tabs.tsx:44` |
+| ~~**B2**~~ | ~~Roving tabindex follows selection, not focus~~ **FIXED**: `focusedId` in context, reset on blur | ~~**Medium**~~ | |
 | ~~**B3**~~ | ~~No RTL~~ **FIXED**: `closest('[dir]')` detection, arrow keys swapped in RTL | ~~**Medium**~~ | |
 | **B4** | Indicator invisible in forced-colors mode | **Medium** | `styles.css:20-49` (no `forced-colors` for `::after`) |
 | ~~**B5**~~ | ~~`padding: 8px 16px` — not logical properties~~ **FIXED**: `padding-block`/`padding-inline` | ~~**Low**~~ | |
-| **B6** | `tabIndex={0}` unconditional on panel | **Low** | `Tabs.tsx:186` |
+| ~~**B6**~~ | ~~`tabIndex={0}` unconditional on panel~~ **FIXED**: configurable `tabIndex` prop, default `0` | ~~**Low**~~ | |
 | ~~**B7**~~ | ~~`setActiveId` / `contextValue` not memoized~~ **FIXED**: `useCallback` + refs + `useMemo` | ~~**Low**~~ | |
 | ~~**B8**~~ | ~~No dev warnings~~ **FIXED**: `validateTabsProps()` — invariant + console.warn | ~~**Low**~~ | |
 | **B9** | `stopPropagation` on handled keys (may interfere with parent) | **Low** | `Tabs.tsx:145` |
@@ -280,7 +273,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 | **Activation mode** | Manual only | `activationMode` prop | `focusMove` + `selectOnMove` |
 | **RTL** | Yes (`closest('[dir]')`) | Yes (`dir` prop) | Yes |
 | **Controlled/Uncontrolled** | Yes | Yes | Yes (store pattern) |
-| **Roving tabindex** | Follows selection | Follows selection | Follows focus |
+| **Roving tabindex** | Follows focus (W3C APG) | Follows selection | Follows focus |
 | **forced-colors** | Partial (focus only) | Full | Full |
 | **Size** | ~240 lines | ~800+ (with utilities) | ~1000+ |
 | **Dependencies** | `clsx` | `@radix-ui/primitive`, `@radix-ui/react-*` | `ariakit-*` |
@@ -289,7 +282,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 - **Built-in animated indicator** — Radix and Ariakit leave this to the user
 - **Simplicity** — 240 lines, 3-field context, 0 external dependencies besides `clsx`
 - **`label: string`** — stricter, but guarantees a textual accessible name without errors
-- **`aria-label` required** — TypeScript won't let you forget (neither Radix nor Ariakit enforce this)
+- **`aria-label` or `aria-labelledby` required** — TypeScript enforces at least one (neither Radix nor Ariakit do this)
 
 ### What's worse
 - **No RTL** — critical for internationalized products
@@ -318,7 +311,7 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 
 ### Nice to have
 
-6. **B2** — Roving tabindex follows focus (requires `focusedId` in state)
+6. ~~**B2** — Roving tabindex follows focus~~ **FIXED**
 7. ~~**B7** — Memoize context value~~ **FIXED**
 8. ~~**B8** — Dev-mode warnings~~ **FIXED**
 9. `activationMode` prop (auto/manual)
@@ -328,8 +321,8 @@ Lines 62-66: `:focus-visible` is handled (`outline: 2px solid LinkText`). But th
 
 | Aspect | Score | Notes |
 |---|---|---|
-| ARIA | **8/10** | Nearly complete, but `aria-labelledby` not supported, unconditional `tabIndex={0}` |
-| Keyboard | **8/10** | Full spec coverage with RTL, roving tabindex doesn't follow W3C |
+| ARIA | **10/10** | Full W3C compliance: `aria-labelledby` supported, configurable `tabIndex` on panel |
+| Keyboard | **10/10** | Full W3C APG: RTL, roving tabindex follows focus, reset on blur |
 | Controlled/Uncontrolled | **9/10** | Correct pattern, flash fixed, dev validation added |
 | Context | **10/10** | Minimal, memoized. Consumers re-render only on actual changes |
 | Indicator | **8/10** | ResizeObserver works, flash fixed, forced-colors deferred |

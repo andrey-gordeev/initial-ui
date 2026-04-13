@@ -6,6 +6,7 @@ import React, {
     useCallback,
     useMemo,
     KeyboardEvent,
+    FocusEvent,
     useLayoutEffect,
     useEffect,
     CSSProperties,
@@ -18,7 +19,9 @@ import { validateTabsProps } from './utils';
 
 interface TabsContextType {
     activeId: string;
+    focusedId: string;
     setActiveId: (id: string) => void;
+    setFocusedId: (id: string) => void;
     orientation: 'horizontal' | 'vertical';
 }
 
@@ -34,7 +37,8 @@ const useTabs = () => {
 // Tab
 // -------------------
 export const Tab = ({ id, label, isDisabled, ref }: TabProps) => {
-    const { activeId, setActiveId } = useTabs();
+    const { activeId, focusedId, setActiveId } = useTabs();
+    const isFocusTarget = (focusedId || activeId) === id;
 
     return (
         <button
@@ -44,7 +48,7 @@ export const Tab = ({ id, label, isDisabled, ref }: TabProps) => {
             aria-controls={`panel-${id}`}
             id={`tab-${id}`}
             data-tab-id={id}
-            tabIndex={activeId === id ? 0 : -1}
+            tabIndex={isFocusTarget ? 0 : -1}
             disabled={isDisabled}
             onClick={() => setActiveId(id)}
             className={clsx('tab-item', {
@@ -65,8 +69,9 @@ Tab.displayName = 'Tab';
 export const TabList = ({
     children,
     'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
 }: TabListProps) => {
-    const { activeId, setActiveId, orientation } = useTabs();
+    const { activeId, setActiveId, setFocusedId, orientation } = useTabs();
     const listRef = useRef<HTMLDivElement>(null);
     const [indicatorStyle, setIndicatorStyle] = useState({
         top: 0,
@@ -164,6 +169,8 @@ export const TabList = ({
         if (nextIndex !== null) {
             e.preventDefault();
             e.stopPropagation();
+            const nextId = tabs[nextIndex].getAttribute('data-tab-id');
+            if (nextId) setFocusedId(nextId);
             tabs[nextIndex].focus();
         }
     };
@@ -180,12 +187,18 @@ export const TabList = ({
             ref={listRef}
             role="tablist"
             aria-label={ariaLabel}
+            aria-labelledby={ariaLabelledBy}
             aria-orientation={orientation}
             className={clsx('tab-list', `tab-list--${orientation}`, {
                 'tab-list--animated': isAnimated,
             })}
             style={inlineStyles}
             onKeyDown={handleKeyDown}
+            onBlur={(e: FocusEvent<HTMLDivElement>) => {
+                if (!listRef.current?.contains(e.relatedTarget as Node)) {
+                    setFocusedId('');
+                }
+            }}
         >
             {children}
         </div>
@@ -197,7 +210,7 @@ TabList.displayName = 'TabList';
 // -------------------
 // Panel
 // -------------------
-export const Panel = ({ children, id }: PanelProps) => {
+export const Panel = ({ children, id, tabIndex = 0 }: PanelProps) => {
     const { activeId } = useTabs();
 
     return (
@@ -206,7 +219,7 @@ export const Panel = ({ children, id }: PanelProps) => {
             id={`panel-${id}`}
             hidden={id !== activeId}
             aria-labelledby={`tab-${id}`}
-            tabIndex={0}
+            tabIndex={tabIndex}
         >
             {children}
         </div>
@@ -246,14 +259,21 @@ export const Tabs: TabsComponent = ({
     const onChangeRef = useRef(onActiveIdChange);
     onChangeRef.current = onActiveIdChange;
 
+    const [focusedId, setFocusedIdState] = useState('');
+
     const setActiveId = useCallback((id: string) => {
         if (controlledRef.current === undefined) setUncontrolledId(id);
         onChangeRef.current?.(id);
+        setFocusedIdState('');
+    }, []);
+
+    const setFocusedId = useCallback((id: string) => {
+        setFocusedIdState(id);
     }, []);
 
     const contextValue = useMemo<TabsContextType>(
-        () => ({ activeId, setActiveId, orientation }),
-        [activeId, setActiveId, orientation],
+        () => ({ activeId, focusedId, setActiveId, setFocusedId, orientation }),
+        [activeId, focusedId, setActiveId, setFocusedId, orientation],
     );
 
     return (
