@@ -1,18 +1,20 @@
-import type { RadioProps } from '../Radio';
-import type { RadioGroupProps } from './types';
+import { invariant } from '../utils';
 
-export const getRadioProps = (
-    item: RadioProps,
-    selectedValue: RadioGroupProps['value'],
-) => {
-    const isGroupControlled = selectedValue !== undefined;
-    const isRadioControlled = isGroupControlled || item.isChecked !== undefined;
+export function validateRadioGroupProps(
+    value: string | undefined,
+    onValueChange: ((value: string) => void) | undefined,
+    defaultValue: string | undefined,
+) {
+    if (value !== undefined) {
+        invariant(
+            onValueChange !== undefined,
+            '<RadioGroup /> requires "onValueChange" when "value" is provided. Otherwise the selected value cannot be changed by user interaction.',
+        );
+    }
 
-    const isChecked = isGroupControlled
-        ? selectedValue === item.value
-        : item.isChecked;
-
-    const defaultChecked = !isRadioControlled ? item.defaultChecked : undefined;
-
-    return { isGroupControlled, isRadioControlled, isChecked, defaultChecked };
-};
+    if (value !== undefined && defaultValue !== undefined) {
+        console.warn(
+            '<RadioGroup /> received both "defaultValue" and "value". The component will be controlled and "defaultValue" will be ignored.',
+        );
+    }
+}

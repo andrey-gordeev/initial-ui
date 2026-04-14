@@ -1,20 +1,53 @@
-import type { ReactNode } from 'react';
-import type { RadioProps } from '../Radio';
+import type { AriaAttributes, ReactNode } from 'react';
 
-type RadioGroupBase = {
-    name?: string;
-    value?: string;
-    onChange?: (value: string | undefined) => void;
+type RadioGroupAriaAttributes = Pick<
+    AriaAttributes,
+    | 'aria-label'
+    | 'aria-labelledby'
+    | 'aria-describedby'
+    | 'aria-description'
+    | 'aria-errormessage'
+>;
+
+export type ItemRenderProps = {
+    isSelected: boolean;
+    isDisabled: boolean;
 };
 
-type RadioGroupWithChildren = {
-    children: ReactNode;
-    options?: never;
-} & RadioGroupBase;
+export type ItemProps = {
+    value: string;
+    label: string;
+    isDisabled?: boolean;
+    render?: (props: ItemRenderProps) => ReactNode;
+};
 
-type RadioGroupWithOptions = {
-    children?: never;
-    options: RadioProps[];
-} & RadioGroupBase;
+export type RadioGroupControlledProps = {
+    /** Selected value. Set this to use RadioGroup as a controlled component. */
+    value: string;
+    /** Called when the selected value changes. Required in controlled mode. */
+    onValueChange: (value: string) => void;
+    defaultValue?: never;
+};
 
-export type RadioGroupProps = RadioGroupWithChildren | RadioGroupWithOptions;
+/**
+ * Typing props this way prevents setting `value` without `onValueChange`,
+ * or mixing `value` with `defaultValue`.
+ * Both controlled props must be set together, or neither must be set.
+ */
+export type RadioGroupValueProps =
+    | RadioGroupControlledProps
+    | {
+          value?: never;
+          onValueChange?: (value: string) => void;
+          defaultValue?: string;
+      };
+
+export type RadioGroupProps = RadioGroupAriaAttributes &
+    RadioGroupValueProps & {
+        children: ReactNode;
+        name?: string;
+        isDisabled?: boolean;
+        isRequired?: boolean;
+        isInvalid?: boolean;
+        orientation?: 'vertical' | 'horizontal';
+    };

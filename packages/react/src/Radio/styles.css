@@ -13,6 +13,11 @@
         border: 1px solid #ccc;
         border-radius: 100%;
 
+        &:focus-visible {
+            outline: 2px solid rgb(99, 102, 241);
+            outline-offset: 2px;
+        }
+
         &:checked {
             &::before {
                 position: absolute;
@@ -29,5 +34,11 @@
 
     &:has(> input:disabled) {
         opacity: 0.55;
+    }
+}
+
+@media (forced-colors: active) {
+    .radio > input:focus-visible {
+        outline-color: LinkText;
     }
 }

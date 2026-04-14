@@ -54,8 +54,8 @@
 
 .tab-item {
     all: unset;
-    padding-block: 8px;
     padding-inline: 16px;
+    padding-block: 8px;
     color: #000;
 
     &:focus-visible {
