@@ -1,14 +1,12 @@
 import {
-    type CSSProperties,
     type ReactNode,
     type RefObject,
     useCallback,
     useEffect,
     useId,
-    useLayoutEffect,
-    useRef,
     useState,
 } from 'react';
+import { autoUpdate } from '@floating-ui/react';
 
 import { useOverlayContext } from '../OverlayProvider';
 import { DEFAULT_POPOVER_PLACEMENT } from './constants';
@@ -30,16 +28,13 @@ type PopoverTriggerProps = {
     'aria-controls'?: string;
 };
 
-function getTriggerMirrorStyles(trigger: HTMLElement): CSSProperties {
+function applyTriggerMirror(trigger: HTMLElement, overlay: HTMLElement) {
     const rect = trigger.getBoundingClientRect();
-    return {
-        position: 'fixed',
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height,
-        pointerEvents: 'none',
-    };
+    overlay.style.position = 'fixed';
+    overlay.style.top = `${rect.top}px`;
+    overlay.style.left = `${rect.left}px`;
+    overlay.style.width = `${rect.width}px`;
+    overlay.style.height = `${rect.height}px`;
 }
 
 export function usePopover(
@@ -51,32 +46,8 @@ export function usePopover(
     const generatedId = useId();
     const popoverId = config.id ?? generatedId;
     const overlayId = useId();
-    const overlayRef = useRef<HTMLDivElement>(null);
+    const [overlayNode, setOverlayNode] = useState<HTMLDivElement | null>(null);
     const { mount, unmount } = useOverlayContext();
-
-    const [mirrorStyles, setMirrorStyles] = useState<CSSProperties>({});
-
-    const updateMirror = useCallback(() => {
-        const trigger = triggerRef.current;
-        if (!trigger || !isOpen) return;
-        setMirrorStyles(getTriggerMirrorStyles(trigger));
-    }, [triggerRef, isOpen]);
-
-    useLayoutEffect(() => {
-        updateMirror();
-    }, [updateMirror]);
-
-    useEffect(() => {
-        if (!isOpen) return;
-
-        window.addEventListener('scroll', updateMirror, true);
-        window.addEventListener('resize', updateMirror);
-
-        return () => {
-            window.removeEventListener('scroll', updateMirror, true);
-            window.removeEventListener('resize', updateMirror);
-        };
-    }, [isOpen, updateMirror]);
 
     const close = useCallback(() => setIsOpen(false), []);
     const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
@@ -115,9 +86,9 @@ export function usePopover(
         function handleClick(event: MouseEvent) {
             const target = event.target as Node;
             const trigger = triggerRef.current;
-            const overlay = overlayRef.current;
 
-            if (trigger?.contains(target) || overlay?.contains(target)) return;
+            if (trigger?.contains(target) || overlayNode?.contains(target))
+                return;
 
             close();
         }
@@ -130,43 +101,46 @@ export function usePopover(
             clearTimeout(timeoutId);
             document.removeEventListener('click', handleClick);
         };
-    }, [isOpen, close, triggerRef]);
+    }, [isOpen, close, triggerRef, overlayNode]);
 
     useEffect(() => {
-        if (isOpen) {
-            mount(
-                overlayId,
-                <div
-                    ref={overlayRef}
-                    style={{
-                        ...mirrorStyles,
-                        outline: '1px dashed tomato',
-                        outlineOffset: '2px',
-                    }}
-                >
-                    {content({
-                        id: popoverId,
-                        placement,
-                        onClose: close,
-                    })}
-                </div>,
-            );
-        } else {
+        if (!isOpen) {
             unmount(overlayId);
+            return () => unmount(overlayId);
         }
 
-        return () => unmount(overlayId);
+        mount(
+            overlayId,
+            <div
+                ref={setOverlayNode}
+                style={{ outline: '1px dashed tomato', outlineOffset: '2px' }}
+            >
+                {content({
+                    id: popoverId,
+                    placement,
+                    onClose: close,
+                })}
+            </div>,
+        );
     }, [
         isOpen,
         overlayId,
         popoverId,
-        mirrorStyles,
         placement,
         content,
         close,
         mount,
         unmount,
     ]);
+
+    useEffect(() => {
+        const trigger = triggerRef.current;
+        if (!isOpen || !trigger || !overlayNode) return;
+
+        return autoUpdate(trigger, overlayNode, () => {
+            applyTriggerMirror(trigger, overlayNode);
+        });
+    }, [isOpen, triggerRef, overlayNode]);
 
     useEffect(() => {
         if (process.env.NODE_ENV === 'production') return;

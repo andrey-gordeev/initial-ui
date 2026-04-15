@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>usePopover — анализ оптимизации</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --surface: #16213e;
+    --surface-2: #0f3460;
+    --border: #1a3a6a;
+    --text: #e0e0e0;
+    --text-dim: #8892a4;
+    --accent: #e94560;
+    --accent-2: #f5a623;
+    --green: #4ecdc4;
+    --code-bg: #0d1b2a;
+    --link: #64b5f6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+    color: #fff;
+  }
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 {
+    font-size: 1.05rem;
+    color: var(--accent-2);
+    margin: 1.5rem 0 0.5rem;
+  }
+  p { margin-bottom: 0.8rem; }
+  code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+    font-size: 0.85em;
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    margin: 0.8rem 0 1.2rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+  }
+  .kw { color: #c792ea; }
+  .fn { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .cmt { color: #546e7a; font-style: italic; }
+  .num { color: #f78c6c; }
+  .type { color: #ffcb6b; }
+  .tag { color: #f07178; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.9rem;
+  }
+  th {
+    background: var(--surface-2);
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  tr:last-child td { border-bottom: none; }
+
+  .priority-tag {
+    display: inline-block;
+    padding: 0.1em 0.5em;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+  .p0 { background: var(--accent); color: #fff; }
+  .p1 { background: var(--accent-2); color: #1a1a2e; }
+  .p2 { background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+
+  .render-chain {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 2;
+  }
+  .render-chain .step { color: var(--green); }
+  .render-chain .arrow { color: var(--text-dim); }
+  .render-chain .label { color: var(--accent-2); }
+
+  .note {
+    background: var(--surface);
+    border-left: 3px solid var(--accent-2);
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+  }
+  .note-danger {
+    border-left-color: var(--accent);
+  }
+  .note strong { color: #fff; }
+
+  .effect-table code { font-size: 0.8em; }
+  .section-num {
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 0.3em;
+  }
+</style>
+</head>
+<body>
+
+<h1>usePopover.tsx &mdash; анализ оптимизации</h1>
+<p class="subtitle">initial-ui / packages/react/src/Popover &bull; Апрель 2026</p>
+
+<!-- ================================================================== -->
+<h2><span class="section-num">1.</span> Инвентаризация useEffect-ов</h2>
+
+<table class="effect-table">
+  <thead>
+    <tr><th>#</th><th>Строки</th><th>Назначение</th><th>Зависимости</th><th>Активен</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td><td>55&ndash;64</td>
+      <td>Click-listener на триггере</td>
+      <td><code>triggerRef</code>, <code>toggle</code></td>
+      <td>Всегда</td>
+    </tr>
+    <tr>
+      <td>2</td><td>66&ndash;81</td>
+      <td>Escape &rarr; close</td>
+      <td><code>isOpen</code>, <code>close</code>, <code>triggerRef</code></td>
+      <td>isOpen</td>
+    </tr>
+    <tr>
+      <td>3</td><td>83&ndash;104</td>
+      <td>Click outside &rarr; close</td>
+      <td><code>isOpen</code>, <code>close</code>, <code>triggerRef</code>, <code>overlayNode</code></td>
+      <td>isOpen + overlayNode</td>
+    </tr>
+    <tr>
+      <td>4</td><td>106&ndash;134</td>
+      <td>mount / unmount через OverlayProvider</td>
+      <td><code>isOpen</code>, <code>overlayId</code>, <code>popoverId</code>, <code>placement</code>, <code>content</code>, <code>close</code>, <code>mount</code>, <code>unmount</code></td>
+      <td>Всегда</td>
+    </tr>
+    <tr>
+      <td>5</td><td>136&ndash;143</td>
+      <td>autoUpdate (trigger-mirror позиционирование)</td>
+      <td><code>isOpen</code>, <code>triggerRef</code>, <code>overlayNode</code></td>
+      <td>isOpen + overlayNode</td>
+    </tr>
+    <tr>
+      <td>6</td><td>145&ndash;160</td>
+      <td>Dev-warning (проверка id в DOM)</td>
+      <td><code>isOpen</code>, <code>popoverId</code></td>
+      <td>Dev + isOpen</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Возможность объединения: эффекты 2 + 3</h3>
+<p>Оба подписываются на <code>document</code> events при <code>isOpen</code> и делают cleanup. Два отдельных прохода commit-phase при открытии.</p>
+
+<div class="note">
+  <strong>Нюанс:</strong> эффект 2 зависит от <code>[isOpen, close, triggerRef]</code>, эффект 3 &mdash;
+  от <code>[isOpen, close, triggerRef, overlayNode]</code>. При объединении Escape-handler будет
+  перерегистрироваться при появлении <code>overlayNode</code>. Это допустимо: <code>overlayNode</code>
+  меняется только один раз (null&nbsp;&rarr;&nbsp;элемент) при открытии.
+</div>
+
+<pre><code><span class="cmt">// Объединённый эффект: Escape + click outside</span>
+<span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">if</span> (!isOpen) <span class="kw">return</span>;
+
+    <span class="kw">function</span> <span class="fn">handleKeyDown</span>(event: <span class="type">KeyboardEvent</span>) {
+        <span class="kw">if</span> (event.key === <span class="str">'Escape'</span>) {
+            <span class="fn">close</span>();
+            triggerRef.current?.<span class="fn">focus</span>();
+        }
+    }
+
+    <span class="kw">function</span> <span class="fn">handleClick</span>(event: <span class="type">MouseEvent</span>) {
+        <span class="kw">const</span> target = event.target <span class="kw">as</span> <span class="type">Node</span>;
+        <span class="kw">const</span> trigger = triggerRef.current;
+        <span class="kw">if</span> (trigger?.<span class="fn">contains</span>(target) || overlayNode?.<span class="fn">contains</span>(target)) <span class="kw">return</span>;
+        <span class="fn">close</span>();
+    }
+
+    document.<span class="fn">addEventListener</span>(<span class="str">'keydown'</span>, handleKeyDown);
+    <span class="kw">const</span> timeoutId = window.<span class="fn">setTimeout</span>(() =&gt; {
+        document.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, handleClick);
+    }, <span class="num">0</span>);
+
+    <span class="kw">return</span> () =&gt; {
+        document.<span class="fn">removeEventListener</span>(<span class="str">'keydown'</span>, handleKeyDown);
+        <span class="fn">clearTimeout</span>(timeoutId);
+        document.<span class="fn">removeEventListener</span>(<span class="str">'click'</span>, handleClick);
+    };
+}, [isOpen, close, triggerRef, overlayNode]);</code></pre>
+
+<!-- ================================================================== -->
+<h2><span class="section-num">2.</span> Рендер-цикл при открытии</h2>
+
+<p>При клике на триггер &mdash; каскад state&nbsp;&rarr;&nbsp;effect&nbsp;&rarr;&nbsp;state:</p>
+
+<div class="render-chain">
+  <span class="step">Клик</span> <span class="arrow">&rarr;</span> toggle() <span class="arrow">&rarr;</span> setIsOpen(true)
+  <span class="label">&larr; рендер 1</span><br>
+  <span class="arrow">&nbsp;&nbsp;</span><span class="step">эффект 4</span>: mount() <span class="arrow">&rarr;</span> setOverlays() в OverlayProvider
+  <span class="label">&larr; рендер 2 (Provider + все children)</span><br>
+  <span class="arrow">&nbsp;&nbsp;&nbsp;&nbsp;</span>React рендерит портал, <span class="step">ref callback</span> <span class="arrow">&rarr;</span> setOverlayNode(div)
+  <span class="label">&larr; рендер 3 (потребитель)</span><br>
+  <span class="arrow">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="step">эффект 3</span> (click outside): теперь видит overlayNode<br>
+  <span class="arrow">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="step">эффект 5</span> (autoUpdate): стартует
+</div>
+
+<p><strong>Итого: 3 рендера при открытии.</strong></p>
+
+<div class="note note-danger">
+  <strong>Проблема в OverlayProvider:</strong> context value <code>{{ mount, unmount }}</code> &mdash; новый объект
+  при каждом рендере провайдера. Хотя <code>mount</code> и <code>unmount</code> обёрнуты в <code>useCallback</code>,
+  сам объект пересоздаётся &rarr; <strong>все потребители OverlayContext перерендериваются</strong>,
+  даже если их overlay не изменился.
+</div>
+
+<h3>Решение: мемоизация context value</h3>
+<pre><code><span class="cmt">// OverlayProvider.tsx</span>
+<span class="kw">const</span> contextValue = <span class="fn">useMemo</span>(() =&gt; ({ mount, unmount }), [mount, unmount]);
+
+<span class="kw">return</span> (
+    &lt;<span class="tag">OverlayContext.Provider</span> value={contextValue}&gt;
+        {children}
+        {<span class="fn">createPortal</span>(<span class="cmt">/* ... */</span>, document.body)}
+    &lt;/<span class="tag">OverlayContext.Provider</span>&gt;
+);</code></pre>
+
+<!-- ================================================================== -->
+<h2><span class="section-num">3.</span> Event listeners</h2>
+
+<h3>setTimeout(0) для click outside (строка 96)</h3>
+<p>Без него клик по триггеру, который открывает попап, тут же ловится только что подписанным listener-ом
+   и закрывает попап. <code>setTimeout(0)</code> откладывает подписку до следующего макротаска.</p>
+
+<h3>Альтернатива: mousedown вместо click</h3>
+<p><code>mousedown</code> для нового клика не может совпасть с текущим click-event. Это стандартный паттерн в Radix, Headless&nbsp;UI и других библиотеках. Убирает <code>setTimeout</code>, убирает гонку с другими обработчиками.</p>
+
+<pre><code><span class="cmt">// Без setTimeout — сразу подписываемся</span>
+document.<span class="fn">addEventListener</span>(<span class="str">'mousedown'</span>, handleClickOutside);</code></pre>
+
+<p>Недостаток: закрытие при нажатии, а не отпускании &mdash; менее привычно, но общепринятое поведение для dismissal.</p>
+
+<h3>Утечки</h3>
+<p>Утечек нет, cleanup корректный. <code>clearTimeout</code> + <code>removeEventListener</code> вызываются в правильном порядке.</p>
+
+<!-- ================================================================== -->
+<h2><span class="section-num">4.</span> autoUpdate из @floating-ui/react</h2>
+
+<p><code>@floating-ui/react</code> (~34&nbsp;KB minified) используется в проекте <strong>ровно в одном месте</strong> &mdash; ради функции <code>autoUpdate</code>.</p>
+
+<h3>Что делает autoUpdate (по дефолту)</h3>
+<table>
+  <thead><tr><th>Механизм</th><th>Включён</th></tr></thead>
+  <tbody>
+    <tr><td>ResizeObserver на обоих элементах</td><td>Да</td></tr>
+    <tr><td>scroll на ancestor-контейнерах</td><td>Да</td></tr>
+    <tr><td>resize на window</td><td>Да</td></tr>
+    <tr><td>animationFrame polling</td><td>Нет (опция)</td></tr>
+  </tbody>
+</table>
+
+<h3>Замена: собственная реализация</h3>
+
+<div class="note">
+  <strong>Важно:</strong> ранее собственная реализация (<code>useOverlayPosition</code>) была медленной.
+  Причина &mdash; не механизм подписки, а <code>setState</code> в обработчике scroll (каждый scroll event &rarr;
+  React рендер &rarr; virtual DOM diff). В <code>usePopover</code> используется прямая мутация DOM через
+  <code>applyTriggerMirror</code> &mdash; ноль рендеров React, поэтому замена безопасна.
+  Необходимо добавить <strong>rAF-батчинг</strong> для scroll/resize handlers, т.к.
+  scroll-событие может стрелять многократно за один кадр.
+</div>
+
+<pre><code><span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">const</span> trigger = triggerRef.current;
+    <span class="kw">if</span> (!isOpen || !trigger || !overlayNode) <span class="kw">return</span>;
+
+    <span class="fn">applyTriggerMirror</span>(trigger, overlayNode); <span class="cmt">// начальная позиция</span>
+
+    <span class="kw">const</span> ro = <span class="kw">new</span> <span class="type">ResizeObserver</span>(() =&gt; {
+        <span class="fn">applyTriggerMirror</span>(trigger, overlayNode);
+    });
+    ro.<span class="fn">observe</span>(trigger);
+    ro.<span class="fn">observe</span>(overlayNode);
+
+    <span class="kw">let</span> rafId: <span class="type">number</span> | <span class="type">null</span> = <span class="kw">null</span>;
+
+    <span class="kw">function</span> <span class="fn">handleUpdate</span>() {
+        <span class="kw">if</span> (rafId !== <span class="kw">null</span>) <span class="kw">return</span>;
+        rafId = <span class="fn">requestAnimationFrame</span>(() =&gt; {
+            rafId = <span class="kw">null</span>;
+            <span class="fn">applyTriggerMirror</span>(trigger!, overlayNode!);
+        });
+    }
+
+    window.<span class="fn">addEventListener</span>(<span class="str">'scroll'</span>, handleUpdate, <span class="kw">true</span>);
+    window.<span class="fn">addEventListener</span>(<span class="str">'resize'</span>, handleUpdate);
+
+    <span class="kw">return</span> () =&gt; {
+        <span class="kw">if</span> (rafId !== <span class="kw">null</span>) <span class="fn">cancelAnimationFrame</span>(rafId);
+        ro.<span class="fn">disconnect</span>();
+        window.<span class="fn">removeEventListener</span>(<span class="str">'scroll'</span>, handleUpdate, <span class="kw">true</span>);
+        window.<span class="fn">removeEventListener</span>(<span class="str">'resize'</span>, handleUpdate);
+    };
+}, [isOpen, triggerRef, overlayNode]);</code></pre>
+
+<p>Покрытие идентично <code>autoUpdate</code> (без <code>animationFrame</code> polling, который отключён по дефолту).
+   <strong>Результат: &minus;34&nbsp;KB бандла.</strong></p>
+
+<!-- ================================================================== -->
+<h2><span class="section-num">5.</span> mount/unmount через контекст</h2>
+
+<h3>Двойной unmount при закрытии</h3>
+<p>Когда <code>isOpen</code> переключается true&nbsp;&rarr;&nbsp;false:</p>
+<ol style="margin: 0.5rem 0 0.5rem 1.5rem;">
+  <li>Тело эффекта с <code>isOpen === false</code>: вызывает <code>unmount(overlayId)</code></li>
+  <li>Cleanup этого эффекта: <code>return () =&gt; unmount(overlayId)</code> &mdash; ещё один unmount</li>
+</ol>
+<p><code>Map.delete</code> идемпотентен, так что это не баг, но лишний <code>setOverlays</code>&nbsp;&rarr;&nbsp;лишний рендер провайдера.</p>
+
+<h3>Решение: unmount только в cleanup</h3>
+<pre><code><span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">if</span> (!isOpen) <span class="kw">return</span>;
+
+    <span class="fn">mount</span>(
+        overlayId,
+        &lt;<span class="tag">div</span> ref={setOverlayNode} style={{ <span class="cmt">/* debug */</span> }}&gt;
+            {<span class="fn">content</span>({ id: popoverId, placement, onClose: close })}
+        &lt;/<span class="tag">div</span>&gt;,
+    );
+
+    <span class="kw">return</span> () =&gt; <span class="fn">unmount</span>(overlayId);
+}, [isOpen, overlayId, popoverId, placement, content, close, mount, unmount]);</code></pre>
+
+<!-- ================================================================== -->
+<h2><span class="section-num">6.</span> Стабильность ссылок: content</h2>
+
+<p><code>content</code> &mdash; функция <code>(props: PopoverRenderProps) =&gt; ReactNode</code>,
+   передаваемая потребителем. Типичное использование:</p>
+
+<pre><code><span class="kw">const</span> { triggerProps } = <span class="fn">usePopover</span>(ref, {
+    content: ({ id, placement, onClose }) =&gt; (
+        &lt;<span class="tag">Popover</span> id={id} placement={placement}&gt;...&lt;/<span class="tag">Popover</span>&gt;
+    ),
+});</code></pre>
+
+<p>Стрелочная функция <strong>пересоздаётся при каждом рендере</strong>. Она входит в зависимости
+   эффекта&nbsp;4. При <code>isOpen === true</code> каждый рендер потребителя (от любой причины):</p>
+<ol style="margin: 0.5rem 0 0.5rem 1.5rem;">
+  <li>Перезапускает эффект 4</li>
+  <li>Вызывает <code>mount()</code> &rarr; <code>setOverlays</code></li>
+  <li>Ререндерит провайдер</li>
+</ol>
+
+<div class="note note-danger">
+  <strong>Это главная проблема производительности хука.</strong>
+</div>
+
+<h3>Вариант A: ref на content, компонент-обёртка</h3>
+<pre><code><span class="kw">const</span> contentRef = <span class="fn">useRef</span>(content);
+contentRef.current = content;
+
+<span class="fn">useEffect</span>(() =&gt; {
+    <span class="kw">if</span> (!isOpen) <span class="kw">return</span>;
+
+    <span class="fn">mount</span>(
+        overlayId,
+        &lt;<span class="tag">PopoverPortal</span>
+            contentRef={contentRef}
+            popoverId={popoverId}
+            placement={placement}
+            onClose={close}
+            onOverlayRef={setOverlayNode}
+        /&gt;,
+    );
+
+    <span class="kw">return</span> () =&gt; <span class="fn">unmount</span>(overlayId);
+}, [isOpen, overlayId, popoverId, placement, close, mount, unmount]);
+<span class="cmt">// ^^^ content убран из зависимостей</span></code></pre>
+
+<p>Подвох: если потребитель обновил <code>content</code> (изменил текст), <code>PopoverPortal</code> об этом не узнает &mdash;
+   он рендерится только при <code>mount()</code>.</p>
+
+<h3>Вариант B: изменить API &mdash; хук возвращает props, потребитель рендерит сам</h3>
+<pre><code><span class="kw">const</span> { triggerProps, overlayProps, isOpen } = <span class="fn">usePopover</span>(ref, { placement });
+
+<span class="cmt">// В JSX потребителя:</span>
+{isOpen &amp;&amp; (
+    &lt;<span class="tag">Portal</span>&gt;
+        &lt;<span class="tag">div</span> {...overlayProps}&gt;
+            &lt;<span class="tag">Popover</span> placement={placement}&gt;...&lt;/<span class="tag">Popover</span>&gt;
+        &lt;/<span class="tag">div</span>&gt;
+    &lt;/<span class="tag">Portal</span>&gt;
+)}</code></pre>
+
+<p>Устраняет проблему полностью &mdash; хук не знает о содержимом. Но это смена API.</p>
+
+<h3>Вариант C (минимальный): dev-warning + документация useCallback</h3>
+<pre><code><span class="cmt">// Рекомендация потребителю:</span>
+<span class="kw">const</span> content = <span class="fn">useCallback</span>(
+    ({ id, placement, onClose }: <span class="type">PopoverRenderProps</span>) =&gt; (
+        &lt;<span class="tag">Popover</span> id={id} placement={placement}&gt;...&lt;/<span class="tag">Popover</span>&gt;
+    ),
+    [],
+);</code></pre>
+
+<!-- ================================================================== -->
+<h2>Сводка рекомендаций</h2>
+
+<table>
+  <thead>
+    <tr><th style="width:4rem">Приоритет</th><th>Проблема</th><th>Эффект</th><th>Сложность</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="priority-tag p0">P0</span></td>
+      <td>Нестабильный <code>content</code> перезапускает mount на каждый рендер</td>
+      <td>Каскадные ререндеры провайдера при каждом рендере потребителя</td>
+      <td>Средняя</td>
+    </tr>
+    <tr>
+      <td><span class="priority-tag p0">P0</span></td>
+      <td>Context value не мемоизирован в OverlayProvider</td>
+      <td>Все потребители контекста ререндерятся при любом mount/unmount</td>
+      <td>Тривиальная</td>
+    </tr>
+    <tr>
+      <td><span class="priority-tag p1">P1</span></td>
+      <td>@floating-ui/react ради одной функции</td>
+      <td>~34&nbsp;KB лишнего бандла</td>
+      <td>Средняя</td>
+    </tr>
+    <tr>
+      <td><span class="priority-tag p1">P1</span></td>
+      <td>Двойной unmount при закрытии</td>
+      <td>Лишний рендер провайдера</td>
+      <td>Тривиальная</td>
+    </tr>
+    <tr>
+      <td><span class="priority-tag p2">P2</span></td>
+      <td>setTimeout(0) для click outside</td>
+      <td>Хрупкость при асинхронных кликах</td>
+      <td>Низкая</td>
+    </tr>
+    <tr>
+      <td><span class="priority-tag p2">P2</span></td>
+      <td>Escape + click-outside &mdash; два отдельных эффекта</td>
+      <td>Два прохода commit-phase</td>
+      <td>Низкая</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
