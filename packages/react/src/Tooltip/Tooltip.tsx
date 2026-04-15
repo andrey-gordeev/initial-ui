@@ -1,18 +1,28 @@
 import clsx from 'clsx';
+
 import { Body } from '../Typography';
-import { TooltipProps } from './types';
+
+import {
+    DEFAULT_TOOLTIP_PLACEMENT,
+    TOOLTIP_PLACEMENT_TO_CLASS_NAME_MAP,
+} from './constants';
+import type { TooltipProps } from './types';
 import './styles.scss';
 
-export const Tooltip = ({ text, placement = 'top' }: TooltipProps) => {
-    const className = clsx('tooltip', {
-        [`tooltip--${placement}`]: placement,
-    });
+export function Tooltip({
+    id,
+    text,
+    placement = DEFAULT_TOOLTIP_PLACEMENT,
+    style,
+}: TooltipProps) {
+    const className = clsx(
+        'tooltip',
+        TOOLTIP_PLACEMENT_TO_CLASS_NAME_MAP[placement],
+    );
 
     return (
-        <div className="tooltip-container">
-            <div className={className}>
-                <Body>{text}</Body>
-            </div>
+        <div id={id} role="tooltip" className={className} style={style}>
+            <Body>{text}</Body>
         </div>
     );
-};
+}

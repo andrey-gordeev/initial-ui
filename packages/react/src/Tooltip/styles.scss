@@ -1,48 +1,54 @@
-.tooltip-container {
-    padding: 8px;
-    inline-size: fit-content;
-    border: 1px dotted #999;
+.tooltip {
+    position: relative;
+    padding-inline: 12px;
+    padding-block: 8px;
+    max-inline-size: 220px;
+    border-radius: 6px;
+    background-color: var(--color-surface-inverse, #1a1a1a);
+    color: var(--color-text-inverse, #fff);
+    text-wrap: balance;
     filter: drop-shadow(0 1px 2px rgba(60, 64, 67, 0.3))
         drop-shadow(0 1px 3px rgba(60, 64, 67, 0.15));
+
+    &::after {
+        position: absolute;
+        border: 6px solid transparent;
+        content: '';
+    }
 }
 
-.tooltip {
-    --r: 12px; /* радиус углов */
-    --offset: 8px; /* место под хвостик */
-    --tailWidth: 16px; /* ширина хвостика */
-    --tailHeight: 8px; /* высота хвостика */
-    --paddingX: 16px; /* горизонтальный padding */
-    --paddingY: 12px; /* вертикальный padding */
+.tooltip--top {
+    &::after {
+        inset-inline-start: 50%;
+        inset-block-start: 100%;
+        border-block-start-color: var(--color-surface-inverse, #1a1a1a);
+        transform: translateX(-50%);
+    }
+}
 
-    padding: var(--paddingY) var(--paddingX)
-        calc(var(--paddingY) + var(--offset));
-    inline-size: fit-content;
-    max-inline-size: 220px;
+.tooltip--bottom {
+    &::after {
+        inset-inline-start: 50%;
+        inset-block-end: 100%;
+        border-block-end-color: var(--color-surface-inverse, #1a1a1a);
+        transform: translateX(-50%);
+    }
+}
 
-    clip-path: shape(
-        from var(--r) 0,
+.tooltip--left {
+    &::after {
+        inset-inline-start: 100%;
+        inset-block-start: 50%;
+        border-inline-start-color: var(--color-surface-inverse, #1a1a1a);
+        transform: translateY(-50%);
+    }
+}
 
-        /* верх и правый верхний угол */ hline to calc(100% - var(--r)),
-        curve to 100% var(--r) with 100% 0,
-
-        /* правая сторона и правый нижний угол */ vline to
-            calc(100% - var(--r) - var(--offset)),
-        curve to calc(100% - var(--r)) calc(100% - var(--offset)) with 100%
-            calc(100% - var(--offset)),
-        /* нижняя грань с хвостиком по центру */ hline to
-            calc(50% + (var(--tailWidth) / 2)),
-        line to 50% calc(100% - var(--offset) + var(--tailHeight)),
-        line to calc(50% - (var(--tailWidth) / 2)) calc(100% - var(--offset)),
-        /* левая сторона нижнего края */ hline to var(--r),
-        curve to 0 calc(100% - var(--r) - var(--offset)) with 0
-            calc(100% - var(--offset)),
-        /* левая сторона и верхний левый угол */ vline to var(--r),
-        curve to var(--r) 0 with 0 0,
-
-        close
-    );
-
-    background-color: #fff;
-    color: #000;
-    text-wrap: balance;
+.tooltip--right {
+    &::after {
+        inset-inline-end: 100%;
+        inset-block-start: 50%;
+        border-inline-end-color: var(--color-surface-inverse, #1a1a1a);
+        transform: translateY(-50%);
+    }
 }

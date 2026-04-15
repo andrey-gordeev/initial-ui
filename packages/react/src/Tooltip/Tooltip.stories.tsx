@@ -1,7 +1,11 @@
+import { type ComponentRef, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { StoryGrid } from '../../../../.storybook/StoryGrid';
+import Button from '../Button';
 import { Tooltip } from './Tooltip';
-import type { TooltipProps } from './types';
+import { useTooltip } from './useTooltip';
+import type { Placement, TooltipProps } from './types';
 
 type Story = StoryObj<typeof meta>;
 
@@ -26,14 +30,14 @@ const meta = {
             table: { type: { summary: 'string' } },
         },
         placement: {
-            description: 'Where the tail points relative to the tooltip.',
+            description: 'Arrow direction relative to the tooltip body.',
             control: 'select',
             options: PLACEMENTS,
             table: {
                 type: {
                     summary: PLACEMENTS.map((p) => `'${p}'`).join(' | '),
                 },
-                defaultValue: { summary: 'top' },
+                defaultValue: { summary: "'top'" },
             },
         },
     },
@@ -46,10 +50,70 @@ export const Default: Story = {
 };
 
 export const LongText: Story = {
-    storyName: 'long text',
+    name: 'long text',
     args: {
         text: 'This is a longer tooltip example to demonstrate how the tooltip adjusts its width and padding dynamically based on the content inside it.',
     },
+};
+
+export const WithHook: StoryObj = {
+    name: 'with useTooltip hook',
+    render: () => {
+        const triggerRef = useRef<HTMLButtonElement>(null);
+
+        const { triggerProps } = useTooltip(triggerRef, {
+            /**
+             * A custom id can be useful for stable e2e/visual tests
+             * or integrations with analytics/accessibility where controlling aria bindings matters
+             */
+            id: 'custom-id',
+            content: ({ id }) => <Tooltip id={id} text="Save changes" />,
+        });
+
+        return (
+            <button ref={triggerRef} {...triggerProps}>
+                Hover me
+            </button>
+        );
+    },
+};
+
+function TooltipTrigger({ placement }: { placement: Placement }) {
+    const triggerRef = useRef<ComponentRef<typeof Button>>(null);
+
+    const { triggerProps } = useTooltip(triggerRef, {
+        placement,
+        content: ({ placement, id }) => (
+            <Tooltip
+                id={id}
+                text={`${placement} tooltip`}
+                placement={placement}
+            />
+        ),
+    });
+
+    return (
+        <Button
+            ref={triggerRef}
+            label={placement}
+            variant="secondary"
+            {...triggerProps}
+        />
+    );
+}
+
+export const AllPlacements: StoryObj = {
+    name: 'all placements (hook)',
+    render: () => (
+        <StoryGrid
+            columns={4}
+            args={PLACEMENTS.map((placement) => ({ placement }))}
+        >
+            {(item) =>
+                item ? <TooltipTrigger placement={item.placement} /> : null
+            }
+        </StoryGrid>
+    ),
 };
 
 export default meta;
