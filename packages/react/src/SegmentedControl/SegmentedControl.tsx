@@ -36,12 +36,7 @@ const useSegmentedControlContext = () => {
 // -------------------
 // Item
 // -------------------
-export const Item = ({
-    value,
-    label,
-    description,
-    isDisabled,
-}: ItemProps) => {
+export const Item = ({ value, label, description, isDisabled }: ItemProps) => {
     const { activeValue, setActiveValue, name } = useSegmentedControlContext();
     const isSelected = activeValue === value;
 
@@ -119,9 +114,10 @@ export const SegmentedControl: SegmentedControlComponent = ({
     const [isAnimated, setIsAnimated] = useState(false);
 
     const updateIndicator = useCallback(() => {
-        const selected = containerRef.current?.querySelector<HTMLElement>(
-            '.segment--selected',
-        );
+        const selected =
+            containerRef.current?.querySelector<HTMLElement>(
+                '.segment--selected',
+            );
         if (!selected) return;
         setIndicatorStyle({
             top: selected.offsetTop,

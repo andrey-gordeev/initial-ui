@@ -65,12 +65,10 @@ export const Controlled: Story = {
                     aria-describedby={descId}
                 >
                     <div className="dialog-contents">
-                        <h2 id={nameId}>
-                            An Appropriate Title Might Go Here
-                        </h2>
+                        <h2 id={nameId}>An Appropriate Title Might Go Here</h2>
                         <p id={descId}>
-                            Here's where you might add a description to
-                            further justify my existence.
+                            Here's where you might add a description to further
+                            justify my existence.
                         </p>
                         <Button
                             label="Close"
@@ -159,8 +157,8 @@ export const ControlledAndUncontrolled: Story = {
                             An Appropriate Title Might Go Here
                         </h2>
                         <p id={descIdControlled}>
-                            Here's where you might add a description to
-                            further justify my existence.
+                            Here's where you might add a description to further
+                            justify my existence.
                         </p>
                         <Button
                             label="Close"

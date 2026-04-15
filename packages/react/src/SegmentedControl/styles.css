@@ -82,8 +82,6 @@
 
 .segment__label {
     display: block;
-
-    @ex
 }
 
 .segment__description {

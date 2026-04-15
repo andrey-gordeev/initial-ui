@@ -136,8 +136,7 @@ export const TabList = ({
         if (currentIndex === -1) return;
 
         const isHorizontal = orientation === 'horizontal';
-        const isRtl =
-            list.closest('[dir]')?.getAttribute('dir') === 'rtl';
+        const isRtl = list.closest('[dir]')?.getAttribute('dir') === 'rtl';
         let nextIndex: number | null = null;
 
         const nextKey = isHorizontal
@@ -247,7 +246,11 @@ export const Tabs: TabsComponent = ({
     onActiveIdChange,
 }) => {
     if (process.env.NODE_ENV !== 'production') {
-        validateTabsProps(controlledActiveId, onActiveIdChange, defaultActiveId);
+        validateTabsProps(
+            controlledActiveId,
+            onActiveIdChange,
+            defaultActiveId,
+        );
     }
 
     const [uncontrolledId, setUncontrolledId] = useState(defaultActiveId ?? '');
