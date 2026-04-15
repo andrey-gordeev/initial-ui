@@ -1,11 +1,26 @@
-import { clsx } from 'clsx';
-import { PopoverProps } from './types';
+import clsx from 'clsx';
+
+import {
+    DEFAULT_POPOVER_PLACEMENT,
+    POPOVER_PLACEMENT_TO_CLASS_NAME_MAP,
+} from './constants';
+import type { PopoverProps } from './types';
 import './styles.scss';
 
-export const Popover = ({ children, placement = 'top' }: PopoverProps) => {
-    const className = clsx('popover', {
-        [`popover--${placement}`]: true,
-    });
+export function Popover({
+    id,
+    placement = DEFAULT_POPOVER_PLACEMENT,
+    style,
+    children,
+}: PopoverProps) {
+    const className = clsx(
+        'popover',
+        POPOVER_PLACEMENT_TO_CLASS_NAME_MAP[placement],
+    );
 
-    return <div className={className}>{children}</div>;
-};
+    return (
+        <div id={id} className={className} style={style}>
+            {children}
+        </div>
+    );
+}

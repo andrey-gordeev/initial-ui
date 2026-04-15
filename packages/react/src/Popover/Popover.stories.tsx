@@ -1,9 +1,12 @@
+import { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import StoryBox from '../../../../.storybook/StoryBox';
 import { StoryGrid } from '../../../../.storybook/StoryGrid';
 import { Popover } from './Popover';
+import { usePopover } from './usePopover';
 import type { PopoverProps } from './types';
+import { Body } from '../Typography';
 
 type Story = StoryObj<typeof meta>;
 
@@ -41,13 +44,21 @@ const meta = {
                 type: {
                     summary: PLACEMENTS.map((p) => `'${p}'`).join(' | '),
                 },
-                defaultValue: { summary: 'top' },
+                defaultValue: { summary: "'bottom'" },
             },
         },
     },
     render: (args) => (
-        <div style={{ display: 'inline-block', position: 'relative' }}>
-            <StoryBox inlineSize={160} label="Anchor" />
+        <div
+            style={{
+                position: 'relative',
+                marginBlock: '112px',
+                aspectRatio: 1,
+                inlineSize: '4px',
+                borderRadius: '50%',
+                backgroundColor: 'tomato',
+            }}
+        >
             <Popover {...args} />
         </div>
     ),
@@ -55,51 +66,127 @@ const meta = {
 
 export const Default: Story = {
     args: {
-        placement: 'top',
-        children: (
-            <div style={{ padding: 8, fontSize: 14 }}>Popover content</div>
-        ),
+        children: <Body>Popover content</Body>,
     },
 };
 
 export const Placement: Story = {
-    storyName: 'placement',
+    name: 'placement',
     args: {
-        placement: 'bottom-end',
+        placement: 'bottom',
         children: (
-            <div style={{ padding: 8, fontSize: 14 }}>
+            <Body>
                 Use the <strong>placement</strong> control
-            </div>
+            </Body>
         ),
     },
 };
 
-export const AllPlacements: Story = {
-    storyName: 'all placements',
+export const AllPlacements: StoryObj = {
+    name: 'all placements',
     render: () => (
         <StoryGrid<PopoverProps>
             columns={3}
-            args={PLACEMENTS.map((placement) => ({ placement }))}
+            args={
+                [
+                    { placement: 'top-start' },
+                    { placement: 'top' },
+                    { placement: 'top-end' },
+                    { placement: 'left' },
+                    null,
+                    { placement: 'right' },
+                    { placement: 'bottom-start' },
+                    { placement: 'bottom' },
+                    { placement: 'bottom-end' },
+                ] as ({ placement: PopoverProps['placement'] } | null)[]
+            }
         >
             {(item) =>
                 item ? (
-                    <div
+                    <Popover
+                        placement={item.placement}
                         style={{
-                            display: 'inline-block',
-                            position: 'relative',
+                            position: 'static',
+                            inset: 'unset',
+                            transform: 'none',
                         }}
                     >
-                        <StoryBox inlineSize={100} label={item.placement} />
-                        <Popover placement={item.placement}>
-                            <div style={{ padding: 6, fontSize: 12 }}>
-                                {item.placement}
-                            </div>
-                        </Popover>
-                    </div>
+                        <Body>{item.placement}</Body>
+                    </Popover>
                 ) : null
             }
         </StoryGrid>
     ),
+};
+
+export const WithHook: StoryObj = {
+    name: 'with usePopover hook',
+    render: () => {
+        const triggerRef = useRef<HTMLButtonElement>(null);
+
+        const { triggerProps } = usePopover(triggerRef, {
+            content: ({ id, placement, onClose }) => (
+                <Popover id={id} placement={placement}>
+                    <div style={{ padding: 8, fontSize: 14 }}>
+                        <p>Popover content</p>
+                        <button onClick={onClose}>Close</button>
+                    </div>
+                </Popover>
+            ),
+        });
+
+        return (
+            <button ref={triggerRef} {...triggerProps}>
+                Click me
+            </button>
+        );
+    },
+};
+
+function ControllerDemo() {
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const { triggerProps } = usePopover(triggerRef, {
+        placement: 'bottom-end',
+        content: ({ placement, id, onClose }) => (
+            <Popover id={id} placement={placement}>
+                <SettingsController onClose={onClose} />
+            </Popover>
+        ),
+    });
+
+    return (
+        <button ref={triggerRef} {...triggerProps}>
+            Settings
+        </button>
+    );
+}
+
+function SettingsController({ onClose }: { onClose: () => void }) {
+    const [saved, setSaved] = useState(false);
+
+    function handleSave() {
+        setSaved(true);
+        setTimeout(onClose, 800);
+    }
+
+    return (
+        <>
+            <p style={{ margin: '0 0 8px' }}>
+                {saved ? 'Saved!' : 'Adjust settings'}
+            </p>
+            {!saved && (
+                <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={onClose}>Cancel</button>
+                    <button onClick={handleSave}>Save</button>
+                </div>
+            )}
+        </>
+    );
+}
+
+export const WithController: StoryObj = {
+    name: 'with controller',
+    render: () => <ControllerDemo />,
 };
 
 export default meta;

@@ -1,16 +1,13 @@
-import { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
-type Placement =
-    | 'top'
-    | 'top-start'
-    | 'top-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'bottom-end'
-    | 'left'
-    | 'right';
+import type { POPOVER_PLACEMENT } from './constants';
+
+export type Placement =
+    (typeof POPOVER_PLACEMENT)[keyof typeof POPOVER_PLACEMENT];
 
 export type PopoverProps = {
-    children?: ReactNode;
+    id?: string;
     placement?: Placement;
+    style?: CSSProperties;
+    children?: ReactNode;
 };

@@ -34,126 +34,116 @@
         background-color: inherit;
         content: '';
     }
+}
 
-    &--top {
+.popover--top {
+    inset-inline-start: 50%;
+    inset-block-end: calc(100% + var(--iui-token-popover-offset));
+    transform: translateX(-50%);
+
+    &::before {
         inset-inline-start: 50%;
-        inset-block-end: calc(100% + var(--iui-token-popover-offset));
-        transform: translateX(-50%);
-
-        &::before {
-            inset-inline-start: 50%;
-            inset-block-start: calc(
-                100% - var(--iui-token-popover-arrow-offset)
-            );
-            transform: translateX(-50%) rotate(45deg);
-        }
+        inset-block-start: calc(100% - var(--iui-token-popover-arrow-offset));
+        transform: translateX(-50%) rotate(45deg);
     }
+}
 
-    &--top-start {
-        inset-inline-start: calc(
-            50% - var(--iui-token-popover-arrow-position-start, 0px) - var(
-                    --iui-token-popover-arrow-half-size,
-                    0px
-                ) -
-                (var(--iui-token-popover-border-width, 0px) * 2)
-        );
-        inset-block-end: calc(100% + var(--iui-token-popover-offset));
+.popover--top-start {
+    inset-inline-start: calc(
+        50% - var(--iui-token-popover-arrow-position-start, 0px) - var(
+                --iui-token-popover-arrow-half-size,
+                0px
+            ) -
+            (var(--iui-token-popover-border-width, 0px) * 2)
+    );
+    inset-block-end: calc(100% + var(--iui-token-popover-offset));
 
-        &::before {
-            inset-inline-start: var(--iui-token-popover-arrow-position-start);
-            inset-block-start: calc(
-                100% - var(--iui-token-popover-arrow-offset)
-            );
-        }
+    &::before {
+        inset-inline-start: var(--iui-token-popover-arrow-position-start);
+        inset-block-start: calc(100% - var(--iui-token-popover-arrow-offset));
     }
+}
 
-    &--top-end {
-        inset-inline-end: calc(
-            50% - var(--iui-token-popover-arrow-position-end, 0px) - var(
-                    --iui-token-popover-arrow-half-size,
-                    0px
-                ) -
-                (var(--iui-token-popover-border-width, 0px) * 2)
-        );
-        inset-block-end: calc(100% + var(--iui-token-popover-offset));
+.popover--top-end {
+    inset-inline-end: calc(
+        50% - var(--iui-token-popover-arrow-position-end, 0px) - var(
+                --iui-token-popover-arrow-half-size,
+                0px
+            ) -
+            (var(--iui-token-popover-border-width, 0px) * 2)
+    );
+    inset-block-end: calc(100% + var(--iui-token-popover-offset));
 
-        &::before {
-            inset-inline-end: var(--iui-token-popover-arrow-position-end);
-            inset-block-start: calc(
-                100% - var(--iui-token-popover-arrow-offset)
-            );
-        }
+    &::before {
+        inset-inline-end: var(--iui-token-popover-arrow-position-end);
+        inset-block-start: calc(100% - var(--iui-token-popover-arrow-offset));
     }
+}
 
-    &--bottom {
+.popover--bottom {
+    inset-inline-start: 50%;
+    inset-block-start: calc(100% + var(--iui-token-popover-offset));
+    transform: translateX(-50%);
+
+    &::before {
         inset-inline-start: 50%;
-        inset-block-start: calc(100% + var(--iui-token-popover-offset));
-        transform: translateX(-50%);
-
-        &::before {
-            inset-inline-start: 50%;
-            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
-            transform: translateX(-50%) rotate(45deg);
-        }
+        inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
+        transform: translateX(-50%) rotate(45deg);
     }
+}
 
-    &--bottom-start {
-        inset-inline-start: calc(
-            50% - var(--iui-token-popover-arrow-position-start, 0px) - var(
-                    --iui-token-popover-arrow-half-size,
-                    0px
-                ) -
-                (var(--iui-token-popover-border-width, 0px) * 2)
-        );
-        inset-block-start: calc(100% + var(--iui-token-popover-offset));
+.popover--bottom-start {
+    inset-inline-start: calc(
+        50% - var(--iui-token-popover-arrow-position-start, 0px) - var(
+                --iui-token-popover-arrow-half-size,
+                0px
+            ) -
+            (var(--iui-token-popover-border-width, 0px) * 2)
+    );
+    inset-block-start: calc(100% + var(--iui-token-popover-offset));
 
-        &::before {
-            inset-inline-start: var(--iui-token-popover-arrow-position-start);
-            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
-        }
+    &::before {
+        inset-inline-start: var(--iui-token-popover-arrow-position-start);
+        inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
     }
+}
 
-    &--bottom-end {
-        inset-inline-end: calc(
-            50% - var(--iui-token-popover-arrow-position-end, 0px) - var(
-                    --iui-token-popover-arrow-half-size,
-                    0px
-                ) -
-                (var(--iui-token-popover-border-width, 0px) * 2)
-        );
-        inset-block-start: calc(100% + var(--iui-token-popover-offset));
+.popover--bottom-end {
+    inset-inline-end: calc(
+        50% - var(--iui-token-popover-arrow-position-end, 0px) - var(
+                --iui-token-popover-arrow-half-size,
+                0px
+            ) -
+            (var(--iui-token-popover-border-width, 0px) * 2)
+    );
+    inset-block-start: calc(100% + var(--iui-token-popover-offset));
 
-        &::before {
-            inset-inline-end: var(--iui-token-popover-arrow-position-end);
-            inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
-        }
+    &::before {
+        inset-inline-end: var(--iui-token-popover-arrow-position-end);
+        inset-block-end: calc(100% - var(--iui-token-popover-arrow-offset));
     }
+}
 
-    &--left {
-        inset-inline-end: calc(100% + var(--iui-token-popover-offset));
+.popover--left {
+    inset-inline-end: calc(100% + var(--iui-token-popover-offset));
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+
+    &::before {
+        inset-inline-start: calc(100% - var(--iui-token-popover-arrow-offset));
         inset-block-start: 50%;
-        transform: translateY(-50%);
-
-        &::before {
-            inset-inline-start: calc(
-                100% - var(--iui-token-popover-arrow-offset)
-            );
-            inset-block-start: 50%;
-            transform: translateY(-50%) rotate(45deg);
-        }
+        transform: translateY(-50%) rotate(45deg);
     }
+}
 
-    &--right {
-        inset-inline-start: calc(100% + var(--iui-token-popover-offset));
+.popover--right {
+    inset-inline-start: calc(100% + var(--iui-token-popover-offset));
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+
+    &::before {
+        inset-inline-end: calc(100% - var(--iui-token-popover-arrow-offset));
         inset-block-start: 50%;
-        transform: translateY(-50%);
-
-        &::before {
-            inset-inline-end: calc(
-                100% - var(--iui-token-popover-arrow-offset)
-            );
-            inset-block-start: 50%;
-            transform: translateY(-50%) rotate(45deg);
-        }
+        transform: translateY(-50%) rotate(45deg);
     }
 }
